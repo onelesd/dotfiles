@@ -1,0 +1,9 @@
+[PlasmaViews][Panel 3][Horizontal1920]
+thickness=76
+
+[ScreenConnectors]
+0=HDMI-1
+1=eDP-1
+
+[Updates]
+performed=/usr/share/plasma/shells/org.kde.plasma.desktop/contents/updates/obsolete_kickoffrc.js

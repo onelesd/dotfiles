@@ -1,0 +1,9 @@
+[Keyboard]
+KeyboardRepeating=0
+NumLock=2
+RepeatDelay=250
+RepeatRate=25
+
+[Mouse]
+XLbInptNaturalScroll=true
+cursorTheme=breeze_cursors

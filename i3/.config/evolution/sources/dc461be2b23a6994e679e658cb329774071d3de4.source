@@ -1,0 +1,56 @@
+[Data Source]
+DisplayName=dave.seleno@originate.com
+Enabled=true
+Parent=49caed1b3e6f98548957a9f02d586a00b472f9f3
+
+[Offline]
+StaySynchronized=false
+
+[Authentication]
+Host=imap.gmail.com
+Method=XOAUTH2
+Port=993
+ProxyUid=system-proxy
+RememberPassword=true
+User=dave.seleno@originate.com
+CredentialName=
+
+[Mail Account]
+BackendName=imapx
+IdentityUid=8f6d412811e1c164cf63968f89d719f53618c907
+ArchiveFolder=
+NeedsInitialSetup=true
+
+MarkSeen=inconsistent
+MarkSeenTimeout=1500
+
+[Security]
+Method=ssl-on-alternate-port
+
+[Imapx Backend]
+FilterInbox=true
+StoreChangesInterval=3
+LimitByAge=false
+LimitUnit=years
+LimitValue=1
+UseMultiFetch=false
+CheckAll=false
+CheckSubscribed=false
+ConcurrentConnections=3
+FetchOrder=ascending
+FilterAll=false
+FilterJunk=false
+FilterJunkInbox=false
+Namespace=
+RealJunkPath=
+RealTrashPath=
+ShellCommand=ssh -C -l %u %h exec /usr/sbin/imapd
+UseIdle=false
+UseNamespace=false
+UseQresync=false
+UseRealJunkPath=false
+UseRealTrashPath=false
+UseShellCommand=false
+UseSubscriptions=false
+IgnoreOtherUsersNamespace=false
+IgnoreSharedFoldersNamespace=false

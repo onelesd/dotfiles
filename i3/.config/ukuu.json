@@ -1,0 +1,12 @@
+{
+  "notify_major" : "true",
+  "notify_minor" : "true",
+  "notify_bubble" : "true",
+  "notify_dialog" : "true",
+  "hide_unstable" : "true",
+  "hide_older" : "true",
+  "notify_interval_unit" : "0",
+  "notify_interval_value" : "2",
+  "grub_timeout" : "2",
+  "update_grub_timeout" : "false"
+}

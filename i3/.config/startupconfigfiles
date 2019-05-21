@@ -1,0 +1,84 @@
+kcminputrc Mouse cursorTheme 'breeze_cursors'
+/home/dseleno/.config/kcminputrc
+!/etc/xdg/xdg-plasma/kcminputrc
+!/etc/xdg/xdg-pop/kcminputrc
+!/etc/xdg/kcminputrc
+!/home/dseleno/.local/share/config/kcminputrc
+!/usr/share/plasma/config/kcminputrc
+!/usr/share/pop/config/kcminputrc
+!/usr/local/share/config/kcminputrc
+!/usr/share/config/kcminputrc
+!/var/lib/snapd/desktop/config/kcminputrc
+*
+kcminputrc Mouse cursorSize ''
+/home/dseleno/.config/kcminputrc
+!/etc/xdg/xdg-plasma/kcminputrc
+!/etc/xdg/xdg-pop/kcminputrc
+!/etc/xdg/kcminputrc
+!/home/dseleno/.local/share/config/kcminputrc
+!/usr/share/plasma/config/kcminputrc
+!/usr/share/pop/config/kcminputrc
+!/usr/local/share/config/kcminputrc
+!/usr/share/config/kcminputrc
+!/var/lib/snapd/desktop/config/kcminputrc
+*
+ksplashrc KSplash Theme Breeze
+/home/dseleno/.config/ksplashrc
+!/etc/xdg/xdg-plasma/ksplashrc
+!/etc/xdg/xdg-pop/ksplashrc
+!/etc/xdg/ksplashrc
+!/home/dseleno/.local/share/config/ksplashrc
+!/usr/share/plasma/config/ksplashrc
+!/usr/share/pop/config/ksplashrc
+!/usr/local/share/config/ksplashrc
+!/usr/share/config/ksplashrc
+!/var/lib/snapd/desktop/config/ksplashrc
+*
+ksplashrc KSplash Engine KSplashQML
+/home/dseleno/.config/ksplashrc
+!/etc/xdg/xdg-plasma/ksplashrc
+!/etc/xdg/xdg-pop/ksplashrc
+!/etc/xdg/ksplashrc
+!/home/dseleno/.local/share/config/ksplashrc
+!/usr/share/plasma/config/ksplashrc
+!/usr/share/pop/config/ksplashrc
+!/usr/local/share/config/ksplashrc
+!/usr/share/config/ksplashrc
+!/var/lib/snapd/desktop/config/ksplashrc
+*
+kdeglobals KScreen ScaleFactor ''
+/home/dseleno/.config/kdeglobals
+!/etc/xdg/xdg-plasma/kdeglobals
+!/etc/xdg/xdg-pop/kdeglobals
+!/etc/xdg/kdeglobals
+!/home/dseleno/.local/share/config/kdeglobals
+!/usr/share/plasma/config/kdeglobals
+!/usr/share/pop/config/kdeglobals
+!/usr/local/share/config/kdeglobals
+!/usr/share/config/kdeglobals
+!/var/lib/snapd/desktop/config/kdeglobals
+*
+kdeglobals KScreen ScreenScaleFactors ''
+/home/dseleno/.config/kdeglobals
+!/etc/xdg/xdg-plasma/kdeglobals
+!/etc/xdg/xdg-pop/kdeglobals
+!/etc/xdg/kdeglobals
+!/home/dseleno/.local/share/config/kdeglobals
+!/usr/share/plasma/config/kdeglobals
+!/usr/share/pop/config/kdeglobals
+!/usr/local/share/config/kdeglobals
+!/usr/share/config/kdeglobals
+!/var/lib/snapd/desktop/config/kdeglobals
+*
+kcmfonts General forceFontDPI 0
+/home/dseleno/.config/kcmfonts
+!/etc/xdg/xdg-plasma/kcmfonts
+!/etc/xdg/xdg-pop/kcmfonts
+!/etc/xdg/kcmfonts
+!/home/dseleno/.local/share/config/kcmfonts
+!/usr/share/plasma/config/kcmfonts
+!/usr/share/pop/config/kcmfonts
+!/usr/local/share/config/kcmfonts
+!/usr/share/config/kcmfonts
+!/var/lib/snapd/desktop/config/kcmfonts
+*
