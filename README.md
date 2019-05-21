@@ -35,6 +35,17 @@ stow *
 │   │   └── tilix
 │   │       └── schemes
 │   │           └── Dracula.json
+│   ├── .local
+│   │   └── bin
+│   │       ├── barista
+│   │       ├── chrome
+│   │       ├── dpi.pl
+│   │       ├── i3exit
+│   │       ├── monitors.sh
+│   │       ├── natural_scrolling.sh
+│   │       └── xbanish
+│   ├── .screenlayout
+│   │   ├── oc_originate_office.sh
 │   └── .Xresources
 ├── tmux
 │   └── .tmux.conf
