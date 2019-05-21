@@ -229,7 +229,7 @@ antibody bundle zsh-users/zsh-syntax-highlighting
 
 # asdf plugin manager
 if [ -f "$HOME/.asdf/asdf.sh" ]; then source $HOME/.asdf/asdf.sh ; fi
-if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then $HOME/.asdf/completions/asdf.bash ; fi
+if [ -f "$HOME/.asdf/completions/asdf.bash" ]; then source $HOME/.asdf/completions/asdf.bash ; fi
 
 # this makes tilix work right
 if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
