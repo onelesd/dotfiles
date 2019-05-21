@@ -42,5 +42,4 @@ stow *
 │   └── .vimrc
 └── zsh
     └── .zshrc
-``
 ```
