@@ -1,0 +1,7 @@
+[user]
+	email = onelesd@users.noreply.github.com
+	name = Dave Seleno
+[core]
+	excludesfile = /home/dseleno/.gitignore
+[github]
+	user = onelesd
