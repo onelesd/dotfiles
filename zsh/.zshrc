@@ -1,3 +1,4 @@
+export TERM="xterm-256color"
 # no c-s/c-q output freezing
 setopt noflowcontrol
 # allow expansion in prompts
