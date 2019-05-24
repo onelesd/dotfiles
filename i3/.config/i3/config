@@ -47,13 +47,16 @@ bindsym $mod+d exec rofi -show run -terminal tilix -display-run 'Open: ' -kb-row
 bindsym $mod+n exec nautilus
 
 # hide mouse cursor when typing
-exec --no-startup-id xbanish
+exec --no-startup-id unclutter-xfixes -b --ignore-scrolling --jitter 10 --timeout 3
+
+# add some snaz to focus changes
+exec_always --no-startup-id /home/dseleno/.asdf/shims/flashfocus
 
 # set xrandr dpi
 exec --no-startup-id xrandr --dpi 120
 
 # set cool bg
-exec_always --no-startup-id feh --bg-scale ~/Pictures/Best-Music-Daft-Punk-Wallpapers.png
+exec_always --no-startup-id feh --bg-scale ~/Pictures/16935.jpg
 
 # set keypress repeat delay and rate
 exec_always --no-startup-id xset r rate 250 35
