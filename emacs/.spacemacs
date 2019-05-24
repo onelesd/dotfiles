@@ -246,7 +246,8 @@ It should only modify the values of Spacemacs settings."
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    ;; dotspacemacs-default-font '("Dank Mono"
    ;; dotspacemacs-default-font '("Fira Code Retina"
-   dotspacemacs-default-font '("Hack Nerd Font"
+   ;; dotspacemacs-default-font '("Hack Nerd Font"
+   dotspacemacs-default-font '("Hermit Regular"
                                :size 20
                                :weight normal
                                :width normal)
@@ -510,6 +511,11 @@ before packages are loaded."
   (put 'minibuffer-history 'history-length 50)
   (put 'evil-ex-history 'history-length 50)
   (put 'kill-ring 'history-length 25)
+
+  ;; Symbolic link to Git-controlled source file; follow link? (y or n)
+  ;; don't ask me this question - pretend i said yes
+  ;; this allows me to easily edit my dotfiles which are managed by stow via symlinks
+  (setq vc-follow-symlinks t)
 
   ;; enable fira code ligatures
   (defun fira-code-mode--make-alist (list)
@@ -788,16 +794,16 @@ This function is called at the very end of Spacemacs initialization."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (company-ycmd company-flx company-box helm-swoop wgrep ivy-yasnippet ivy-xref ivy-purpose ivy-hydra counsel-css sqlup-mode sql-indent zoom yasnippet-snippets yaml-mode ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode scss-mode sass-mode rjsx-mode restart-emacs rainbow-delimiters pug-mode pt prettier-js popwin popup-kill-ring persp-mode pcre2el password-generator paradox overseer org-bullets open-junk-file ob-elixir nameless mwim move-text moody mode-icons mmm-mode minions markdown-toc magithub magit-svn magit-gitflow macrostep lsp-ui lsp-treemacs lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-smex helm-purpose helm-projectile helm-mode-manager helm-make helm-lsp helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe gh-md fuzzy forge font-lock+ flycheck-pos-tip flycheck-package flycheck-mix flycheck-credo flx-ido fill-column-indicator fancy-battery eyebrowse exunit expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline dimmer diminish define-word counsel-projectile company-web company-tern company-statistics company-quickhelp company-lsp column-enforce-mode clean-aindent-mode centered-cursor-mode beacon auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-link ace-jump-helm-line ac-ispell))))
+    (indium company-ycmd company-flx company-box helm-swoop wgrep ivy-yasnippet ivy-xref ivy-purpose ivy-hydra counsel-css sqlup-mode sql-indent zoom yasnippet-snippets yaml-mode ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode scss-mode sass-mode rjsx-mode restart-emacs rainbow-delimiters pug-mode pt prettier-js popwin popup-kill-ring persp-mode pcre2el password-generator paradox overseer org-bullets open-junk-file ob-elixir nameless mwim move-text moody mode-icons mmm-mode minions markdown-toc magithub magit-svn magit-gitflow macrostep lsp-ui lsp-treemacs lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-smex helm-purpose helm-projectile helm-mode-manager helm-make helm-lsp helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe gh-md fuzzy forge font-lock+ flycheck-pos-tip flycheck-package flycheck-mix flycheck-credo flx-ido fill-column-indicator fancy-battery eyebrowse exunit expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline dimmer diminish define-word counsel-projectile company-web company-tern company-statistics company-quickhelp company-lsp column-enforce-mode clean-aindent-mode centered-cursor-mode beacon auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-link ace-jump-helm-line ac-ispell))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(flycheck-error ((t (:background "#cc5555" :underline (:color "#ff5555" :style wave)))))
- '(font-lock-builtin-face ((t (:foreground "#ffb86c" :slant italic :family "Hack Nerd Font"))))
- '(font-lock-comment-face ((t (:foreground "#6272a4" :slant italic :family "Hack Nerd Font"))))
- '(font-lock-keyword-face ((t (:foreground "#ff79c6" :slant italic :family "Hack Nerd Font"))))
+ '(font-lock-builtin-face ((t (:foreground "#ffb86c" :slant italic :family "Hermit"))))
+ '(font-lock-comment-face ((t (:foreground "#6272a4" :slant italic :family "Hermit"))))
+ '(font-lock-keyword-face ((t (:foreground "#ff79c6" :slant italic :family "Hermit"))))
  '(mode-line ((t (:background "dark violet" :box nil))))
  '(mode-line-inactive ((t (:background "gray12" :foreground "#6272a4" :box nil)))))
 )
