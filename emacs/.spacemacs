@@ -744,13 +744,15 @@ current directory."
 
   (use-package treemacs
     :config
+    ;; ignore/hide some files
+    (defun treemacs-ignore-gitignore (file _)
+      (string= file ".tern-port"))
+    (defun treemacs-ignore-elixir_ls (file _)
+      (string= file ".elixir_ls"))
+    (push #'treemacs-ignore-gitignore treemacs-ignored-file-predicates)
+    (push #'treemacs-ignore-elixir_ls treemacs-ignored-file-predicates)
     ;; put the buffer on the right
     (setq treemacs-position 'right)
-    ;; ignore/hide some files
-    (with-eval-after-load 'treemacs
-      (defun treemacs-ignore-gitignore (file _)
-        (string= file ".tern-port"))
-      (push #'treemacs-ignore-gitignore treemacs-ignored-file-predicates))
     ;; even if follow mode is disabled, follow when we init treemacs
     (setq treemacs-follow-after-init t)
     ;; show modified dirs and files
