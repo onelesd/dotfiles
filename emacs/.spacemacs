@@ -503,6 +503,8 @@ before packages are loaded."
   (setq focus-follows-mouse t
         mouse-autoselect-window t)
 
+  (global-hl-line-mode -1)
+
   ;; enable transparency
   (spacemacs/enable-transparency)
 
