@@ -250,7 +250,8 @@ It should only modify the values of Spacemacs settings."
    ;; dotspacemacs-default-font '("Fira Code Retina"
    ;; dotspacemacs-default-font '("Hack Nerd Font"
    ;; dotspacemacs-default-font '("Hermit Regular"
-   dotspacemacs-default-font '("Office Code Pro"
+   ;; dotspacemacs-default-font '("Office Code Pro"
+   dotspacemacs-default-font '("Iosevka Nerd Font Mono"
                                :size 20
                                :weight normal
                                :width normal)
@@ -875,7 +876,7 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(flycheck-error ((t (:background "#cc5555" :underline (:color "#ff5555" :style wave)))))
+ '(flycheck-error ((t (:underline (:color "#ff5555" :style wave)))))
  '(font-lock-builtin-face ((t (:foreground "#ffb86c" :slant italic))))
  '(font-lock-comment-face ((t (:foreground "#6272a4" :slant italic))))
  '(font-lock-keyword-face ((t (:foreground "#ff79c6" :slant italic))))
