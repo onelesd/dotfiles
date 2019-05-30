@@ -40,13 +40,13 @@ This function should only modify configuration layer settings."
      ;; Uncomment some layer names and press `SPC f e R' (Vim style) or
      ;; `M-m f e R' (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     (auto-completion :variables
-                      auto-completion-return-key-behavior 'complete
-                      auto-completion-tab-key-behavior 'cycle
-                      auto-completion-complete-with-key-sequence nil
-                      auto-completion-enable-sort-by-usage t
-                      auto-completion-enable-help-tooltip t
-                      auto-completion-enable-snippets-in-popup nil)
+     ;; (auto-completion :variables
+     ;;                  auto-completion-return-key-behavior 'complete
+     ;;                  auto-completion-tab-key-behavior 'cycle
+     ;;                  auto-completion-complete-with-key-sequence nil
+     ;;                  auto-completion-enable-sort-by-usage t
+     ;;                  auto-completion-enable-help-tooltip t
+     ;;                  auto-completion-enable-snippets-in-popup nil)
      better-defaults
      emacs-lisp
      git
@@ -81,9 +81,11 @@ This function should only modify configuration layer settings."
    ;; Also include the dependencies as they will not be resolved automatically.
    dotspacemacs-additional-packages '(
                                       beacon
-                                      company-box
+                                      ;; company-box
                                       company-flx
-                                      ;; company-ycmd
+                                      company-ycmd
+                                      company-quickhelp
+                                      flycheck-ycmd
                                       dimmer
                                       exec-path-from-shell
                                       exunit
@@ -247,7 +249,8 @@ It should only modify the values of Spacemacs settings."
    ;; dotspacemacs-default-font '("Dank Mono"
    ;; dotspacemacs-default-font '("Fira Code Retina"
    ;; dotspacemacs-default-font '("Hack Nerd Font"
-   dotspacemacs-default-font '("Hermit Regular"
+   ;; dotspacemacs-default-font '("Hermit Regular"
+   dotspacemacs-default-font '("Office Code Pro"
                                :size 20
                                :weight normal
                                :width normal)
@@ -688,6 +691,8 @@ current directory."
 
   (use-package rjsx-mode
     :config
+    ;; @see https://github.com/felipeochoa/rjsx-mode/issues/33
+    (progn (define-key rjsx-mode-map "<" nil))
     (add-to-list 'auto-mode-alist '(".*\\.js\\'" . rjsx-mode))
     (setq-default js2-mode-show-parse-errors nil)
     (setq-default js2-mode-show-strict-warnings nil)
@@ -793,6 +798,58 @@ current directory."
     (setq dimmer-exclusion-regexp "\*helm")
     (dimmer-mode))
 
+  (use-package ycmd
+    :config
+    (progn
+      (global-ycmd-mode)
+      (set-variable 'ycmd-server-command
+                    '("python3" "/home/dseleno/work/ycmd/ycmd/"))
+      (set-variable 'ycmd-extra-conf-whitelist '("~/work/*"))
+      (setq ycmd-extra-conf-handler 'load)))
+
+  (use-package company-ycmd
+    :config
+    (defun add-to-hooks (hooks function)
+      "Add a callback to multiple hooks.
+   Example: (add-to-hooks '(c-mode-common-hook lisp-mode-hook) 'do-something)"
+      (dolist (hook hooks)
+        (add-hook hook function)))
+    (progn
+      (setq company-backends (delete 'company-clang company-backends))
+      (setq company-idle-delay 0)
+      (global-company-mode)
+      (company-ycmd-setup)
+
+      (define-key company-active-map (kbd "TAB") 'company-select-next)
+      (define-key company-active-map [tab] 'company-select-next)
+      (setq company-selection-wrap-around t)
+
+      ; Company + fci is fucked
+      ; https://github.com/company-mode/company-mode/issues/180
+      (defvar-local company-fci-mode-on-p nil)
+      (defun company-turn-off-fci (&rest ignore)
+        (when (boundp 'fci-mode)
+          (setq company-fci-mode-on-p fci-mode)
+          (when fci-mode (fci-mode -1))))
+      (defun company-maybe-turn-on-fci (&rest ignore)
+        (when company-fci-mode-on-p (fci-mode 1)))
+      (add-hook 'company-completion-started-hook 'company-turn-off-fci)
+      (add-to-hooks '(company-completion-finished-hook
+                      company-completion-cancelled-hook)
+                    'company-maybe-turn-on-fci)
+
+      (use-package company-quickhelp
+        :config
+        (progn
+          (company-quickhelp-mode 1)))))
+
+  (use-package flycheck-ycmd
+    :config
+    (progn
+      (flycheck-ycmd-setup)
+      (global-flycheck-mode)))
+
+  (provide 'init-autocomplete)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -819,9 +876,9 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(flycheck-error ((t (:background "#cc5555" :underline (:color "#ff5555" :style wave)))))
- '(font-lock-builtin-face ((t (:foreground "#ffb86c" :slant italic :family "Hermit"))))
- '(font-lock-comment-face ((t (:foreground "#6272a4" :slant italic :family "Hermit"))))
- '(font-lock-keyword-face ((t (:foreground "#ff79c6" :slant italic :family "Hermit"))))
+ '(font-lock-builtin-face ((t (:foreground "#ffb86c" :slant italic))))
+ '(font-lock-comment-face ((t (:foreground "#6272a4" :slant italic))))
+ '(font-lock-keyword-face ((t (:foreground "#ff79c6" :slant italic))))
  '(mode-line ((t (:background "dark violet" :box nil))))
  '(mode-line-inactive ((t (:background "gray12" :foreground "#6272a4" :box nil)))))
 )
