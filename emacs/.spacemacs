@@ -752,6 +752,8 @@ current directory."
 
   (use-package treemacs
     :config
+    ;; ignore files that are git-ignored
+    (add-to-list 'treemacs-pre-file-insert-predicates #'treemacs-is-file-git-ignored?)
     ;; ignore/hide some files
     (defun treemacs-ignore-gitignore (file _)
       (string= file ".tern-port"))
