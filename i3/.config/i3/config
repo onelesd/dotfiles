@@ -46,6 +46,9 @@ bindsym $mod+d exec rofi -show run -terminal tilix -display-run 'Open: ' -kb-row
 # open nautilus
 bindsym $mod+n exec nautilus
 
+bindsym $mod+Shift+n exec ~/.screenlayout/oc_originate_office.sh
+bindsym $mod+Shift+m exec ~/.screenlayout/laptop_only.sh
+
 # hide mouse cursor when typing
 exec --no-startup-id unclutter-xfixes -b --ignore-scrolling --jitter 10 --timeout 3
 
