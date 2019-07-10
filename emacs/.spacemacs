@@ -33,7 +33,9 @@ This function should only modify configuration layer settings."
 
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
-   '(sql
+   '(perl5
+     csv
+     sql
      html
      ;; ----------------------------------------------------------------
      ;; Example of useful layers you may want to use right away.
@@ -91,7 +93,7 @@ This function should only modify configuration layer settings."
                                       exunit
                                       forge
                                       git-gutter-fringe
-                                      helm-smex
+                                      ;; helm-smex
                                       ;; helm-swoop-edit is broken, see: https://github.com/ShingoFukuyama/helm-swoop/issues/133
                                       (helm-swoop :location (recipe :fetcher github :repo "ashiklom/helm-swoop"))
                                       magithub
@@ -503,6 +505,15 @@ configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
+  ;;(create-fontset-from-ascii-font "M+ 1mn:pixelsize=14:weight=normal:slant=normal:spacing=m" nil "mplus1mn")
+  ;;(set-fontset-font "fontset-mplus1mn" 'unicode
+  ;;                  (font-spec :family "M+ 1mn" :spacing 'm :size 20)
+  ;;                  nil 'prepend)
+  ;;(add-to-list 'default-frame-alist '(font . "fontset-mplus1mn"))
+  ;;(set-face-font 'default "fontset-mplus1mn")
+  ;;(set-face-attribute 'default nil :font "fontset-mplus1mn")
+  ;;(set-default-font "fontset-mplus1mn")
+
   ;; sloppy focus
   (setq focus-follows-mouse t
         mouse-autoselect-window t)
@@ -580,7 +591,9 @@ before packages are loaded."
   (defun fira-code-mode--setup ()
     "Setup Fira Code Symbols"
     ;; (set-fontset-font t '(#Xe100 . #Xe16f) "Dank Mono"))
-    (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
+    ;; (set-fontset-font t '(#Xe100 . #Xe16f) "Fira Code Symbol"))
+    (set-fontset-font t '(#Xe100 . #Xe16f) "Iosevka Nerd Font Mono"))
+
 
   (provide 'fira-code-mode)
   ;; ligatures cause weird problems
@@ -595,6 +608,14 @@ before packages are loaded."
     ;; disable persistent follow because it makes emacs laggy
     ;; save last used follow mode value
     ;; (setq helm-follow-mode-persistent t)
+
+    ;; fixes broken helm follow mode when treemacs pane is open
+    ;; see: https://github.com/syl20bnr/spacemacs/issues/7446#issuecomment-417376425
+    (defun helm-persistent-action-display-window (&optional split-onewindow)
+      "Return the window that will be used for persistent action.
+If SPLIT-ONEWINDOW is non-`nil' window is split in persistent action."
+      (with-helm-window
+        (setq helm-persistent-action-display-window (get-mru-window))))
     )
 
   ;; (use-package golden-ratio
@@ -673,8 +694,8 @@ current directory."
                               formatter-executable nil errbuff nil formatter-arguments)))
           (setq default-directory original-default-directory)
           result)))
-    (add-hook 'elixir-mode-hook
-              (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
+    ;; (add-hook 'elixir-mode-hook
+    ;;           (lambda () (add-hook 'before-save-hook 'elixir-format nil t)))
     (add-hook 'elixir-mode-hook 'flycheck-mode)
     (with-eval-after-load 'elixir-mode
       (spacemacs/declare-prefix-for-mode 'elixir-mode
@@ -707,10 +728,10 @@ current directory."
     :config
     (add-hook 'lsp-mode-hook 'lsp-ui-mode))
 
-  (use-package helm-smex
-    :config
-    (global-set-key [remap execute-extended-command] #'helm-smex)
-    (global-set-key (kbd "M-X") #'helm-smex-major-mode-commands))
+  ;; (use-package helm-smex
+  ;;   :config
+  ;;   (global-set-key [remap execute-extended-command] #'helm-smex)
+  ;;   (global-set-key (kbd "M-X") #'helm-smex-major-mode-commands))
 
   (use-package beacon
     :config
@@ -867,12 +888,65 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#3c4c55" "#DF8C8C" "#A8CE93" "#DADA93" "#83AFE5" "#c9b4cf" "#7FC1CA" "#c5c8c6"])
+ '(custom-safe-themes
+   (quote
+    ("6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "9954ed41d89d2dcf601c8e7499b6bb2778180bfcaeb7cdfc648078b8e05348c6" "151bde695af0b0e69c3846500f58d9a0ca8cb2d447da68d7fbf4154dcf818ebc" "10461a3c8ca61c52dfbbdedd974319b7f7fd720b091996481c8fb1dded6c6116" "75d3dde259ce79660bac8e9e237b55674b910b470f313cdf4b019230d01a982a" "93a0885d5f46d2aeac12bf6be1754faa7d5e28b27926b8aa812840fe7d0b7983" "6b289bab28a7e511f9c54496be647dc60f5bd8f9917c9495978762b99d8c96a0" "8aca557e9a17174d8f847fb02870cb2bb67f3b6e808e46c0e54a44e3e18e1020" "43c808b039893c885bdeec885b4f7572141bd9392da7f0bd8d8346e02b2ec8da" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "f0dc4ddca147f3c7b1c7397141b888562a48d9888f1595d69572db73be99a024" "7eded71a68f518d9e4d4580b477a3fb03bf2d0ecc1234ff361a7fdc1591b1c9d" default)))
+ '(evil-want-Y-yank-to-eol nil)
+ '(fci-rule-color "#556873")
+ '(hl-todo-keyword-faces
+   (quote
+    (("TODO" . "#dc752f")
+     ("NEXT" . "#dc752f")
+     ("THEM" . "#2d9574")
+     ("PROG" . "#4f97d7")
+     ("OKAY" . "#4f97d7")
+     ("DONT" . "#f2241f")
+     ("FAIL" . "#f2241f")
+     ("DONE" . "#86dc2f")
+     ("NOTE" . "#b1951d")
+     ("KLUDGE" . "#b1951d")
+     ("HACK" . "#b1951d")
+     ("TEMP" . "#b1951d")
+     ("FIXME" . "#dc752f")
+     ("XXX" . "#dc752f")
+     ("XXXX" . "#dc752f"))))
+ '(jdee-db-active-breakpoint-face-colors (cons "#0d0f11" "#7FC1CA"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#0d0f11" "#A8CE93"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#0d0f11" "#899BA6"))
  '(lsp-ui-doc-enable nil)
  '(lsp-ui-sideline-show-symbol t)
  '(lsp-ui-sideline-update-mode (quote line))
+ '(objed-cursor-color "#DF8C8C")
  '(package-selected-packages
    (quote
-    (indium company-ycmd company-flx company-box helm-swoop wgrep ivy-yasnippet ivy-xref ivy-purpose ivy-hydra counsel-css sqlup-mode sql-indent zoom yasnippet-snippets yaml-mode ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode scss-mode sass-mode rjsx-mode restart-emacs rainbow-delimiters pug-mode pt prettier-js popwin popup-kill-ring persp-mode pcre2el password-generator paradox overseer org-bullets open-junk-file ob-elixir nameless mwim move-text moody mode-icons mmm-mode minions markdown-toc magithub magit-svn magit-gitflow macrostep lsp-ui lsp-treemacs lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-smex helm-purpose helm-projectile helm-mode-manager helm-make helm-lsp helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe gh-md fuzzy forge font-lock+ flycheck-pos-tip flycheck-package flycheck-mix flycheck-credo flx-ido fill-column-indicator fancy-battery eyebrowse exunit expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline dimmer diminish define-word counsel-projectile company-web company-tern company-statistics company-quickhelp company-lsp column-enforce-mode clean-aindent-mode centered-cursor-mode beacon auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-link ace-jump-helm-line ac-ispell))))
+    (realgud test-simple loc-changes load-relative company-plsense nimbus-theme csv-mode indium company-ycmd company-flx company-box helm-swoop wgrep ivy-yasnippet ivy-xref ivy-purpose ivy-hydra counsel-css sqlup-mode sql-indent zoom yasnippet-snippets yaml-mode ws-butler writeroom-mode winum which-key web-mode web-beautify volatile-highlights vi-tilde-fringe uuidgen use-package unfill treemacs-projectile treemacs-evil toc-org tagedit symon symbol-overlay string-inflection spaceline-all-the-icons smeargle slim-mode scss-mode sass-mode rjsx-mode restart-emacs rainbow-delimiters pug-mode pt prettier-js popwin popup-kill-ring persp-mode pcre2el password-generator paradox overseer org-bullets open-junk-file ob-elixir nameless mwim move-text moody mode-icons mmm-mode minions markdown-toc magithub magit-svn magit-gitflow macrostep lsp-ui lsp-treemacs lorem-ipsum livid-mode link-hint json-navigator json-mode js2-refactor js-doc indent-guide impatient-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation helm-xref helm-themes helm-smex helm-purpose helm-projectile helm-mode-manager helm-make helm-lsp helm-gitignore helm-git-grep helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag google-translate golden-ratio gitignore-templates gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe gh-md fuzzy forge font-lock+ flycheck-pos-tip flycheck-package flycheck-mix flycheck-credo flx-ido fill-column-indicator fancy-battery eyebrowse exunit expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-textobj-line evil-surround evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-lion evil-indent-plus evil-iedit-state evil-goggles evil-exchange evil-escape evil-ediff evil-cleverparens evil-args evil-anzu eval-sexp-fu emmet-mode elisp-slime-nav editorconfig dumb-jump dotenv-mode doom-themes doom-modeline dimmer diminish define-word counsel-projectile company-web company-tern company-statistics company-quickhelp company-lsp column-enforce-mode clean-aindent-mode centered-cursor-mode beacon auto-yasnippet auto-highlight-symbol auto-compile aggressive-indent add-node-modules-path ace-link ace-jump-helm-line ac-ispell)))
+ '(pdf-view-midnight-colors (quote ("#b2b2b2" . "#292b2e")))
+ '(vc-annotate-background "#3c4c55")
+ '(vc-annotate-color-map
+   (list
+    (cons 20 "#A8CE93")
+    (cons 40 "#b8d293")
+    (cons 60 "#c9d693")
+    (cons 80 "#DADA93")
+    (cons 100 "#e2d291")
+    (cons 120 "#eaca90")
+    (cons 140 "#F2C38F")
+    (cons 160 "#e4bea4")
+    (cons 180 "#d6b9b9")
+    (cons 200 "#c9b4cf")
+    (cons 220 "#d0a6b8")
+    (cons 240 "#d799a2")
+    (cons 260 "#DF8C8C")
+    (cons 280 "#c98f92")
+    (cons 300 "#b39399")
+    (cons 320 "#9e979f")
+    (cons 340 "#556873")
+    (cons 360 "#556873")))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -882,6 +956,6 @@ This function is called at the very end of Spacemacs initialization."
  '(font-lock-builtin-face ((t (:foreground "#ffb86c" :slant italic))))
  '(font-lock-comment-face ((t (:foreground "#6272a4" :slant italic))))
  '(font-lock-keyword-face ((t (:foreground "#ff79c6" :slant italic))))
- '(mode-line ((t (:background "dark violet" :box nil))))
- '(mode-line-inactive ((t (:background "gray12" :foreground "#6272a4" :box nil)))))
+ '(highlight-numbers-number ((t (:foreground "#ff5555"))))
+ '(mode-line ((t (:background "dark violet" :box nil)))))
 )
