@@ -330,3 +330,5 @@ zle     -N   fzf-history-widget
 bindkey '^R' fzf-history-widget
 
 fi
+
+export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
