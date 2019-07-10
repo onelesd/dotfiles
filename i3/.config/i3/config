@@ -216,7 +216,7 @@ bindsym $mod+Shift+e mode "$mode_system"
 # finds out, if available)
 bar {
   position top
-	font pango:Hack Nerd Font 10
+	font pango:Hack Nerd Font 13
   colors {
     background #282A36
     statusline #F8F8F2
