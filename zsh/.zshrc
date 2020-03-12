@@ -238,7 +238,7 @@ if [ $TILIX_ID ] || [ $VTE_VERSION ]; then
 fi
 
 # homebrew
-eval "$(/home/linuxbrew/.linuxbrew/bin/perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
+#eval "$(/home/linuxbrew/.linuxbrew/bin/perl -I$HOME/perl5/lib/perl5 -Mlocal::lib=$HOME/perl5)"
 
 # aliases
 alias ll="ls -lart"
@@ -332,3 +332,6 @@ bindkey '^R' fzf-history-widget
 fi
 
 export ERL_AFLAGS="-kernel shell_history enabled -kernel shell_history_file_bytes 1024000"
+
+. $(brew --prefix asdf)/asdf.sh
+export PATH="/usr/local/sbin:$PATH"
