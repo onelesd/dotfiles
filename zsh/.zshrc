@@ -24,7 +24,7 @@ setopt inc_append_history
 # setopt interactivecomments
 setopt HIST_IGNORE_ALL_DUPS
 
-HISTFILE=/home/dseleno/.zhistory
+HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 
