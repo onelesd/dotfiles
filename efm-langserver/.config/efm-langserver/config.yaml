@@ -1,0 +1,98 @@
+---
+version: 2
+log-file: /Users/dseleno/tmp/efm.log
+log-level: 4
+
+tools:
+  mix_credo: &mix_credo
+    lint-command: "MIX_ENV=test mix credo --strict --format=flycheck --read-from-stdin ${INPUT}"
+    lint-stdin: true
+    lint-formats:
+      - '%f:%l:%c: %t: %m'
+      - '%f:%l: %t: %m'
+    lint-category-map:
+      R: N
+      D: I
+      F: E
+      W: W
+    root-markers:
+      - mix.lock
+      - mix.exs
+
+  mix_format: &mix_format
+    format-command: 'mix format -'
+    format-stdin: true
+
+  lua_format: &lua_format
+    format-command: 'lua-format -i --indent-width=2 --no-keep-simple-function-one-line --no-break-after-operator --column-limit=80 --break-after-table-lb --double-quote-to-single-quote'
+    format-stdin: true
+
+  # js_lint: &js_lint
+  #   lint-command: "eslint --resolve-plugins-relative-to=./apps/arcamax_web/assets --stdin"
+  #   lint-stdin: true
+
+  prettier_format: &prettier_format
+    format-cmd: 'prettier --write --no-editorconfig'
+    format-stdin: true
+
+  yaml-yamllint: &yaml-yamllint
+    lint-command: 'yamllint -f parsable -'
+    lint-stdin: true
+
+  # yaml-yamlfmt: &yaml-yamlfmt
+  #   format-cmd: 'yamlfmt /dev/stdin'
+  #   format-stdin: true
+
+  sh-shfmt: &sh-shfmt
+    format-command: 'shfmt -ci -s -bn'
+    format-stdin: true
+
+  markdown-markdownlint: &markdown-markdownlint
+    lint-command: 'markdownlint -s'
+    lint-stdin: true
+    lint-formats:
+      - '%f:%l %m'
+      - '%f:%l:%c %m'
+      - '%f: %l: %m'
+
+  sh-shellcheck: &sh-shellcheck
+    lint-command: 'shellcheck -f gcc -x'
+    lint-formats:
+      - '%f:%l:%c: %trror: %m'
+      - '%f:%l:%c: %tarning: %m'
+      - '%f:%l:%c: %tote: %m'
+
+  json-jq: &json-jq
+    lint-command: 'jq .'
+
+  json-fixjson: &json-fixjson
+    format-command: 'fixjson'
+
+  csv-csvlint: &csv-csvlint
+    lint-command: 'csvlint'
+
+languages:
+  elixir:
+    - <<: *mix_credo
+    - <<: *mix_format
+  lua:
+    - <<: *lua_format
+  svelte:
+    - <<: *prettier_format
+    # - <<: *js_lint
+  typescript:
+    - <<: *prettier_format
+  javascript:
+    - <<: *prettier_format
+  markdown:
+    - <<: *markdown-markdownlint
+  yaml:
+    - <<: *yaml-yamllint
+    # - <<: *yaml-yamlfmt
+  sh:
+    - <<: *sh-shellcheck
+    - <<: *sh-shfmt
+  json:
+    - <<: *json-jq
+  csv:
+    - <<: *csv-csvlint
