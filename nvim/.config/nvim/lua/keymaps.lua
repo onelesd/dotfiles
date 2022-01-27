@@ -21,17 +21,25 @@ map('v', '<leader>sp', '"zy<CMD>Telescope live_grep default_text=<C-r>z<CR>',
 -- map('n', '<leader>fb',
 --     '<CMD>Telescope file_browser files=false depth=false hidden=true respect_gitignore=true<CR>',
 --     opts)
-map('n', '<leader>ft', '<CMD>NvimTreeToggle<CR>', opts)
+-- map('n', '<leader>ft', '<CMD>NvimTreeToggle<CR>', opts)
 map('n', '<leader>sf', '<CMD>Telescope current_buffer_fuzzy_find<CR>', opts)
 map('n', '<leader>bb', '<CMD>Telescope buffers<CR>', opts)
 map('n', '<leader>hh', '<CMD>Telescope help_tags<CR>', opts)
 map('n', '<leader>pp', '<CMD>Telescope project<CR>', opts)
+
+map('n', '<leader>ix',
+    '<CMD>tabnew ~/tmp/neovim_iex.exs<CR><CMD>vsplit term://iex<CR><C-w>w', opts)
+map('n', '<leader>iX',
+    '<C-w><RIGHT><CMD>bdelete!<CR>A<C-c><C-c><CMD>sleep 100m<CR><C-c>', opts)
 
 -- FIXME this isn't working
 map('n', '<leader>gb', '<CMD>GitBlameOpenCommitURL<CR>', opts)
 
 map('n', '<leader>pi',
     '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerInstall<CR>',
+    opts)
+map('n', '<leader>pc',
+    '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerClean<CR>',
     opts)
 
 -- navigate tab-like for buffers
@@ -71,10 +79,12 @@ map('n', 'K', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
 map('v', 'K', '"zy<CMD>Dash <C-r>d<CR>', opts)
 
 -- open/close vim configs
-local config_edit = '<CMD>:tabnew ~/.config/nvim/lua/plugins/init.lua<CR>'
-                        .. '<CMD>vsplit ~/.config/nvim/lua/keymaps.lua<CR>'
-                        .. '<CMD>split ~/.config/nvim/init.lua<CR>'
-                        .. '<C-w><RIGHT><CMD>Sex<CR>'
+local dotfiles = '~/dotfiles/nvim/.config/nvim'
+local config_edit = '<CMD>tabnew ' .. dotfiles .. '/lua/plugins/init.lua<CR>'
+                        .. '<CMD>vsplit ' .. dotfiles .. '/lua/keymaps.lua<CR>'
+                        .. '<CMD>split ' .. dotfiles .. '/init.lua<CR>'
+                        .. '<C-w><RIGHT><CMD>split<CR><CMD>e ' .. dotfiles
+                        .. '/lua/plugins<CR>'
 map('n', '<leader>v', config_edit, opts)
 map('n', '<leader>vo', config_edit .. '<C-w><LEFT><CR>', opts)
 map('n', '<leader>vp', config_edit .. '<C-w><DOWN><CR>', opts)

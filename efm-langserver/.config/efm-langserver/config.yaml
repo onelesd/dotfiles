@@ -6,6 +6,7 @@ log-level: 4
 tools:
   mix_credo: &mix_credo
     lint-command: "MIX_ENV=test mix credo --strict --format=flycheck --read-from-stdin ${INPUT}"
+    lint-ignore-exit-code: true
     lint-stdin: true
     lint-formats:
       - '%f:%l:%c: %t: %m'
@@ -38,6 +39,7 @@ tools:
   yaml-yamllint: &yaml-yamllint
     lint-command: 'yamllint -f parsable -'
     lint-stdin: true
+    lint-ignore-exit-code: true
 
   # yaml-yamlfmt: &yaml-yamlfmt
   #   format-cmd: 'yamlfmt /dev/stdin'

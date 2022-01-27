@@ -99,3 +99,6 @@ PATH="$GOPATH/bin:$PATH"
 GOPATH=$HOME/go
 GOROOT="$(brew --prefix golang)/libexec"
 PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+
+# give us a hint on how to scroll when noevim's floaterm is set
+[[ -v FLOATERM ]] && echo "Floaterm Tip: use <C-\\> <C-n> to go to normal mode"

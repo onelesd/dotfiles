@@ -12,7 +12,7 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   -- tree explorer
-  use 'kyazdani42/nvim-tree.lua'
+  -- use 'kyazdani42/nvim-tree.lua'
 
   -- git blame in virtual text
   use 'f-person/git-blame.nvim'
@@ -25,6 +25,13 @@ require('packer').startup(function(use)
   -- fancy highlighting
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   -- use 'nvim-treesitter/nvim-treesitter-textobjects'
+
+  use {
+    'jpalardy/vim-slime',
+    config = function()
+      vim.g.slime_target = 'neovim'
+    end
+  }
 
   use {'ethanholz/nvim-lastplace', config = require'nvim-lastplace'.setup {}}
 
@@ -142,4 +149,4 @@ require('plugins/telescope')
 require('plugins/lualine')
 require('plugins/autopairs')
 require('plugins/indent-blankline')
-require('plugins/tree')
+-- require('plugins/tree')
