@@ -11,6 +11,12 @@ require('packer').startup(function(use)
   -- packer packer
   use 'wbthomason/packer.nvim'
 
+  -- tree explorer
+  use 'kyazdani42/nvim-tree.lua'
+
+  -- git blame in virtual text
+  use 'f-person/git-blame.nvim'
+
   -- nice colors
   use 'tjdevries/colorbuddy.nvim'
   use 'rafamadriz/neon'
@@ -86,6 +92,7 @@ require('packer').startup(function(use)
     requires = {
       {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'},
       {'nvim-telescope/telescope-project.nvim'},
+      -- {'nvim-telescope/telescope-file-browser.nvim'},
       -- {'nvim-telescope/telescope-ui-select.nvim'},
       {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
       {
@@ -135,3 +142,4 @@ require('plugins/telescope')
 require('plugins/lualine')
 require('plugins/autopairs')
 require('plugins/indent-blankline')
+require('plugins/tree')

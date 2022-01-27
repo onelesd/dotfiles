@@ -18,10 +18,21 @@ map('n', '<leader><leader>',
 map('n', '<leader>sp', '<CMD>Telescope live_grep<CR>', opts)
 map('v', '<leader>sp', '"zy<CMD>Telescope live_grep default_text=<C-r>z<CR>',
     opts)
+-- map('n', '<leader>fb',
+--     '<CMD>Telescope file_browser files=false depth=false hidden=true respect_gitignore=true<CR>',
+--     opts)
+map('n', '<leader>ft', '<CMD>NvimTreeToggle<CR>', opts)
 map('n', '<leader>sf', '<CMD>Telescope current_buffer_fuzzy_find<CR>', opts)
 map('n', '<leader>bb', '<CMD>Telescope buffers<CR>', opts)
 map('n', '<leader>hh', '<CMD>Telescope help_tags<CR>', opts)
 map('n', '<leader>pp', '<CMD>Telescope project<CR>', opts)
+
+-- FIXME this isn't working
+map('n', '<leader>gb', '<CMD>GitBlameOpenCommitURL<CR>', opts)
+
+map('n', '<leader>pi',
+    '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerInstall<CR>',
+    opts)
 
 -- navigate tab-like for buffers
 map('n', '<leader>gx', '<CMD>tabclose<CR>', opts)

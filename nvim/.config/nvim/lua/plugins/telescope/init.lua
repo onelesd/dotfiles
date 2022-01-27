@@ -51,7 +51,8 @@ require('telescope').setup {
         ['<C-t>'] = telescope_custom_actions.multi_selection_open_tab,
         ['<C-x>'] = telescope_custom_actions.multi_selection_close,
         ['<S-DOWN>'] = require('telescope.actions').cycle_history_next,
-        ['<S-UP>'] = require('telescope.actions').cycle_history_prev
+        ['<S-UP>'] = require('telescope.actions').cycle_history_prev,
+        ['<C-?>'] = actions.which_key
       },
       n = i
     }
@@ -67,8 +68,6 @@ require('telescope').setup {
   }
 }
 require('telescope').load_extension('project')
--- this conflicts with the multi buffer mappings i've made
--- require('telescope').load_extension('ui-select')
 require('telescope').load_extension('fzf')
+-- require('telescope').load_extension('ui-select')
 -- require('telescope').load_extension('file_browser')
--- require('telescope').load_extension('coc')
