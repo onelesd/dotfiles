@@ -1,9 +1,10 @@
+-- TODO clean up this dumping ground
 local lsp_installer = require 'nvim-lsp-installer'
 
 -- Include the servers you want to have installed by default below
 local servers = {
   'svelte', 'elixirls', 'cssmodules_ls', 'tailwindcss', 'efm', 'yamlls',
-  'tsserver'
+  'tsserver', 'gopls', 'bashls'
 }
 
 local cmp = require 'cmp'
@@ -41,19 +42,6 @@ cmp.setup({
         fallback()
       end
     end, {'i', 's'})
-    -- ['<Tab>'] = cmp.mapping(function(fallback)
-    --   -- This little snippet will confirm with tab, and if no entry is selected, will confirm the first item
-    --   if cmp.visible() then
-    --     local entry = cmp.get_selected_entry()
-    --     if not entry then
-    --       cmp.select_next_item({behavior = cmp.SelectBehavior.Select})
-    --     else
-    --       cmp.confirm()
-    --     end
-    --   else
-    --     fallback()
-    --   end
-    -- end, {'i', 's', 'c'})
   },
   sources = cmp.config.sources({{name = 'luasnip'}, {name = 'nvim_lsp'}},
                                {{name = 'buffer'}}),
@@ -88,14 +76,12 @@ vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {f
 -- disable inline diagnostics
 vim.diagnostic.config({virtual_text = false, update_in_insert = true})
 
-require'luasnip.loaders.from_vscode'.load()
-
 local function on_attach(client, bufnr)
   -- Set up buffer-local keymaps (vim.api.nvim_buf_set_keymap()), etc.
   vim.api.nvim_echo({
     {
-      'Attached ' .. client.name .. ' LSP server to ' .. vim.fn.bufname(bufnr)
-          .. ' ...', 'None'
+      'Attached ' .. client.name .. ' LSP server to ' .. vim.fn.bufname(bufnr),
+      'None'
     }
   }, false, {})
   if client.resolved_capabilities.document_formatting then

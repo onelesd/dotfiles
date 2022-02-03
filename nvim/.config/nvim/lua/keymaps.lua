@@ -5,6 +5,10 @@ local map = vim.api.nvim_set_keymap
 vim.g.mapleader = ' ' -- what is this, spacemacs?
 map('n', ';', ':', opts) -- less shift pressing please
 map('n', '<CR>', ':noh<CR><CR>', opts) -- clear search on enter
+map('n', '<UP>', '<NOP>', opts) -- k
+map('n', '<DOWN>', '<NOP>', opts) -- j
+map('n', '<LEFT>', '<NOP>', opts) -- h
+map('n', '<RIGHT>', '<NOP>', opts) -- l
 
 -- <C-p> system clipboard paste because CMD-anything doesn't work in neovide
 map('n', '<C-\\>', '<CMD>set paste<CR>a<C-r>+<ESC><CMD>set nopaste<CR>', opts)
@@ -13,27 +17,26 @@ map('i', '<C-\\>', '<C-o><CMD>set paste<CR><C-r>+<C-o><CMD>set nopaste<CR>',
 
 -- telescope stuff
 map('n', '<leader><leader>',
-    '<CMD>lua require"telescope.builtin".find_files({find_command = {"rg","--files","--iglob","!.git","--hidden"}})<CR>',
+    '<CMD>lua require"telescope.builtin".find_files({debounce = 100, find_command = {"rg","--files","--iglob","!.git","--hidden"}})<CR>',
     opts)
-map('n', '<leader>sp', '<CMD>Telescope live_grep<CR>', opts)
-map('v', '<leader>sp', '"zy<CMD>Telescope live_grep default_text=<C-r>z<CR>',
+map('n', '<leader>sp', '<CMD>Telescope live_grep debounce=100<CR>', opts)
+map('v', '<leader>sp',
+    '"zy<CMD>Telescope live_grep debounce=100 default_text=<C-r>z<CR>', opts)
+map('n', '<leader>sf',
+    '<CMD>Telescope current_buffer_fuzzy_find debounce=100<CR>', opts)
+map('v', '<leader>sf',
+    '"zy<CMD>Telescope current_buffer_fuzzy_find debounce=100 default_text=\'<C-r>z<CR>',
     opts)
--- map('n', '<leader>fb',
---     '<CMD>Telescope file_browser files=false depth=false hidden=true respect_gitignore=true<CR>',
---     opts)
--- map('n', '<leader>ft', '<CMD>NvimTreeToggle<CR>', opts)
-map('n', '<leader>sf', '<CMD>Telescope current_buffer_fuzzy_find<CR>', opts)
-map('n', '<leader>bb', '<CMD>Telescope buffers<CR>', opts)
-map('n', '<leader>hh', '<CMD>Telescope help_tags<CR>', opts)
-map('n', '<leader>pp', '<CMD>Telescope project<CR>', opts)
+map('n', '<leader>bb', '<CMD>Telescope buffers debounce=100<CR>', opts)
+map('n', '<leader>hh', '<CMD>Telescope help_tags debounce=100<CR>', opts)
+map('n', '<leader>pp', '<CMD>Telescope project debounce=100<CR>', opts)
 
 map('n', '<leader>ix',
     '<CMD>tabnew ~/tmp/neovim_iex.exs<CR><CMD>vsplit term://iex<CR><C-w>w', opts)
 map('n', '<leader>iX',
     '<C-w><RIGHT><CMD>bdelete!<CR>A<C-c><C-c><CMD>sleep 100m<CR><C-c>', opts)
 
--- FIXME this isn't working
-map('n', '<leader>gb', '<CMD>GitBlameOpenCommitURL<CR>', opts)
+map('n', '<leader>gb', '<CMD>GitBlameToggle<CR>', opts)
 
 map('n', '<leader>pi',
     '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerInstall<CR>',

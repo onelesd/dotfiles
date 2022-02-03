@@ -21,11 +21,19 @@ require('packer').startup(function(use)
   use 'tjdevries/colorbuddy.nvim'
   use 'rafamadriz/neon'
   use 'shaunsingh/nord.nvim'
+  use 'EdenEast/nightfox.nvim'
+  use 'folke/tokyonight.nvim'
 
-  -- fancy highlighting
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  -- fancy highlighting and other cool code parsing stuff
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    requires = {'elixir-lang/tree-sitter-elixir'},
+    run = ':TSUpdate'
+  }
+  use {'nvim-treesitter/playground', run = ':TSInstall query'}
   -- use 'nvim-treesitter/nvim-treesitter-textobjects'
 
+  -- open and work with repl's in various languages
   use {
     'jpalardy/vim-slime',
     config = function()
@@ -33,8 +41,13 @@ require('packer').startup(function(use)
     end
   }
 
+  -- view and navigate the undo tree
+  -- use 'mbbill/undotree'
+
+  -- go to the last place you were in a file when re-opening it
   use {'ethanholz/nvim-lastplace', config = require'nvim-lastplace'.setup {}}
 
+  -- helpers for refactoring
   -- use {'nvim-treesitter/nvim-treesitter-refactor'}
 
   -- comment(ary)
@@ -59,6 +72,7 @@ require('packer').startup(function(use)
     requires = {'kyazdani42/nvim-web-devicons', opt = true}
   }
 
+  -- git signs in the gutter
   use {
     'lewis6991/gitsigns.nvim',
     requires = {'nvim-lua/plenary.nvim'},
@@ -87,13 +101,22 @@ require('packer').startup(function(use)
   -- delete buffers without messing up layout
   use 'famiu/bufdelete.nvim'
 
-  -- lsp
+  -- helpers for working with lsp
   use 'neovim/nvim-lspconfig'
+
+  -- automatic installation & configuration of lsp servers
   use 'williamboman/nvim-lsp-installer'
+  -- use {
+  --   'kosayoda/nvim-lightbulb',
+  --   config = function()
+  --     vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+  --   end
+  -- }
 
-  use 'evanleck/vim-svelte'
-  use 'elixir-editors/vim-elixir'
+  -- use 'evanleck/vim-svelte'
+  -- use 'elixir-editors/vim-elixir'
 
+  -- telescope is for finding and searching files
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
@@ -109,7 +132,10 @@ require('packer').startup(function(use)
     }
   }
 
+  -- ui sugar for lsp
   use 'tami5/lspsaga.nvim'
+
+  -- autocompletion
   use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -117,31 +143,50 @@ require('packer').startup(function(use)
       {'saadparwaiz1/cmp_luasnip'}
     }
   }
-  use 'rafamadriz/friendly-snippets'
 
-  use {'L3MON4D3/LuaSnip'}
+  use {
+    'L3MON4D3/LuaSnip', -- powerful snippets
+    requires = {
+      'rafamadriz/friendly-snippets' -- common snippets for various languages
+    },
+    config = function()
+      require'luasnip.loaders.from_vscode'.load()
+    end
+  }
 
+  -- show nice icons in completion popups and other places
   use 'onsails/lspkind-nvim'
 
+  -- lookup docs in Dash
   use {'mrjones2014/dash.nvim', run = 'make install'}
 
+  -- zoom/unzoom a window
   use 'nyngwang/NeoZoom.lua'
 
+  -- adds indentation guides using virtual text
   use 'lukas-reineke/indent-blankline.nvim'
 
+  -- highlight trailing whitespace
+  -- :StripWhitespace removes all extra whitespace
   use 'ntpeters/vim-better-whitespace'
 
-  use 'junegunn/limelight.vim'
-
-  -- use 'yamatsum/nvim-cursorline'
-
+  -- provides various commands
+  -- :Delete, :Move, :Rename, others...
   use 'tpope/vim-eunuch'
+
+  use {
+    'anuvyklack/pretty-fold.nvim',
+    config = function()
+      require('pretty-fold').setup {}
+      require('pretty-fold.preview').setup({key = 'h'})
+    end
+  }
 
   if packer_bootstrap then require('packer').sync() end
 end)
 
 -- leave at bottom so packages can be installed before we try working with them
-require('colorbuddy').colorscheme('nord')
+require('colorbuddy').colorscheme('tokyonight')
 require('plugins/neon')
 require('plugins/lsp-installer')
 require('plugins/treesitter')

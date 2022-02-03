@@ -31,9 +31,12 @@ end
 require('telescope').setup {
   defaults = {
     file_ignore_patterns = {'node_modules', 'undodir'},
-    layout_strategy = 'vertical',
-    layout_config = {vertical = {width = 0.8, height = 0.9}},
-    prompt_prefix = '🔍 ',
+    layout_strategy = 'horizontal',
+    layout_config = {
+      vertical = {width = 0.8, height = 0.9},
+      horizontal = {width = 0.8, height = 0.9}
+    },
+    prompt_prefix = ' 🔍 ',
     vimgrep_arguments = {
       'rg', '--hidden', '--color=never', '--no-heading', '--with-filename',
       '--line-number', '--column', '--smart-case', '--iglob', '!.git'
