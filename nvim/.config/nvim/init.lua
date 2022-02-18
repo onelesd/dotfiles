@@ -1,16 +1,17 @@
 require('keymaps')
 require('plugins')
 vim.g.neovide_cursor_vfx_mode = 'pixiedust'
+vim.g.floaterm_opener = 'drop'
 vim.g.gitblame_enabled = 0
 vim.g.gitblame_date_format = '%r • %a %b %d %Y %I:%M%p'
 vim.g.gitblame_message_template = ' [<author> @ <date> • <summary>]'
--- vim.api.nvim_exec([[set guifont=Iosevka\ Nerd\ Font:h14]], false)
 vim.api.nvim_exec([[set guifont=JetBrainsMono\ Nerd\ Font:h13]], false)
 
 vim.opt.termguicolors = true
 vim.opt.syntax = 'off'
 vim.opt.errorbells = false
 vim.opt.smartcase = true
+vim.opt.ignorecase = true
 vim.opt.showmode = false
 vim.opt.swapfile = false
 vim.opt.undodir = vim.fn.stdpath('config') .. '/undodir'
@@ -32,8 +33,6 @@ vim.opt.scrolloff = 5
 vim.opt.mouse = 'a'
 vim.opt.sessionoptions =
     'blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal'
--- vim.opt.foldmethod = 'expr'
--- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 vim.opt.hidden = true
 vim.opt.backup = false

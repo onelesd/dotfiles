@@ -99,6 +99,11 @@ PATH="$GOPATH/bin:$PATH"
 GOPATH=$HOME/go
 GOROOT="$(brew --prefix golang)/libexec"
 PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
+PATH="$PATH:$HOME/bin"
+PATH="$PATH:/Users/dseleno/.asdf/installs/rust/1.58.1/bin"
+
+export EDITOR=nvim
+export VISUAL="nvr --remote-wait +'set bufhidden=wipe'"
 
 # give us a hint on how to scroll when noevim's floaterm is set
 [[ -v FLOATERM ]] && echo "Floaterm Tip: use <C-\\> <C-n> to go to normal mode"

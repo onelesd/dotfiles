@@ -23,6 +23,14 @@ require('packer').startup(function(use)
   use 'shaunsingh/nord.nvim'
   use 'EdenEast/nightfox.nvim'
   use 'folke/tokyonight.nvim'
+  use 'rebelot/kanagawa.nvim'
+  use {'catppuccin/nvim', as = 'catppuccin'}
+  use {
+    'navarasu/onedark.nvim',
+    cofig = function()
+      style = 'darker'
+    end
+  }
 
   -- fancy highlighting and other cool code parsing stuff
   use {
@@ -45,7 +53,12 @@ require('packer').startup(function(use)
   -- use 'mbbill/undotree'
 
   -- go to the last place you were in a file when re-opening it
-  use {'ethanholz/nvim-lastplace', config = require'nvim-lastplace'.setup {}}
+  use {
+    'ethanholz/nvim-lastplace',
+    config = function()
+      require'nvim-lastplace'.setup {}
+    end
+  }
 
   -- helpers for refactoring
   -- use {'nvim-treesitter/nvim-treesitter-refactor'}
@@ -122,9 +135,10 @@ require('packer').startup(function(use)
     requires = {
       {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'},
       {'nvim-telescope/telescope-project.nvim'},
+      {'natecraddock/telescope-zf-native.nvim'},
       -- {'nvim-telescope/telescope-file-browser.nvim'},
       -- {'nvim-telescope/telescope-ui-select.nvim'},
-      {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+      -- {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
       {
         'benfowler/telescope-luasnip.nvim',
         module = 'telescope._extensions.luasnip'
@@ -163,6 +177,8 @@ require('packer').startup(function(use)
   -- zoom/unzoom a window
   use 'nyngwang/NeoZoom.lua'
 
+  use {'folke/trouble.nvim', requires = 'kyazdani42/nvim-web-devicons'}
+
   -- adds indentation guides using virtual text
   use 'lukas-reineke/indent-blankline.nvim'
 
@@ -174,11 +190,30 @@ require('packer').startup(function(use)
   -- :Delete, :Move, :Rename, others...
   use 'tpope/vim-eunuch'
 
+  -- this has nice folding but only works well with hjkl
+  -- use {
+  --   'anuvyklack/pretty-fold.nvim',
+  --   config = function()
+  --     require('pretty-fold').setup {}
+  --     require('pretty-fold.preview').setup({key = 'h'})
+  --   end
+  -- }
+
+  -- make mapping keys easier
+  use 'svermeulen/vimpeccable'
+
+  -- supercharge <C-x> & <C-a> to increment words, like true/false, enabled/disabled
+  use 'Konfekt/vim-CtrlXA'
+
+  -- for working with csv files. wee: https://github.com/chrisbra/csv.vim
   use {
-    'anuvyklack/pretty-fold.nvim',
+    'chrisbra/csv.vim',
     config = function()
-      require('pretty-fold').setup {}
-      require('pretty-fold.preview').setup({key = 'h'})
+      vim.cmd [[
+        augroup filetypedetect
+          au! BufRead,BufNewFile *.csv.gz	setfiletype csv
+        augroup END
+      ]]
     end
   }
 
@@ -186,12 +221,12 @@ require('packer').startup(function(use)
 end)
 
 -- leave at bottom so packages can be installed before we try working with them
-require('colorbuddy').colorscheme('tokyonight')
-require('plugins/neon')
+require('colorbuddy').colorscheme('kanagawa')
 require('plugins/lsp-installer')
 require('plugins/treesitter')
 require('plugins/telescope')
 require('plugins/lualine')
 require('plugins/autopairs')
 require('plugins/indent-blankline')
+require('plugins/trouble')
 -- require('plugins/tree')

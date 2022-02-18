@@ -3,8 +3,8 @@ local lsp_installer = require 'nvim-lsp-installer'
 
 -- Include the servers you want to have installed by default below
 local servers = {
-  'svelte', 'elixirls', 'cssmodules_ls', 'tailwindcss', 'efm', 'yamlls',
-  'tsserver', 'gopls', 'bashls'
+  'svelte', 'elixirls', 'cssmodules_ls', 'tailwindcss', 'yamlls', 'tsserver',
+  'gopls', 'bashls'
 }
 
 local cmp = require 'cmp'
@@ -98,19 +98,19 @@ local enhance_server_opts = {
   ['elixirls'] = function(opts)
     opts.settings = {elixirLS = {dialyzerEnabled = false, fetchDeps = false}}
   end,
-  ['efm'] = function(opts)
-    opts.init_options = {
-      documentFormatting = true,
-      hover = true,
-      documentSymbol = true,
-      codeAction = true,
-      completion = true
-    }
-    opts.filetypes = {
-      'elixir', 'lua', 'svelte', 'yaml', 'javascript', 'javascriptreact',
-      'javascript.jsx', 'typescript', 'typescript.tsx', 'typescriptreact'
-    }
-  end,
+  -- ['efm'] = function(opts)
+  --   opts.init_options = {
+  --     documentFormatting = true,
+  --     hover = true,
+  --     documentSymbol = true,
+  --     codeAction = true,
+  --     completion = true
+  --   }
+  --   opts.filetypes = {
+  --     'elixir', 'lua', 'svelte', 'yaml', 'javascript', 'javascriptreact',
+  --     'javascript.jsx', 'typescript', 'typescript.tsx', 'typescriptreact'
+  --   }
+  -- end,
   ['yamlls'] = function(opts)
     opts.yaml = {
       format = {
@@ -126,6 +126,7 @@ local enhance_server_opts = {
   end,
   ['tsserver'] = function(opts)
     opts.typescript = {format = {enable = false}}
+    opts.javascript = {suggestionActions = {enabled = false}}
   end
 }
 
