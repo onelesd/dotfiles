@@ -126,6 +126,8 @@ require('packer').startup(function(use)
     }
   }
 
+  use 'jose-elias-alvarez/null-ls.nvim'
+
   -- telescope is for finding and searching files
   use {
     'nvim-telescope/telescope.nvim',
@@ -220,6 +222,7 @@ end)
 -- leave at bottom so packages can be installed before we try working with them
 require('colorbuddy').colorscheme('nord')
 -- require('plugins/lsp-installer')
+require('plugins/null-ls')
 require('plugins/lsp-zero')
 require('plugins/treesitter')
 require('plugins/telescope')
