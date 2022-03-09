@@ -91,10 +91,10 @@ require('packer').startup(function(use)
   use 'famiu/bufdelete.nvim'
 
   -- helpers for working with lsp
-  use 'neovim/nvim-lspconfig'
+  -- use 'neovim/nvim-lspconfig'
 
   -- automatic installation & configuration of lsp servers
-  use 'williamboman/nvim-lsp-installer'
+  -- use 'williamboman/nvim-lsp-installer'
   -- use {
   --   'kosayoda/nvim-lightbulb',
   --   config = function()
@@ -104,6 +104,27 @@ require('packer').startup(function(use)
 
   -- use 'evanleck/vim-svelte'
   -- use 'elixir-editors/vim-elixir'
+
+  use {
+    'VonHeikemen/lsp-zero.nvim',
+    requires = {
+      -- LSP Support
+      {'neovim/nvim-lspconfig'},
+      {'williamboman/nvim-lsp-installer'},
+
+      -- Autocompletion
+      {'hrsh7th/nvim-cmp'},
+      {'hrsh7th/cmp-buffer'},
+      {'hrsh7th/cmp-path'},
+      {'saadparwaiz1/cmp_luasnip'},
+      {'hrsh7th/cmp-nvim-lsp'},
+      {'hrsh7th/cmp-nvim-lua'},
+
+      -- Snippets
+      {'L3MON4D3/LuaSnip'},
+      {'rafamadriz/friendly-snippets'},
+    }
+  }
 
   -- telescope is for finding and searching files
   use {
@@ -198,7 +219,8 @@ end)
 
 -- leave at bottom so packages can be installed before we try working with them
 require('colorbuddy').colorscheme('nord')
-require('plugins/lsp-installer')
+-- require('plugins/lsp-installer')
+require('plugins/lsp-zero')
 require('plugins/treesitter')
 require('plugins/telescope')
 require('plugins/lualine')
