@@ -64,6 +64,7 @@ map('n', '<leader>pi',
 map('n', '<leader>pc',
     '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerClean<CR>',
     opts)
+map('n', '<leader>e', '<CMD>Texplore .<CR>', opts)
 
 -- save a copy of current file in same dir
 map('n', '<leader>sa', '<CMD>lua require("plugins/util").saveas()<CR>', opts)

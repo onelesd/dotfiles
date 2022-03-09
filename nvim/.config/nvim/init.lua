@@ -7,6 +7,8 @@ vim.g.gitblame_date_format = '%r • %a %b %d %Y %I:%M%p'
 vim.g.gitblame_message_template = ' [<author> @ <date> • <summary>]'
 vim.api.nvim_exec([[set guifont=JetBrainsMono\ Nerd\ Font:h13]], false)
 
+vim.g.netrw_liststyle = 3
+
 vim.opt.termguicolors = true
 vim.opt.syntax = 'off'
 vim.opt.errorbells = false

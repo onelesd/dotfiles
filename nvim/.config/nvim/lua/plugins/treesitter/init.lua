@@ -2,6 +2,28 @@ require'nvim-treesitter.configs'.setup {
   -- "all", "maintained", or a list of languages
   ensure_installed = 'maintained',
 
+
+  -- https://github.com/JoosepAlviste/nvim-ts-context-commentstring#adding-support-for-more-languages
+  context_commentstring = {
+    enable = true
+  },
+
+  textsubjects = {
+    enable = true,
+    prev_selection = ',', -- (Optional) keymap to select the previous selection
+    keymaps = {
+      ['.'] = 'textsubjects-smart',
+      [';'] = 'textsubjects-container-outer',
+      ['i;'] = 'textsubjects-container-inner',
+    },
+  },
+
+  -- if you get diagnostics errors about an unclosed tag that won't go away
+  -- see here: https://github.com/windwp/nvim-ts-autotag#enable-update-on-insert
+  autotag = {
+    enable = true,
+  },
+
   sync_install = false,
 
   highlight = {

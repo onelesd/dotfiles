@@ -25,8 +25,14 @@ require('packer').startup(function(use)
 
   -- fancy highlighting and other cool code parsing stuff
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
+  use 'windwp/nvim-ts-autotag'
+  use 'RRethy/nvim-treesitter-textsubjects'
   -- use 'nvim-treesitter/nvim-treesitter-textobjects'
   -- use 'nvim-treesitter/nvim-treesitter-refactor'
+
+  -- make netrw more awesome
+  use 'tpope/vim-vinegar'
 
   -- open and work with repl's in various languages
   use {
@@ -111,6 +117,7 @@ require('packer').startup(function(use)
       -- LSP Support
       {'neovim/nvim-lspconfig'},
       {'williamboman/nvim-lsp-installer'},
+      {'jose-elias-alvarez/nvim-lsp-ts-utils'},
 
       -- Autocompletion
       {'hrsh7th/nvim-cmp'},

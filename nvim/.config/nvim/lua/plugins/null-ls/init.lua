@@ -3,6 +3,7 @@ local builtins = null_ls.builtins
 local formatting = builtins.formatting
 local diagnostics = builtins.diagnostics
 local code_actions = builtins.code_actions
+local command_resolver = null_ls.command_resolver
 local sources = {
   -- diagnostics.eslint.with({
   --   condition = function(utils) -- truthy use source, falsy don't
@@ -46,6 +47,9 @@ local sources = {
       "markdown",
       "svelte",
     },
+    only_local = true,
+    command = "assets/node_modules/.bin/prettier",
+    extra_args = { "--config", "assets/.prettierrc.json" }
   }),
   formatting.rustywind.with({
     filetypes = { "javascript", "typescript", "svelte" },
@@ -73,6 +77,17 @@ local sources = {
   }),
   diagnostics.eslint_d.with({
     filetypes = { "javascript", "typescript", "svelte" },
+    only_local = true,
+    -- should adapt this to work with any project tree with dynamic_command
+    command = "assets/node_modules/.bin/eslint_d",
+    extra_args = { "-c", "assets/.eslintrc.js", "--ignore-path", "assets/.eslintignore" }
+  }),
+  code_actions.eslint_d.with({
+    filetypes = { "javascript", "typescript", "svelte" },
+    only_local = true,
+    -- should adapt this to work with any project tree with dynamic_command
+    command = "assets/node_modules/.bin/eslint_d",
+    extra_args = { "-c", "assets/.eslintrc.js", "--ignore-path", "assets/.eslintignore" }
   }),
   diagnostics.gitlint.with({
     filetypes = { "gitcommit" },
@@ -100,6 +115,9 @@ local sources = {
   }),
   diagnostics.stylelint.with({
     filetypes = { "css" },
+    only_local = true,
+    command = "assets/node_modules/.bin/stylelint",
+    extra_args = {"--config", "assets/.stylelintrc.json"}
   }),
   diagnostics.write_good.with({
     filetypes = { "markdown" },
@@ -109,9 +127,6 @@ local sources = {
   }),
   diagnostics.tsc.with({
     filetypes = { "typescript" },
-  }),
-  code_actions.eslint_d.with({
-    filetypes = { "javascript", "typescript", "svelte" },
   }),
   code_actions.gitsigns.with({
     filetypes = {},
