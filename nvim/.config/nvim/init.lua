@@ -1,7 +1,7 @@
 require('keymaps')
 require('plugins')
-vim.g.neovide_cursor_vfx_mode = 'pixiedust'
-vim.g.floaterm_opener = 'drop'
+
+vim.g.floaterm_opener = 'drop' -- opens buffer if already open
 vim.g.gitblame_enabled = 0
 vim.g.gitblame_date_format = '%r • %a %b %d %Y %I:%M%p'
 vim.g.gitblame_message_template = ' [<author> @ <date> • <summary>]'

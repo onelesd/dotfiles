@@ -11,9 +11,6 @@ require('packer').startup(function(use)
   -- packer packer
   use 'wbthomason/packer.nvim'
 
-  -- tree explorer
-  -- use 'kyazdani42/nvim-tree.lua'
-
   -- git blame in virtual text
   use 'f-person/git-blame.nvim'
 
@@ -25,21 +22,11 @@ require('packer').startup(function(use)
   use 'folke/tokyonight.nvim'
   use 'rebelot/kanagawa.nvim'
   use {'catppuccin/nvim', as = 'catppuccin'}
-  use {
-    'navarasu/onedark.nvim',
-    cofig = function()
-      style = 'darker'
-    end
-  }
 
   -- fancy highlighting and other cool code parsing stuff
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    requires = {'elixir-lang/tree-sitter-elixir'},
-    run = ':TSUpdate'
-  }
-  use {'nvim-treesitter/playground', run = ':TSInstall query'}
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   -- use 'nvim-treesitter/nvim-treesitter-textobjects'
+  -- use 'nvim-treesitter/nvim-treesitter-refactor'
 
   -- open and work with repl's in various languages
   use {
@@ -49,9 +36,6 @@ require('packer').startup(function(use)
     end
   }
 
-  -- view and navigate the undo tree
-  -- use 'mbbill/undotree'
-
   -- go to the last place you were in a file when re-opening it
   use {
     'ethanholz/nvim-lastplace',
@@ -59,9 +43,6 @@ require('packer').startup(function(use)
       require'nvim-lastplace'.setup {}
     end
   }
-
-  -- helpers for refactoring
-  -- use {'nvim-treesitter/nvim-treesitter-refactor'}
 
   -- comment(ary)
   use {
@@ -72,12 +53,7 @@ require('packer').startup(function(use)
   }
 
   -- auto brackets
-  use {
-    'windwp/nvim-autopairs',
-    config = function()
-      require'nvim-autopairs'.setup {}
-    end
-  }
+  use 'windwp/nvim-autopairs'
 
   -- status line
   use {
@@ -200,7 +176,7 @@ require('packer').startup(function(use)
   -- }
 
   -- make mapping keys easier
-  use 'svermeulen/vimpeccable'
+  -- use 'svermeulen/vimpeccable'
 
   -- supercharge <C-x> & <C-a> to increment words, like true/false, enabled/disabled
   use 'Konfekt/vim-CtrlXA'
@@ -221,7 +197,7 @@ require('packer').startup(function(use)
 end)
 
 -- leave at bottom so packages can be installed before we try working with them
-require('colorbuddy').colorscheme('kanagawa')
+require('colorbuddy').colorscheme('nord')
 require('plugins/lsp-installer')
 require('plugins/treesitter')
 require('plugins/telescope')

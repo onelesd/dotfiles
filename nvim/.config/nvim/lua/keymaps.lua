@@ -17,8 +17,20 @@ map('n', '<C-\\>', '<CMD>set paste<CR>a<C-r>+<ESC><CMD>set nopaste<CR>', opts)
 map('i', '<C-\\>', '<C-o><CMD>set paste<CR><C-r>+<C-o><CMD>set nopaste<CR>',
     opts)
 
+map('n', 'gl',
+    '<CMD>lua vim.diagnostic.open_float(nil, {focus = false, border = "single"})<CR>',
+    opts)
+map('n', '[d',
+    '<CMD>lua vim.diagnostic.goto_prev({float = {focus = false, border = "single"}})<CR>',
+    opts)
+map('n', ']d',
+    '<CMD>lua vim.diagnostic.goto_next({float = {focus = false, border = "single"}})<CR>',
+    opts)
+
 -- telescope stuff
 map('n', '<leader><leader>',
+    '<CMD>lua require("plugins/util").telescope_buffers()<CR>', opts)
+map('n', '<leader>ff',
     '<CMD>lua require("plugins/util").telescope_find_files()<CR>', opts)
 map('n', '<leader>sp',
     '<CMD>lua require("plugins/util").telescope_live_grep()<CR>', opts)
@@ -31,8 +43,6 @@ map('n', '<leader>sf',
 map('v', '<leader>sf',
     '"zy<CMD>lua require("plugins/util").telescope_current_buffer_fuzzy_find("<C-r>z")<CR>',
     opts)
-map('n', '<leader>bb',
-    '<CMD>lua require("plugins/util").telescope_buffers()<CR>', opts)
 map('n', '<leader>hh',
     '<CMD>lua require("plugins/util").telescope_help_tags()<CR>', opts)
 map('n', '<leader>pp',
@@ -69,7 +79,8 @@ map('n', '<leader>z', '<CMD>NeoZoomToggle<CR>', opts)
 -- pretend we're magit
 local term_base = '<CMD>hi FloatermBorder guifg=#24283b<CR>'
                       .. '<CMD>FloatermNew --width=0.9 --height=0.9 '
-                      .. '--borderchars=▀▐▄▌▛▜▟▙ '
+                      .. '--borderchars='
+                      .. table.concat(require('plugins/util').borderchars) .. ' '
                       .. '--autoclose='
 -- .. '--borderchars=─│─│╭╮╯╰ '
 map('n', '<leader>t', term_base .. '1 /bin/zsh<CR>', opts)
@@ -81,23 +92,21 @@ map('n', '<leader>mt', term_base .. '0 mix test<CR>', opts)
 map('n', '<leader>mf', term_base .. '0 mix test %<CR>', opts)
 map('n', '<leader>mF', '<CMD>lua require("plugins/util").mix_test_line()<CR>',
     opts)
--- map('n', '<leader>mF',
---     term_base .. '0 cd apps/arcamax_web && mix assets.fix<CR>', opts)
 
 -- common code-related doings
 map('n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>', opts)
 map('n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>', opts)
--- map('n', '<leader>d',
---     '<CMD>lua require"telescope.builtin".diagnostics({bufnr = 0})<CR>', opts)
--- map('n', '<leader>D', '<CMD>lua require"telescope.builtin".diagnostics()<CR>',
---     opts)
 map('n', '<leader>d', '<CMD>Trouble document_diagnostics<CR>', opts)
 map('n', '<leader>D', '<CMD>Trouble workspace_diagnostics<CR>', opts)
+map('n', '<leader>xd', '<CMD>lua vim.diagnostic.reset()<CR>', opts)
+map('n', '<leader>T', '<CMD>Trouble<CR>', opts)
 map('n', '<leader>rn', '<CMD>lua require"lspsaga.rename".rename()<CR>', opts)
 
 -- show doc for symbol
 map('n', 'K', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
-map('v', 'K', '"zy<CMD>Dash <C-r>d<CR>', opts)
+map('v', 'K',
+    '<CMD>lua require"dash.providers.telescope".dash({ bang = false, initial_text = vim.fn.expand("<cword>") })<CR>',
+    opts)
 
 -- open/close vim configs
 local dotfiles = '~/dotfiles/nvim/.config/nvim'

@@ -1,10 +1,11 @@
 -- TODO clean up this dumping ground
 local lsp_installer = require 'nvim-lsp-installer'
+local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
 
 -- Include the servers you want to have installed by default below
 local servers = {
   'svelte', 'elixirls', 'cssmodules_ls', 'tailwindcss', 'yamlls', 'tsserver',
-  'gopls', 'bashls'
+  'gopls', 'bashls', 'sumneko_lua'
 }
 
 local cmp = require 'cmp'
@@ -54,6 +55,10 @@ cmp.setup({
   }
 })
 
+-- see: https://github.com/windwp/nvim-autopairs#you-need-to-add-mapping-cr-on-nvim-cmp-setupcheck-readmemd-on-nvim-cmp-repo
+cmp.event:on('confirm_done',
+             cmp_autopairs.on_confirm_done({map_char = {tex = ''}}))
+
 -- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline('/', {sources = {{name = 'buffer'}}})
 
@@ -73,7 +78,7 @@ for _, name in pairs(servers) do
 end
 
 -- show long diagnostic inlines in a float
-vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus = false, border = "single"})]]
+-- vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus = false, border = "single"})]]
 -- disable inline diagnostics
 vim.diagnostic.config({virtual_text = false, update_in_insert = true})
 
@@ -112,6 +117,12 @@ local enhance_server_opts = {
   --     'javascript.jsx', 'typescript', 'typescript.tsx', 'typescriptreact'
   --   }
   -- end,
+  ['cssmodules_ls'] = function(opts)
+    opts.filetypes = {
+      'javascript', 'javascriptreact', 'typesscript', 'typescriptreact', 'css',
+      'scss', 'sass'
+    }
+  end,
   ['yamlls'] = function(opts)
     opts.yaml = {
       format = {
@@ -124,6 +135,14 @@ local enhance_server_opts = {
   end,
   ['svelte'] = function(opts)
     opts.svelte = {format = {enable = false}}
+  end,
+  ['sumneko_lua'] = function(opts)
+    opts.settings = {
+      Lua = {
+        runtime = {version = 'LuaJIT', path = vim.split(package.path, ';')},
+        diagnostics = {globals = {'vim'}, disable = {'lowercase-global'}}
+      }
+    }
   end,
   ['tsserver'] = function(opts)
     opts.typescript = {format = {enable = false}}

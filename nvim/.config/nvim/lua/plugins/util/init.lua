@@ -1,3 +1,4 @@
+local borderchars = {'─', '│', '─', '│', '┌', '┐', '┘', '└'}
 local opts = {
   debounce = 100,
   width = 0.8,
@@ -12,9 +13,10 @@ local opts = {
     horizontal = {width = 0.8, height = 0.9}
   },
   borderchars = {
-    prompt = {'▀', '▐', '▄', '▌', '▛', '▜', '▟', '▙'},
-    results = {'▀', '▐', '▄', '▌', '▌', '▐', '▟', '▙'},
-    preview = {'▀', '▐', '▄', '▌', '▛', '▜', '▟', '▙'}
+    borderchars,
+    prompt = borderchars,
+    results = borderchars,
+    preview = borderchars
   },
   vimgrep_arguments = {
     'rg', '--hidden', '--color=never', '--no-heading', '--with-filename',
@@ -51,6 +53,7 @@ local enhance_opts = {
 }
 
 return {
+  borderchars = borderchars,
   telescope_find_files = function()
     require('telescope.builtin').find_files(enhance_opts['find_files'](opts))
   end,
@@ -86,10 +89,9 @@ return {
   end,
   mix_test_line = function()
     local linenum = vim.api.nvim_win_get_cursor(0)[1]
-    vim.cmd('hi FloatermBorder guifg=#24283b')
-    vim.cmd(
-        'FloatermNew --width=0.9 --height=0.9 --borderchars=▀▐▄▌▛▜▟▙ --autoclose=0 mix test %:'
-            .. linenum)
+    vim.cmd('hi FloatermBorder guifg=transparent')
+    vim.cmd('FloatermNew --width=0.9 --height=0.9 --borderchars=' .. borderchars
+                .. ' --autoclose=0 mix test %:' .. linenum)
   end
 }
 
