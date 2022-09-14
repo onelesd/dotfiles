@@ -1,28 +1,36 @@
 [user]
-  name = "Dave Seleno"
-	email = 958603+onelesd@users.noreply.github.com
+  email = dave.seleno@nike.com
+  name = Dave Seleno
 [color]
   ui = auto
 [help]
-	autoCorrect = prompt
+  autoCorrect = prompt
+[push]
+  default = current
+  autoSetupRemote = true
 [pull]
-	ff = only
+  ff = only
 [core]
-	excludesfile = /Users/dseleno/.gitignore_global
-	editor = nvim
+  excludesfile = /Users/dseleno/.gitignore_global
+  editor = nvim
   pager = delta
 [http]
-	version = HTTP/2
-	postBuffer = 1048576000
+  version = HTTP/2
+  postBuffer = 1048576000
 [interactive]
-    diffFilter = delta --color-only --syntax-theme=NeonDark
+  diffFilter = delta --color-only --syntax-theme=NeonDark
 [delta]
-    navigate = true
+  navigate = true
 [merge]
-    conflictstyle = diff3
+  conflictstyle = diff3
 [diff]
-    colorMoved = default
+  colorMoved = default
 [alias]
-        l = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --
+  l = log --graph --pretty=format:'%Cred%h%Creset %C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative --
 [init]
-	defaultBranch = main
+  defaultBranch = main
+[filter "lfs"]
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
+  clean = git-lfs clean -- %f
