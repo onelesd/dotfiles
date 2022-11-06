@@ -15,14 +15,14 @@ require('packer').startup(function(use)
   use 'f-person/git-blame.nvim'
 
   -- nice colors
-  use 'tjdevries/colorbuddy.nvim'
-  use 'rafamadriz/neon'
-  use 'shaunsingh/nord.nvim'
   use 'rmehri01/onenord.nvim'
-  use 'EdenEast/nightfox.nvim'
-  use 'folke/tokyonight.nvim'
-  use 'rebelot/kanagawa.nvim'
-  use {'catppuccin/nvim', as = 'catppuccin'}
+  -- use 'tjdevries/colorbuddy.nvim'
+  -- use 'rafamadriz/neon'
+  -- use 'shaunsingh/nord.nvim'
+  -- use 'EdenEast/nightfox.nvim'
+  -- use 'folke/tokyonight.nvim'
+  -- use 'rebelot/kanagawa.nvim'
+  -- use {'catppuccin/nvim', as = 'catppuccin'}
 
   -- fancy highlighting and other cool code parsing stuff
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
@@ -253,7 +253,7 @@ require('packer').startup(function(use)
 end)
 
 -- leave at bottom so packages can be installed before we try working with them
-require('plugins/nord')
+require('plugins/onenord')
 -- require('plugins/catppuccin')
 -- require('plugins/lsp-installer')
 require('plugins/null-ls')
