@@ -21,6 +21,7 @@ require('gitsigns').setup({
       return '<Ignore>'
     end, {expr=true})
 
-    map('n', '<leader>hd', gs.diffthis)
+    map('n', '<leader>gd', gs.diffthis)
+    map('n', '<leader>gp', gs.preview_hunk)
   end
 })

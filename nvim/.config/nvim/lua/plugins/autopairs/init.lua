@@ -6,5 +6,5 @@ require'nvim-autopairs'.setup {
   -- --------------------------------------------------
   -- (|foobar      <M-e> then press $        (|foobar)
   -- (|)(foobar)   <M-e> then press q       (|(foobar))
-  fast_wrap = {}
+  -- fast_wrap = {}
 }

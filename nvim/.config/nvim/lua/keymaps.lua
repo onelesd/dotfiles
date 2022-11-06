@@ -99,10 +99,10 @@ map('n', '<leader>gg', term_base .. '1 lazygit<CR>', opts)
 --     opts)
 
 -- common code-related doings
-map('n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>', opts)
--- map('n', 'gd', '<Cmd>Lspsaga lsp_finder<CR>', opts)
-map('n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>', opts)
-map('n', 'gp', '<Cmd>Lspsaga preview_definition<CR>', opts)
+-- map('n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>', opts)
+map('n', 'gd', '<Cmd>Lspsaga lsp_finder<CR>', opts)
+-- map('n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>', opts)
+map('n', 'gp', '<Cmd>Lspsaga peek_definition<CR>', opts)
 map('n', 'ga', '<Cmd>Lspsaga code_action<CR>', opts)
 map('n', '<leader>d', '<CMD>Trouble document_diagnostics<CR>', opts)
 map('n', '<leader>D', '<CMD>Trouble workspace_diagnostics<CR>', opts)
@@ -111,7 +111,8 @@ map('n', '<leader>T', '<CMD>Trouble<CR>', opts)
 map('n', '<leader>rn', '<CMD>lua require"lspsaga.rename".rename()<CR>', opts)
 
 -- show doc for symbol
-map('n', 'K', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
+-- map('n', 'K', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
+map('n', 'K', '<CMD>Lspsaga hover_doc<CR>', opts)
 -- map('v', 'K',
 --     '<CMD>lua require"dash.providers.telescope".dash({ bang = false, initial_text = vim.fn.expand("<cword>") })<CR>',
 --     opts)

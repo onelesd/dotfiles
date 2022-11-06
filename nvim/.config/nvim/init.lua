@@ -58,8 +58,7 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.number = true
-vim.opt.relativenumber = true
-vim.opt.signcolumn = 'number'
+vim.opt.relativenumber = false
 vim.opt.wrap = true
 vim.opt.scrolloff = 5
 vim.opt.mouse = 'a'
@@ -72,7 +71,7 @@ vim.opt.writebackup = false
 vim.opt.updatetime = 300
 vim.g.cursorline_timeout = 300
 vim.opt.shortmess = 'filnxtToOFc'
-vim.opt.signcolumn = 'number'
+vim.opt.signcolumn = 'yes:2'
 
 -- folding
 -- vim.opt.foldmethod = 'expr'
@@ -82,4 +81,7 @@ vim.opt.signcolumn = 'number'
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])
+
+-- tell vim to map +Esc to <M-e>
+-- vim.cmd([[set <M-e>=e]])
 

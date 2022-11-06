@@ -149,7 +149,8 @@ require('packer').startup(function(use)
   }
 
   -- ui sugar for lsp
-  use 'tami5/lspsaga.nvim'
+  -- use 'tami5/lspsaga.nvim'
+  use 'glepnir/lspsaga.nvim'
 
   -- autocompletion
   use {
@@ -217,6 +218,7 @@ require('packer').startup(function(use)
   use {
     'chrisbra/csv.vim',
     config = function()
+
       vim.cmd [[
         augroup filetypedetect
           au! BufRead,BufNewFile *.csv.gz	setfiletype csv

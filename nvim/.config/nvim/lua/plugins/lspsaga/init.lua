@@ -8,7 +8,7 @@ require('lspsaga').init_lsp_saga {
 vim.cmd([[
   augroup lspsaga_filetypes
     autocmd!
-    autocmd FileType LspsagaCodeAction nnoremap <buffer><nowait><silent> <Esc> <cmd>close!<cr>
+    autocmd FileType LspsagaCodeAction,LspsagaFinder,LspsagaRename nnoremap <buffer><nowait><silent> <Esc> <cmd>close!<cr>
   augroup END
 ]])
 -- LspsagaCodeAction
