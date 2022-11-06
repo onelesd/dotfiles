@@ -18,6 +18,7 @@ require('packer').startup(function(use)
   use 'tjdevries/colorbuddy.nvim'
   use 'rafamadriz/neon'
   use 'shaunsingh/nord.nvim'
+  use 'rmehri01/onenord.nvim'
   use 'EdenEast/nightfox.nvim'
   use 'folke/tokyonight.nvim'
   use 'rebelot/kanagawa.nvim'
@@ -32,7 +33,10 @@ require('packer').startup(function(use)
   -- use 'nvim-treesitter/nvim-treesitter-refactor'
 
   -- make netrw more awesome
-  use 'tpope/vim-vinegar'
+  -- there is an unfortunate bug whereby these buffers are not deletable
+  -- use 'tpope/vim-vinegar'
+
+  use 'jeetsukumaran/vim-filebeagle'
 
   -- open and work with repl's in various languages
   use {
@@ -54,18 +58,31 @@ require('packer').startup(function(use)
   use {
     'terrortylor/nvim-comment',
     config = function()
-      require'nvim_comment'.setup {}
+      require('nvim_comment').setup {}
     end
   }
 
   -- auto brackets
   use 'windwp/nvim-autopairs'
 
-  -- status line
+  -- web devicons
   use {
-    'nvim-lualine/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true}
+    'kyazdani42/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup {
+        -- your personnal icons can go here (to override)
+        -- DevIcon will be appended to `name`
+        override = {
+        },
+        -- globally enable default icons (default to false)
+        -- will get overriden by `get_icons` option
+        default = true
+      }
+    end
   }
+
+  -- status line
+  use 'nvim-lualine/lualine.nvim'
 
   -- git signs in the gutter
   use {
@@ -142,9 +159,8 @@ require('packer').startup(function(use)
       {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'},
       {'nvim-telescope/telescope-project.nvim'},
       {'natecraddock/telescope-zf-native.nvim'},
-      -- {'nvim-telescope/telescope-file-browser.nvim'},
-      -- {'nvim-telescope/telescope-ui-select.nvim'},
-      -- {'nvim-telescope/telescope-fzf-native.nvim', run = 'make'},
+      {'nvim-telescope/telescope-frecency.nvim'},
+      {'kkharji/sqlite.lua'},
       {
         'benfowler/telescope-luasnip.nvim',
         module = 'telescope._extensions.luasnip'
@@ -178,12 +194,22 @@ require('packer').startup(function(use)
   use 'onsails/lspkind-nvim'
 
   -- lookup docs in Dash
-  use {'mrjones2014/dash.nvim', run = 'make install'}
+  -- use {'mrjones2014/dash.nvim', run = 'make install'}
 
   -- zoom/unzoom a window
-  use 'nyngwang/NeoZoom.lua'
+  -- use 'nyngwang/NeoZoom.lua'
 
-  use {'folke/trouble.nvim', requires = 'kyazdani42/nvim-web-devicons'}
+  use 'folke/trouble.nvim'
+
+  use {
+    'ruifm/gitlinker.nvim',
+    requires = 'nvim-lua/plenary.nvim',
+    config = function()
+      require"gitlinker".setup({
+        mappings = nil,
+      })
+    end
+  }
 
   -- adds indentation guides using virtual text
   use 'lukas-reineke/indent-blankline.nvim'
@@ -227,14 +253,17 @@ require('packer').startup(function(use)
 end)
 
 -- leave at bottom so packages can be installed before we try working with them
-require('colorbuddy').colorscheme('nord')
+require('plugins/nord')
+-- require('plugins/catppuccin')
 -- require('plugins/lsp-installer')
 require('plugins/null-ls')
 require('plugins/lsp-zero')
+require('plugins/lspsaga')
 require('plugins/treesitter')
 require('plugins/telescope')
 require('plugins/lualine')
 require('plugins/autopairs')
 require('plugins/indent-blankline')
 require('plugins/trouble')
+require('plugins/snippets')
 -- require('plugins/tree')

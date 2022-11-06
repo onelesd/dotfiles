@@ -1,6 +1,18 @@
 local lsp = require("lsp-zero")
 local lsp_ts_utils = require('nvim-lsp-ts-utils')
 
+-- this feels like the wrong place to put this, but also the best
+-- to get syntax highlighting for terraform files
+vim.cmd([[
+  autocmd BufNewFile,BufRead *.tf set syntax=tf
+]])
+
+-- to set some json files to jsonc so comments aren't errors
+vim.cmd([[
+  autocmd BufNewFile,BufRead tsconfig.json setlocal filetype=jsonc
+  autocmd BufNewFile,BufRead rush.json setlocal filetype=jsonc
+]])
+
 lsp.preset("recommended")
 lsp.set_preferences({
 	set_lsp_keymaps = false,
@@ -61,6 +73,31 @@ lsp_configure("cssmodules_ls", {
 	},
 })
 
+lsp_configure("yamlls", {
+  settings = {
+    yaml = {
+      customTags = {
+        "!Equals sequence",
+        "!FindInMap sequence",
+        "!GetAtt scalar",
+        "!GetAZs scalar",
+        "!ImportValue scalar",
+        "!Join sequence scalar",
+        "!Ref scalar",
+        "!Select sequence",
+        "!Split sequence",
+        "!Sub scalar",
+        "!And sequence",
+        "!Not sequence",
+        "!Equals sequence",
+        "!Sub sequence",
+        "!ImportValue scalar",
+        "!If sequence"
+      }
+    }
+  }
+})
+
 lsp_configure("elixirls", {
 	settings = {
 		elixirLS = {
@@ -73,8 +110,20 @@ lsp_configure("elixirls", {
 lsp_configure("sumneko_lua", {
 	settings = {
 		Lua = {
-			runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
-			diagnostics = { globals = { "vim" }, disable = { "lowercase-global" } },
+			runtime = {
+        version = "LuaJIT",
+        path = vim.split(package.path, ";")
+      },
+			diagnostics = {
+        globals = {
+          "vim",
+          "hs", -- hammerspoon
+          "spoon" -- hammerspoon
+        },
+        disable = {
+          "lowercase-global"
+        }
+      },
 		},
 	},
 })

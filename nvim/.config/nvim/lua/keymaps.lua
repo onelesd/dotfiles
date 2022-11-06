@@ -12,6 +12,9 @@ map('n', '<CR>', ':noh<CR><CR>', opts) -- clear search on enter
 -- map('n', '<LEFT>', '<C-w><LEFT>', opts) -- h
 -- map('n', '<RIGHT>', '<C-w><RIGHT>', opts) -- l
 
+-- easy move between windows
+-- map('n', '<Backspace>', '<C-w><C-w>', opts)
+
 -- <C-p> system clipboard paste because CMD-anything doesn't work in neovide
 map('n', '<C-\\>', '<CMD>set paste<CR>a<C-r>+<ESC><CMD>set nopaste<CR>', opts)
 map('i', '<C-\\>', '<C-o><CMD>set paste<CR><C-r>+<C-o><CMD>set nopaste<CR>',
@@ -29,41 +32,44 @@ map('n', ']d',
 
 -- telescope stuff
 map('n', '<leader><leader>',
-    '<CMD>lua require("plugins/util").telescope_buffers()<CR>', opts)
-map('n', '<leader>ff',
     '<CMD>lua require("plugins/util").telescope_find_files()<CR>', opts)
+map('n', '<leader>bb',
+    '<CMD>lua require("plugins/util").telescope_buffers()<CR>', opts)
 map('n', '<leader>sp',
     '<CMD>lua require("plugins/util").telescope_live_grep()<CR>', opts)
 map('v', '<leader>sp',
-    '"zy<CMD>lua require("plugins/util").telescope_live_grep(vim.fn.getreg("z"))<CR>',
+    '"zy<CMD>lua require("plugins/util").telescope_live_grep(vim.fn.getreg("z"))<CR>qzq',
     opts)
 map('n', '<leader>sf',
     '<CMD>lua require("plugins/util").telescope_current_buffer_fuzzy_find()<CR>',
     opts)
 map('v', '<leader>sf',
-    '"zy<CMD>lua require("plugins/util").telescope_current_buffer_fuzzy_find("<C-r>z")<CR>',
+    '"zy<CMD>lua require("plugins/util").telescope_current_buffer_fuzzy_find(vim.fn.getreg("z"))qzq<CR>',
     opts)
 map('n', '<leader>hh',
     '<CMD>lua require("plugins/util").telescope_help_tags()<CR>', opts)
 map('n', '<leader>pp',
     '<CMD>lua require("plugins/util").telescope_project()<CR>', opts)
+map('n', '<leader>rf',
+    '<CMD>lua require("plugins/util").telescope_recent()<CR>', opts)
 
-map('n', '<leader>ix',
-    '<CMD>tabnew ~/tmp/neovim_iex.exs<CR><CMD>vsplit term://iex -S mix<CR><C-w>w',
-    opts)
+-- map('n', '<leader>ix',
+--     '<CMD>tabnew ~/tmp/neovim_iex.exs<CR><CMD>vsplit term://iex -S mix<CR><C-w>w',
+--     opts)
 map('n', '<leader>iX',
     '<C-w><RIGHT><CMD>bdelete!<CR>A<C-c><C-c><CMD>sleep 100m<CR><C-c>', opts)
 
-map('n', '<leader>md', '<CMD>lua require("plugins/util").mix_latest()<CR>', opts)
+-- map('n', '<leader>md', '<CMD>lua require("plugins/util").mix_latest()<CR>', opts)
 
 map('n', '<leader>gb', '<CMD>GitBlameToggle<CR>', opts)
+map('n', '<leader>go', '<cmd>lua require"gitlinker".get_buf_range_url("n", {action_callback = require"gitlinker.actions".open_in_browser})<cr>', opts)
 
-map('n', '<leader>pi',
-    '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerInstall<CR>',
-    opts)
-map('n', '<leader>pc',
-    '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerClean<CR>',
-    opts)
+-- map('n', '<leader>pi',
+--     '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerInstall<CR>',
+--     opts)
+-- map('n', '<leader>pc',
+--     '<CMD>source ~/.config/nvim/lua/plugins/init.lua<CR><CMD>PackerCompile<CR><CMD>PackerClean<CR>',
+--     opts)
 map('n', '<leader>e', '<CMD>Texplore .<CR>', opts)
 
 -- save a copy of current file in same dir
@@ -72,10 +78,9 @@ map('n', '<leader>sa', '<CMD>lua require("plugins/util").saveas()<CR>', opts)
 -- navigate tab-like for buffers
 map('n', '<leader>gx', '<CMD>tabclose<CR>', opts)
 map('n', '<leader>bx', '<CMD>Bdelete<CR>', opts)
-map('n', '<TAB>', '<CMD>bnext<CR>', opts)
-map('n', '<S-TAB>', '<CMD>bprev<CR>', opts)
+map('n', '<TAB>', '<C-W><C-W>', opts)
 map('n', '<leader>bo', '<CMD>%bd|e#|bd#<CR>', opts) -- kill all other buffers
-map('n', '<leader>z', '<CMD>NeoZoomToggle<CR>', opts)
+-- map('n', '<leader>z', '<CMD>NeoZoomToggle<CR>', opts)
 
 -- pretend we're magit
 local term_base = '<CMD>hi FloatermBorder guifg=#24283b<CR>'
@@ -85,18 +90,20 @@ local term_base = '<CMD>hi FloatermBorder guifg=#24283b<CR>'
                       .. '--autoclose='
 -- .. '--borderchars=─│─│╭╮╯╰ '
 map('n', '<leader>t', term_base .. '1 /bin/zsh<CR>', opts)
-map('n', '<leader>g', term_base .. '1 lazygit<CR>', opts)
 map('n', '<leader>gg', term_base .. '1 lazygit<CR>', opts)
 
 -- mix tests
-map('n', '<leader>mt', term_base .. '0 mix test<CR>', opts)
-map('n', '<leader>mf', term_base .. '0 mix test %<CR>', opts)
-map('n', '<leader>mF', '<CMD>lua require("plugins/util").mix_test_line()<CR>',
-    opts)
+-- map('n', '<leader>mt', term_base .. '0 mix test<CR>', opts)
+-- map('n', '<leader>mf', term_base .. '0 mix test %<CR>', opts)
+-- map('n', '<leader>mF', '<CMD>lua require("plugins/util").mix_test_line()<CR>',
+--     opts)
 
 -- common code-related doings
 map('n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>', opts)
+-- map('n', 'gd', '<Cmd>Lspsaga lsp_finder<CR>', opts)
 map('n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>', opts)
+map('n', 'gp', '<Cmd>Lspsaga preview_definition<CR>', opts)
+map('n', 'ga', '<Cmd>Lspsaga code_action<CR>', opts)
 map('n', '<leader>d', '<CMD>Trouble document_diagnostics<CR>', opts)
 map('n', '<leader>D', '<CMD>Trouble workspace_diagnostics<CR>', opts)
 map('n', '<leader>xd', '<CMD>lua vim.diagnostic.reset()<CR>', opts)
@@ -105,9 +112,9 @@ map('n', '<leader>rn', '<CMD>lua require"lspsaga.rename".rename()<CR>', opts)
 
 -- show doc for symbol
 map('n', 'K', '<CMD>lua vim.lsp.buf.hover()<CR>', opts)
-map('v', 'K',
-    '<CMD>lua require"dash.providers.telescope".dash({ bang = false, initial_text = vim.fn.expand("<cword>") })<CR>',
-    opts)
+-- map('v', 'K',
+--     '<CMD>lua require"dash.providers.telescope".dash({ bang = false, initial_text = vim.fn.expand("<cword>") })<CR>',
+--     opts)
 
 -- open/close vim configs
 local dotfiles = '~/dotfiles/nvim/.config/nvim'
@@ -122,5 +129,4 @@ map('n', '<leader>vp', config_edit .. '<C-w><DOWN><CR>', opts)
 map('n', '<leader>vk', config_edit .. '<C-w><DOWN><CR><C-w><LEFT><CR>', opts)
 
 map('n', '<leader>V',
-
     '<CMD>bdelete<CR><CMD>bdelete<CR><CMD>bdelete<CR><CMD>bdelete<CR>', opts)

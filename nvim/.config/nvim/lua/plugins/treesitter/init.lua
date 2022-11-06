@@ -1,7 +1,6 @@
 require'nvim-treesitter.configs'.setup {
   -- "all", "maintained", or a list of languages
-  ensure_installed = 'maintained',
-
+  ensure_installed = {'json', 'toml', 'yaml', 'typescript'},
 
   -- https://github.com/JoosepAlviste/nvim-ts-context-commentstring#adding-support-for-more-languages
   context_commentstring = {

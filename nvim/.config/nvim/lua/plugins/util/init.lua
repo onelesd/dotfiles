@@ -49,6 +49,10 @@ local enhance_opts = {
   ['project'] = function(opts)
     opts.prompt_prefix = 'Projects> '
     return opts
+  end,
+  ['recent'] = function(opts)
+    opts.prompt_prefix = 'Recent> '
+    return opts
   end
 }
 
@@ -75,6 +79,10 @@ return {
   telescope_project = function()
     require('telescope').extensions.project.project(
         enhance_opts['project'](opts))
+  end,
+  telescope_recent = function()
+    require('telescope').extensions.frecency.frecency(enhance_opts['recent'](opts))
+    -- require('telescope.builtin').oldfiles()
   end,
   mix_latest = function()
     local package = vim.fn.input('Package name: ')

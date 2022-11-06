@@ -1,7 +1,8 @@
 require'lualine'.setup {
   options = {
     icons_enabled = true,
-    theme = 'auto',
+    -- theme = 'auto',
+    theme = 'nord',
     component_separators = {left = '', right = ''},
     section_separators = {left = '', right = ''},
     disabled_filetypes = {},
@@ -9,8 +10,9 @@ require'lualine'.setup {
   },
   sections = {
     lualine_a = {'mode'},
-    lualine_b = {'branch', 'diff', {'diagnostics', sources = {'nvim_lsp'}}},
-    lualine_c = {'filename'},
+    -- lualine_b = {'branch', 'diff', {'diagnostics', sources = {'nvim_lsp'}}},
+    lualine_b = {'branch', 'diff', { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }}},
+    lualine_c = {{'filename', path = 1}},
     lualine_x = {'filetype'},
     lualine_y = {},
     lualine_z = {'location'}
@@ -18,13 +20,13 @@ require'lualine'.setup {
   inactive_sections = {
     lualine_a = {},
     lualine_b = {},
-    lualine_c = {'filename'},
+    lualine_c = {{'filename', path = 1}},
     lualine_x = {'filetype'},
     lualine_y = {},
     lualine_z = {'location'}
   },
   tabline = {
-    lualine_a = {'buffers'},
+    lualine_a = {},
     lualine_b = {},
     lualine_c = {},
     lualine_x = {},
