@@ -63,11 +63,12 @@ zle -N expand-or-complete-with-dots
 bindkey "^I" expand-or-complete-with-dots
 
 alias ll="ls -Glart"
-alias brewup="brew update; brew upgrade; brew cleanup; brew doctor"
+alias ls="ls -G1"
+alias bup="brew update; brew upgrade; brew cleanup; brew doctor"
 alias bs="brew search"
 alias bi="brew install"
 alias vim="nvim"
-alias ls="ls -G"
+alias grep="grep --color"
 
 # git aliases
 alias gs="git status"
@@ -108,3 +109,23 @@ export VISUAL="nvr --remote-wait +'set bufhidden=wipe'"
 
 # give us a hint on how to scroll when noevim's floaterm is set
 [[ -v FLOATERM ]] && echo "Floaterm Tip: use <C-\\> <C-n> to go to normal mode"
+
+# updates your AWS credentials if they've expired
+maybe-gimme-aws-creds() {
+  login_expiry_seconds=3600
+  lockfile="${HOME}/.gimme-aws-creds.lockfile"
+  if [[ -f $lockfile ]]; then
+    age_seconds=$(($(date +%s) - $(stat -t %s -f %m -- "$lockfile")))
+    if [[ $age_seconds -ge $login_expiry_seconds ]]; then
+      echo "AWS credentials have expired."
+      touch $lockfile && gimme-aws-creds
+    else
+      echo "AWS credentials are still valid."
+    fi
+  else
+    echo "Initializing lockfile: $lockfile"
+    touch $lockfile && gimme-aws-creds
+  fi
+}
+alias sam="maybe-gimme-aws-creds && sam"
+
