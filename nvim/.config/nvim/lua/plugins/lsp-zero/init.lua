@@ -77,6 +77,7 @@ lsp_configure("yamlls", {
   settings = {
     yaml = {
       customTags = {
+        -- these are for sam templates
         "!Equals sequence",
         "!FindInMap sequence",
         "!GetAtt scalar",
@@ -130,12 +131,13 @@ lsp_configure("sumneko_lua", {
 
 lsp.configure("tsserver", {
   on_attach = function(client)
-    vim.cmd([[
-      augroup LspFormatting
-        autocmd! * <buffer>
-        autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync({},3000)
-      augroup END
-    ]])
+    -- disabling it here since null-ls is formatting us with prettier and this will clash
+    -- vim.cmd([[
+    --   augroup LspFormatting
+    --     autocmd! * <buffer>
+    --     autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_seq_sync({},3000)
+    --   augroup END
+    -- ]])
 
     lsp_ts_utils.setup({
       debug = false,

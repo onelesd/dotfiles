@@ -11,46 +11,47 @@ require('packer').startup(function(use)
   -- packer packer
   use 'wbthomason/packer.nvim'
 
-  -- git blame in virtual text
+  -- git blame in virtual text toggled with <leader-gb>
   use 'f-person/git-blame.nvim'
 
   -- nice colors
   use 'rmehri01/onenord.nvim'
-  -- use 'tjdevries/colorbuddy.nvim'
-  -- use 'rafamadriz/neon'
-  -- use 'shaunsingh/nord.nvim'
-  -- use 'EdenEast/nightfox.nvim'
-  -- use 'folke/tokyonight.nvim'
-  -- use 'rebelot/kanagawa.nvim'
-  -- use {'catppuccin/nvim', as = 'catppuccin'}
 
   -- fancy highlighting and other cool code parsing stuff
-  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-  use 'JoosepAlviste/nvim-ts-context-commentstring'
-  use 'windwp/nvim-ts-autotag'
+  use { 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate' }
+  -- for navigating visual selections in code
   use 'RRethy/nvim-treesitter-textsubjects'
-  -- use 'nvim-treesitter/nvim-treesitter-textobjects'
+  -- sets the comment string for the current text. good for embdedded languages like JSX in TS
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
+
+  -- will add closing tags for elixir and bash and a few others. for ex, "do" will add an "end" automatically
+  -- use 'windwp/nvim-ts-autotag'
+
+  -- jump around text objects (like functions)
+  use 'nvim-treesitter/nvim-treesitter-textobjects'
+
   -- use 'nvim-treesitter/nvim-treesitter-refactor'
 
   -- make netrw more awesome
   -- there is an unfortunate bug whereby these buffers are not deletable
   -- use 'tpope/vim-vinegar'
 
+  -- great file explorer mapped to "-"
   use 'jeetsukumaran/vim-filebeagle'
 
   -- open and work with repl's in various languages
-  use {
-    'jpalardy/vim-slime',
-    config = function()
-      vim.g.slime_target = 'neovim'
-    end
-  }
+  -- use {
+  --   'jpalardy/vim-slime',
+  --   config = function()
+  --     vim.g.slime_target = 'neovim'
+  --   end
+  -- }
 
   -- go to the last place you were in a file when re-opening it
   use {
     'ethanholz/nvim-lastplace',
     config = function()
-      require'nvim-lastplace'.setup {}
+      require 'nvim-lastplace'.setup {}
     end
   }
 
@@ -87,10 +88,7 @@ require('packer').startup(function(use)
   -- git signs in the gutter
   use {
     'lewis6991/gitsigns.nvim',
-    requires = {'nvim-lua/plenary.nvim'},
-    config = function()
-      require('gitsigns').setup()
-    end
+    requires = { 'nvim-lua/plenary.nvim' },
   }
 
   -- floating terminal
@@ -102,51 +100,33 @@ require('packer').startup(function(use)
     config = function()
       require('auto-session').setup {
         log_level = 'info',
-        auto_session_suppress_dirs = {'~/'}
+        auto_session_suppress_dirs = { '~/' }
       }
     end
   }
 
-  -- better matchit
-  -- use 'andymass/vim-matchup'
-
   -- delete buffers without messing up layout
   use 'famiu/bufdelete.nvim'
-
-  -- helpers for working with lsp
-  -- use 'neovim/nvim-lspconfig'
-
-  -- automatic installation & configuration of lsp servers
-  -- use 'williamboman/nvim-lsp-installer'
-  -- use {
-  --   'kosayoda/nvim-lightbulb',
-  --   config = function()
-  --     vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-  --   end
-  -- }
-
-  -- use 'evanleck/vim-svelte'
-  -- use 'elixir-editors/vim-elixir'
 
   use {
     'VonHeikemen/lsp-zero.nvim',
     requires = {
       -- LSP Support
-      {'neovim/nvim-lspconfig'},
-      {'williamboman/nvim-lsp-installer'},
-      {'jose-elias-alvarez/nvim-lsp-ts-utils'},
+      { 'neovim/nvim-lspconfig' },
+      { 'williamboman/nvim-lsp-installer' },
+      { 'jose-elias-alvarez/nvim-lsp-ts-utils' },
 
       -- Autocompletion
-      {'hrsh7th/nvim-cmp'},
-      {'hrsh7th/cmp-buffer'},
-      {'hrsh7th/cmp-path'},
-      {'saadparwaiz1/cmp_luasnip'},
-      {'hrsh7th/cmp-nvim-lsp'},
-      {'hrsh7th/cmp-nvim-lua'},
+      { 'hrsh7th/nvim-cmp' },
+      { 'hrsh7th/cmp-buffer' },
+      { 'hrsh7th/cmp-path' },
+      { 'saadparwaiz1/cmp_luasnip' },
+      { 'hrsh7th/cmp-nvim-lsp' },
+      { 'hrsh7th/cmp-nvim-lua' },
 
       -- Snippets
-      {'L3MON4D3/LuaSnip'},
-      {'rafamadriz/friendly-snippets'},
+      { 'L3MON4D3/LuaSnip' },
+      { 'rafamadriz/friendly-snippets' },
     }
   }
 
@@ -156,11 +136,11 @@ require('packer').startup(function(use)
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
-      {'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'},
-      {'nvim-telescope/telescope-project.nvim'},
-      {'natecraddock/telescope-zf-native.nvim'},
-      {'nvim-telescope/telescope-frecency.nvim'},
-      {'kkharji/sqlite.lua'},
+      { 'nvim-lua/popup.nvim' }, { 'nvim-lua/plenary.nvim' },
+      { 'nvim-telescope/telescope-project.nvim' },
+      { 'natecraddock/telescope-zf-native.nvim' },
+      { 'nvim-telescope/telescope-frecency.nvim' },
+      { 'kkharji/sqlite.lua' },
       {
         'benfowler/telescope-luasnip.nvim',
         module = 'telescope._extensions.luasnip'
@@ -175,8 +155,8 @@ require('packer').startup(function(use)
   use {
     'hrsh7th/nvim-cmp',
     requires = {
-      {'hrsh7th/cmp-nvim-lsp'}, {'hrsh7th/cmp-buffer'},
-      {'saadparwaiz1/cmp_luasnip'}
+      { 'hrsh7th/cmp-nvim-lsp' }, { 'hrsh7th/cmp-buffer' },
+      { 'saadparwaiz1/cmp_luasnip' }
     }
   }
 
@@ -186,26 +166,22 @@ require('packer').startup(function(use)
       'rafamadriz/friendly-snippets' -- common snippets for various languages
     },
     config = function()
-      require'luasnip.loaders.from_vscode'.load()
+      require 'luasnip.loaders.from_vscode'.load()
     end
   }
 
   -- show nice icons in completion popups and other places
   use 'onsails/lspkind-nvim'
 
-  -- lookup docs in Dash
-  -- use {'mrjones2014/dash.nvim', run = 'make install'}
-
-  -- zoom/unzoom a window
-  -- use 'nyngwang/NeoZoom.lua'
-
+  -- make the diagnostics window pretty. also can send telescope results to it with <Ctrl-t>
   use 'folke/trouble.nvim'
 
+  -- <leader-go> opens current line in github. nice to share links.
   use {
     'ruifm/gitlinker.nvim',
     requires = 'nvim-lua/plenary.nvim',
     config = function()
-      require"gitlinker".setup({
+      require "gitlinker".setup({
         mappings = nil,
       })
     end
@@ -254,8 +230,6 @@ end)
 
 -- leave at bottom so packages can be installed before we try working with them
 require('plugins/onenord')
--- require('plugins/catppuccin')
--- require('plugins/lsp-installer')
 require('plugins/null-ls')
 require('plugins/lsp-zero')
 require('plugins/lspsaga')
@@ -266,4 +240,4 @@ require('plugins/autopairs')
 require('plugins/indent-blankline')
 require('plugins/trouble')
 require('plugins/snippets')
--- require('plugins/tree')
+require('plugins/gitsigns')

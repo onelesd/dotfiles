@@ -74,6 +74,11 @@ vim.g.cursorline_timeout = 300
 vim.opt.shortmess = 'filnxtToOFc'
 vim.opt.signcolumn = 'number'
 
+-- folding
+-- vim.opt.foldmethod = 'expr'
+-- vim.opt.foldexpr = 'foldexpr=nvim_treesitter#foldexpr()'
+-- vim.opt.nofoldenable = true
+
 -- Undercurl
 vim.cmd([[let &t_Cs = "\e[4:3m"]])
 vim.cmd([[let &t_Ce = "\e[4:0m"]])

@@ -7,13 +7,23 @@ require'nvim-treesitter.configs'.setup {
     enable = true
   },
 
+  textobjects = {
+    lsp_interop = {
+      enable = true,
+      border = 'none',
+      peek_definition_code = {
+        ["<leader>df"] = "@function.outer",
+      }
+    }
+  },
+
   textsubjects = {
     enable = true,
-    prev_selection = ',', -- (Optional) keymap to select the previous selection
+    -- prev_selection = ',', -- (Optional) keymap to select the previous selection
     keymaps = {
       ['.'] = 'textsubjects-smart',
-      [';'] = 'textsubjects-container-outer',
-      ['i;'] = 'textsubjects-container-inner',
+      -- [';'] = 'textsubjects-container-outer',
+      -- ['i;'] = 'textsubjects-container-inner',
     },
   },
 
@@ -23,47 +33,29 @@ require'nvim-treesitter.configs'.setup {
     enable = true,
   },
 
+  -- Automatically install missing parsers when entering buffer
+  -- Recommendation: set to false if you don't have `tree-sitter` CLI installed locally
+  auto_install = true,
+
   sync_install = false,
 
   highlight = {
     -- `false` will disable the whole extension
     enable = true,
 
-    disable = {'lua'},
-
-    custom_captures = {
-      -- Highlight the @foo.bar capture group with the "Identifier" highlight group.
-      -- ["foo.bar"] = "Identifier",
-    },
+    -- disable = {'lua'},
 
     additional_vim_regex_highlighting = false
   },
 
-  indent = {enable = true},
+  -- experimental
+  indent = {
+    enable = true
+  },
 
   matchup = {
     enable = false, -- mandatory, false will disable the whole extension
     disable = {} -- optional, list of language that will be disabled
-    -- [options]
-  },
-
-  playground = {
-    enable = true,
-    disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
-    persist_queries = false, -- Whether the query persists across vim sessions
-    keybindings = {
-      toggle_query_editor = 'o',
-      toggle_hl_groups = 'i',
-      toggle_injected_languages = 't',
-      toggle_anonymous_nodes = 'a',
-      toggle_language_display = 'I',
-      focus_language = 'f',
-      unfocus_language = 'F',
-      update = 'R',
-      goto_node = '<cr>',
-      show_help = '?'
-    }
   },
 
   refactor = {
