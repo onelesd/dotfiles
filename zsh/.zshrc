@@ -101,8 +101,8 @@ GOPATH=$HOME/go
 GOROOT="$(brew --prefix golang)/libexec"
 PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 PATH="$PATH:$HOME/bin"
-PATH="$PATH:/Users/dseleno/.asdf/installs/rust/1.58.1/bin"
-PATH="$PATH:/Users/dseleno/.local/bin"
+PATH="$PATH:$HOME/.asdf/installs/rust/1.58.1/bin"
+PATH="$PATH:$HOME/.local/bin"
 
 export EDITOR=nvim
 export VISUAL="nvr --remote-wait +'set bufhidden=wipe'"
@@ -128,4 +128,4 @@ maybe-gimme-aws-creds() {
   fi
 }
 alias sam="maybe-gimme-aws-creds && sam"
-
+alias aws="aws --profile NIKE.SSO.AdminRole --region us-west-2"

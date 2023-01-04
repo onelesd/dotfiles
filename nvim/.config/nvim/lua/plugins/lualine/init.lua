@@ -11,13 +11,13 @@ require'lualine'.setup {
     always_divide_middle = true
   },
   sections = {
-    lualine_a = {'mode'},
+    lualine_a = {},
     -- lualine_b = {'branch', 'diff', {'diagnostics', sources = {'nvim_lsp'}}},
-    lualine_b = {'branch', 'diff', { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }}},
+    lualine_b = {'branch', 'diff', { 'diagnostics', sources = { "nvim_diagnostic" }, symbols = { error = ' ', warn = ' ', info = ' ', hint = ' ' }}},
     lualine_c = {{'filename', path = 1}},
     lualine_x = {'filetype'},
     lualine_y = {},
-    lualine_z = {'location'}
+    lualine_z = {}
   },
   inactive_sections = {
     lualine_a = {},
@@ -25,7 +25,7 @@ require'lualine'.setup {
     lualine_c = {{'filename', path = 1}},
     lualine_x = {'filetype'},
     lualine_y = {},
-    lualine_z = {'location'}
+    lualine_z = {}
   },
   tabline = {
     lualine_a = {},

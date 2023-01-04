@@ -123,14 +123,14 @@ hs.hotkey.bind(mash, ",", function()
 end)
 
 -- send window to next screen
--- hs.hotkey.bind(mash, "N", function()
---     local win = hs.window.focusedWindow()
---     local screen = win:screen()
---
---     win:setFullScreen(false)
---     -- move to next screen, don't resize, make sure the window fits on screen
---     win:moveToScreen(screen:next(), true, true)
--- end)
+hs.hotkey.bind(mash, "\\", function()
+    local win = hs.window.focusedWindow()
+    local screen = win:screen()
+
+    win:setFullScreen(false)
+    -- move to next screen, don't resize, make sure the window fits on screen
+    win:moveToScreen(screen:next(), true, true)
+end)
 
 hs.hotkey.bind(mash, "F", function()
     finder = hs.appfinder.appFromName("Finder")

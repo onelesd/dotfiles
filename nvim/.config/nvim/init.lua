@@ -38,6 +38,9 @@ vim.cmd[[
 -- vim.opt.spell = true
 -- vim.opt.splitkeep = 'screen' -- screen, topline or cursor this keeps the document position where you want it when opening splits and such
 vim.opt.laststatus = 3
+-- vim.opt.statusline = '%#normal#'
+-- vim.opt.fillchars = 'stl:─,stlnc:─'
+vim.opt.showtabline = 1
 vim.opt.cmdheight = 0
 vim.opt.termguicolors = true
 vim.opt.syntax = 'off'
