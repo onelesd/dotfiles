@@ -129,3 +129,5 @@ maybe-gimme-aws-creds() {
 }
 alias sam="maybe-gimme-aws-creds && sam"
 alias aws="aws --profile NIKE.SSO.AdminRole --region us-west-2"
+
+export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
