@@ -37,7 +37,18 @@ require("packer").startup(function(use)
   -- use 'nvim-treesitter/nvim-treesitter-refactor'
 
   -- great file explorer mapped to "-"
-  use("jeetsukumaran/vim-filebeagle")
+  -- use("jeetsukumaran/vim-filebeagle")
+  use({
+    "stevearc/oil.nvim",
+    config = function()
+      require("oil").setup({
+        view_options = {
+          -- Show files and directories that start with "."
+          show_hidden = true,
+        },
+      })
+    end,
+  })
 
   -- open and work with repl's in various languages
   -- use {
