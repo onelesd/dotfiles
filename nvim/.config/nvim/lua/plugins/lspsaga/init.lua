@@ -1,8 +1,15 @@
-require('lspsaga').init_lsp_saga {
-  server_filetype_map = {
-    typescript = 'typescript'
-  }
-}
+require("lspsaga").setup({
+	server_filetype_map = {
+		typescript = "typescript",
+	},
+	finder = {
+		edit = { "<CR>" },
+		vsplit = "v",
+		split = "s",
+		tabe = "t",
+		quit = { "q", "<ESC>" },
+	},
+})
 
 -- allow ESC to close lspsaga windows
 vim.cmd([[

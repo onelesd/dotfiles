@@ -36,10 +36,6 @@ require("packer").startup(function(use)
 
 	-- use 'nvim-treesitter/nvim-treesitter-refactor'
 
-	-- make netrw more awesome
-	-- there is an unfortunate bug whereby these buffers are not deletable
-	-- use 'tpope/vim-vinegar'
-
 	-- great file explorer mapped to "-"
 	use("jeetsukumaran/vim-filebeagle")
 
@@ -206,18 +202,6 @@ require("packer").startup(function(use)
 	-- :Delete, :Move, :Rename, others...
 	use("tpope/vim-eunuch")
 
-	-- this has nice folding but only works well with hjkl
-	-- use {
-	--   'anuvyklack/pretty-fold.nvim',
-	--   config = function()
-	--     require('pretty-fold').setup {}
-	--     require('pretty-fold.preview').setup({key = 'h'})
-	--   end
-	-- }
-
-	-- make mapping keys easier
-	-- use 'svermeulen/vimpeccable'
-
 	-- supercharge <C-x> & <C-a> to increment words, like true/false, enabled/disabled
 	use("Konfekt/vim-CtrlXA")
 
@@ -233,35 +217,6 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- use {
-	--   'b0o/incline.nvim',
-	--   requires = {
-	--     {'nvim-web-devicons'}
-	--   }
-	-- }
-
-	-- scrollbars aren't showing up for some reason, so disable
-	-- use({
-	-- 	"petertriho/nvim-scrollbar",
-	-- 	config = function()
-	-- 		require("scrollbar").setup()
-	-- 	end,
-	-- })
-
-	-- use {
-	--   'nvim-zh/colorful-winsep.nvim',
-	--   config = function()
-	--     require('colorful-winsep').setup()
-	--   end
-	-- }
-
-	-- use {
-	--   'lukas-reineke/lsp-format.nvim',
-	--   config = function()
-	--     require('lsp-format').setup()
-	--   end
-	-- }
-
 	use({
 		"folke/zen-mode.nvim",
 		config = function()
@@ -276,10 +231,6 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	-- cool useless screensaver thingy
-	-- :CellularAutomaton make_it_rain
-	-- use("eandrju/cellular-automaton.nvim")
-
 	if packer_bootstrap then
 		require("packer").sync()
 	end
@@ -293,7 +244,6 @@ require("plugins/lspsaga")
 require("plugins/treesitter")
 require("plugins/telescope")
 require("plugins/lualine")
--- require('plugins/incline')
 require("plugins/autopairs")
 require("plugins/indent-blankline")
 require("plugins/trouble")
