@@ -37,6 +37,13 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+# shell integrations for wezterm
+[ -f ~/.wezterm.sh ] && source ~/.wezterm.sh
+
+# define semantic zones
+# see: https://gitlab.freedesktop.org/Per_Bothner/specifications/blob/master/proposals/semantic-prompts.md
+[ -f ~/.semantic_zones.sh ] && source ~/.semantic_zones.sh
+
 # no c-s/c-q output freezing
 setopt noflowcontrol
 # enable job control
@@ -78,6 +85,7 @@ alias gc="git commit"
 alias gl="git l"
 alias lg="lazygit"
 alias cdg="cd-gitroot"
+alias pgit="GIT_SSH_COMMAND='ssh -i ~/.ssh/github-onelesd -o IdentitiesOnly=yes' git"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -119,15 +127,26 @@ maybe-gimme-aws-creds() {
     if [[ $age_seconds -ge $login_expiry_seconds ]]; then
       echo "AWS credentials have expired."
       touch $lockfile && gimme-aws-creds
-    else
-      echo "AWS credentials are still valid."
+    # else
+    #   echo "AWS credentials are still valid."
     fi
   else
     echo "Initializing lockfile: $lockfile"
     touch $lockfile && gimme-aws-creds
   fi
 }
+alias aws="maybe-gimme-aws-creds && aws"
 alias sam="maybe-gimme-aws-creds && sam"
-alias aws="aws --profile NIKE.SSO.AdminRole --region us-west-2"
+alias terraform="maybe-gimme-aws-creds && terraform"
+alias k9s="maybe-gimme-aws-creds && k9s"
+alias kubetail="maybe-gimme-aws-creds && kubetail"
+
+export AWS_PROFILE="NIKE.SSO.AdminRole"
+export AWS_REGION="us-west-2"
+
+export NEW_RELIC_ACCOUNT_ID="1305513"
+export NEW_RELIC_API_KEY="NRAK-GEJK9JFPFRWN2QNGJYBVHMGHTVV"
+export NEW_RELIC_REGION="US"
 
 export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
+

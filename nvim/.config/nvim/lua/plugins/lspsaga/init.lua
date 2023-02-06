@@ -9,6 +9,13 @@ require("lspsaga").setup({
 		tabe = "t",
 		quit = { "q", "<ESC>" },
 	},
+	lightbulb = {
+		enable = false,
+		enable_in_insert = false,
+		sign = false,
+		sign_priority = 40,
+		virtual_text = false,
+	},
 })
 
 -- allow ESC to close lspsaga windows

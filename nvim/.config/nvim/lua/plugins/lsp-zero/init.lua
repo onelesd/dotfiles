@@ -1,5 +1,7 @@
+local cmp = require("cmp")
 local lsp = require("lsp-zero")
 local lsp_ts_utils = require("nvim-lsp-ts-utils")
+local lspkind = require("lspkind")
 
 -- this feels like the wrong place to put this, but also the best
 -- to get syntax highlighting for terraform files
@@ -27,6 +29,65 @@ lsp.set_preferences({
 	--   hint = '⚑',
 	--   info = ''
 	-- }
+})
+
+local has_words_before = function()
+	if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+		return false
+	end
+	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+	return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+end
+
+lsp.setup_nvim_cmp({
+	sources = {
+		{ name = "copilot" },
+		{ name = "path" },
+		{ name = "nvim_lsp", keyword_length = 3 },
+		{ name = "buffer", keyword_length = 3 },
+		{ name = "luasnip", keyword_length = 2 },
+	},
+	mapping = lsp.defaults.cmp_mappings({
+		["<CR>"] = cmp.mapping.confirm({
+			-- documentation says this is important.
+			-- I don't know why.
+			-- behavior = cmp.ConfirmBehavior.Replace,
+			select = false,
+		}),
+		["<Tab>"] = vim.schedule_wrap(function(fallback)
+			if cmp.visible() and has_words_before() then
+				cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+			else
+				fallback()
+			end
+		end),
+	}),
+	formatting = {
+		format = lspkind.cmp_format({
+			mode = "symbol",
+			max_width = 50,
+			symbol_map = { Copilot = "" },
+		}),
+	},
+	sorting = {
+		priority_weight = 2,
+		comparators = {
+			require("copilot_cmp.comparators").prioritize,
+			require("copilot_cmp.comparators").score,
+
+			-- Below is the default comparitor list and order for nvim-cmp
+			cmp.config.compare.offset,
+			-- cmp.config.compare.scopes, --this is commented in nvim-cmp too
+			cmp.config.compare.exact,
+			cmp.config.compare.score,
+			cmp.config.compare.recently_used,
+			cmp.config.compare.locality,
+			cmp.config.compare.kind,
+			cmp.config.compare.sort_text,
+			cmp.config.compare.length,
+			cmp.config.compare.order,
+		},
+	},
 })
 
 -- add support for lua neovim config

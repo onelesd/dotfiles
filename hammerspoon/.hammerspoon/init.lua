@@ -148,7 +148,7 @@ hs.hotkey.bind(mash, "F", function()
 end)
 
 hs.hotkey.bind(mash, "T", function()
-	myLaunchOrFocus("iTerm")
+	myLaunchOrFocus("WezTerm")
 end)
 
 hs.hotkey.bind(mash, "S", function()
