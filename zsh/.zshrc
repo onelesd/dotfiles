@@ -144,9 +144,5 @@ alias kubetail="maybe-gimme-aws-creds && kubetail"
 export AWS_PROFILE="NIKE.SSO.AdminRole"
 export AWS_REGION="us-west-2"
 
-export NEW_RELIC_ACCOUNT_ID="1305513"
-export NEW_RELIC_API_KEY="NRAK-GEJK9JFPFRWN2QNGJYBVHMGHTVV"
-export NEW_RELIC_REGION="US"
-
 export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
 
