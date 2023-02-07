@@ -145,4 +145,3 @@ export AWS_PROFILE="NIKE.SSO.AdminRole"
 export AWS_REGION="us-west-2"
 
 export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
-
