@@ -1,15 +1,16 @@
 local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-	packer_bootstrap = fn.system({
-		"git",
-		"clone",
-		"--depth",
-		"1",
-		"https://github.com/wbthomason/packer.nvim",
-		install_path,
-	})
+local ensure_packer = function()
+	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+	if fn.empty(fn.glob(install_path)) > 0 then
+		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+		vim.api.nvim_cmd({ cmd = "packadd packer.nvim" })
+
+		return true
+	end
+	return false
 end
+
+local packer_bootstrap = ensure_packer()
 
 require("packer").startup(function(use)
 	-- packer packer
@@ -89,15 +90,21 @@ require("packer").startup(function(use)
 	})
 
 	-- comment(ary)
-	use({
-		"terrortylor/nvim-comment",
-		config = function()
-			require("nvim_comment").setup({})
-		end,
-	})
+	-- use({
+	-- 	"terrortylor/nvim-comment",
+	-- 	config = function()
+	-- 		require("nvim_comment").setup({})
+	-- 	end,
+	-- })
 
 	-- auto brackets
-	use("windwp/nvim-autopairs")
+	-- use("windwp/nvim-autopairs")
+	use({
+		"echasnovski/mini.pairs",
+		config = function()
+			require("mini.pairs").setup()
+		end,
+	})
 
 	-- web devicons
 	use({
@@ -134,6 +141,26 @@ require("packer").startup(function(use)
 				log_level = "info",
 				auto_session_suppress_dirs = { "~/" },
 			})
+		end,
+	})
+	-- use({
+	-- 	"echasnovski/mini.sessions",
+	-- 	config = function()
+	-- 		require("mini.sessions").setup({
+	-- 			autoread = true,
+	-- 			autowrite = true,
+	-- 			directory = fn.stdpath("data") .. "/session",
+	-- 		})
+	-- 	end,
+	-- })
+
+	-- add mappings for surrounding words with characters like "" and ()
+	-- NOTE thisn isn't working - the maps don't do anything
+	-- see: https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-surround.md#default-config
+	use({
+		"echasnovski/mini.surround",
+		config = function()
+			require("mini.surround").setup()
 		end,
 	})
 
@@ -225,7 +252,24 @@ require("packer").startup(function(use)
 	})
 
 	-- adds indentation guides using virtual text
-	use("lukas-reineke/indent-blankline.nvim")
+	-- use("lukas-reineke/indent-blankline.nvim")
+	use({
+		"echasnovski/mini.indentscope",
+		opts = {
+			-- symbol = "▏",
+			symbol = "│",
+			options = { try_as_border = true },
+		},
+		config = function(_, opts)
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason" },
+				callback = function()
+					vim.b.miniindentscope_disable = true
+				end,
+			})
+			require("mini.indentscope").setup(opts)
+		end,
+	})
 
 	-- highlight trailing whitespace
 	-- :StripWhitespace removes all extra whitespace
@@ -239,16 +283,16 @@ require("packer").startup(function(use)
 	use("Konfekt/vim-CtrlXA")
 
 	-- for working with csv files. wee: https://github.com/chrisbra/csv.vim
-	use({
-		"chrisbra/csv.vim",
-		config = function()
-			vim.cmd([[
-        augroup filetypedetect
-          au! BufRead,BufNewFile *.csv.gz	setfiletype csv
-        augroup END
-      ]])
-		end,
-	})
+	-- use({
+	-- 	"chrisbra/csv.vim",
+	-- 	config = function()
+	-- 		vim.cmd([[
+	--       augroup filetypedetect
+	--         au! BufRead,BufNewFile *.csv.gz	setfiletype csv
+	--       augroup END
+	--     ]])
+	-- 	end,
+	-- })
 
 	use({
 		"folke/zen-mode.nvim",
@@ -268,6 +312,24 @@ require("packer").startup(function(use)
 
 	use({ "zbirenbaum/copilot-cmp" })
 
+	-- animate common actions
+	use({
+		"echasnovski/mini.animate",
+		config = function()
+			require("mini.animate").setup()
+		end,
+	})
+
+	-- gc commenting
+	use({
+		"echasnovski/mini.comment",
+		config = function()
+			require("mini.comment").setup()
+		end,
+	})
+
+	-- Automatically set up your configuration after cloning packer.nvim
+	-- Put this at the end after all plugins
 	if packer_bootstrap then
 		require("packer").sync()
 	end
@@ -286,8 +348,8 @@ require("plugins/lspsaga")
 require("plugins/treesitter")
 require("plugins/telescope")
 require("plugins/lualine")
-require("plugins/autopairs")
-require("plugins/indent-blankline")
+-- require("plugins/autopairs")
+-- require("plugins/indent-blankline")
 require("plugins/trouble")
 require("plugins/snippets")
 require("plugins/gitsigns")

@@ -5,19 +5,9 @@ vim.g.floaterm_opener = "drop" -- opens buffer if already open
 vim.g.gitblame_enabled = 0
 vim.g.gitblame_date_format = "%r • %a %b %d %Y %I:%M%p"
 vim.g.gitblame_message_template = " [<author> @ <date> • <summary>]"
-vim.api.nvim_exec([[set guifont=JetBrainsMono\ Nerd\ Font:h13]], false)
 
--- i really like cursorcolumn but it makes screen drawing so laggy
-vim.cmd([[
-  augroup CursorLine
-      au!
-      au VimEnter,WinEnter,BufWinEnter * setlocal cursorline
-      au WinLeave * setlocal nocursorline
-
-      " au VimEnter,WinEnter,BufWinEnter * setlocal cursorcolumn
-      " au WinLeave * setlocal nocursorcolumn
-  augroup END
-]])
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, { pattern = "*", command = "setlocal cursorline" })
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, { pattern = "*", command = "setlocal nocursorline" })
 
 -- neovim 0.8 added smarts to avoid spellchecking code, but it still shows string literals as being misspelled which is annoying for things like import statements
 vim.opt.spell = false
@@ -62,15 +52,3 @@ vim.opt.signcolumn = "yes:2"
 -- vim.opt.foldmethod = 'expr'
 -- vim.opt.foldexpr = 'foldexpr=nvim_treesitter#foldexpr()'
 -- vim.opt.nofoldenable = true
-
--- undercurl ansi chars. i guess this isn't needed anymore?
-vim.cmd([[
-" let &t_Cs = "\e[4:3m"
-" let &t_Ce = "\e[4:0m"
-" let &t_AU = "\e[58:5:%dm"               " set underline color (ANSI)
-" let &t_8u = "\e[58:2:%lu:%lu:%lum"      " sent underline color (R, G, B)
-]])
---(" a text with spellling mistake. check that underline or undercurl are OK")
-
--- tell vim to map +Esc to <M-e>
--- vim.cmd([[set <M-e>=e]])
