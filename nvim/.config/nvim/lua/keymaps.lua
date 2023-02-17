@@ -1,6 +1,40 @@
 -- local map_utils = require("plugins/util/map_utils")
 vim.g.mapleader = " " -- what is this, spacemacs?
 
+-- create some keymaps that use expressions
+-- someday figure out how to load these in the keymaps_table instead
+local select_ease = require("SelectEase")
+
+local lua_query = [[
+      ;; query
+      ((identifier) @cap)
+      ("string_content" @cap)
+      ((true) @cap)
+      ((false) @cap)
+  ]]
+local typescript_query = [[
+      ;; query
+      ((identifier) @cap)
+      ((property_identifier) @cap)
+      ((type_identifier) @cap)
+      ((shorthand_property_identifier_pattern) @cap)
+      ((string) @cap)
+      ((number) @cap)
+      ((true) @cap)
+      ((false) @cap)
+  ]]
+
+local queries = {
+	lua = lua_query,
+	typescript = typescript_query,
+}
+vim.keymap.set({ "n", "s", "i" }, "<S-Left>", function()
+	select_ease.select_node({ queries = queries, direction = "previous" })
+end, {})
+vim.keymap.set({ "n", "s", "i" }, "<S-Right>", function()
+	select_ease.select_node({ queries = queries, direction = "next" })
+end, {})
+
 local term_base = "<CMD>hi FloatermBorder guifg=#24283b<CR>"
 	.. "<CMD>FloatermNew --width=0.9 --height=0.9 "
 	.. "--borderchars="
@@ -111,7 +145,7 @@ local keymaps_table = {
 	{ "n", "<leader>D", "<CMD>Trouble workspace_diagnostics<CR>" },
 	{ "n", "<leader>xd", "<CMD>lua vim.diagnostic.reset()<CR>" },
 	{ "n", "<leader>T", "<CMD>Trouble<CR>" },
-	{ "n", "<leader>rn", '<CMD>lua require"lspsaga.rename".rename()<CR>' },
+	{ "n", "<leader>rn", "<CMD>lua vim.lsp.buf.rename()<CR>" },
 	{ "n", "K", "<CMD>Lspsaga hover_doc<CR>" },
 	-- {'v', 'K', '<CMD>lua require"dash.providers.telescope".dash({ bang = false, initial_text = vim.fn.expand("<cword>") })<CR>'}, -- dash integration
 
@@ -135,6 +169,7 @@ local keymaps_table = {
 	{ "n", "<leader>V", "<CMD>bdelete<CR><CMD>bdelete<CR><CMD>bdelete<CR><CMD>bdelete<CR>" },
 }
 
+-- create keymaps from table
 for _, k in ipairs(keymaps_table) do
 	local mode, key, cmd, opts = unpack(k)
 	if opts then

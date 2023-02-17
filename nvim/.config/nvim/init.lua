@@ -6,8 +6,12 @@ vim.g.gitblame_enabled = 0
 vim.g.gitblame_date_format = "%r • %a %b %d %Y %I:%M%p"
 vim.g.gitblame_message_template = " [<author> @ <date> • <summary>]"
 
+-- set cursorline for current buffer only
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, { pattern = "*", command = "setlocal cursorline" })
 vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, { pattern = "*", command = "setlocal nocursorline" })
+
+-- equalize windows when vim is resized
+vim.api.nvim_create_autocmd({ "VimResized" }, { pattern = "*", command = "wincmd =" })
 
 -- neovim 0.8 added smarts to avoid spellchecking code, but it still shows string literals as being misspelled which is annoying for things like import statements
 vim.opt.spell = false

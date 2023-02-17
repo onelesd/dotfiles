@@ -273,7 +273,7 @@ require("packer").startup(function(use)
 
 	-- highlight trailing whitespace
 	-- :StripWhitespace removes all extra whitespace
-	use("ntpeters/vim-better-whitespace")
+	-- use("ntpeters/vim-better-whitespace")
 
 	-- provides various commands
 	-- :Delete, :Move, :Rename, others...
@@ -313,10 +313,22 @@ require("packer").startup(function(use)
 	use({ "zbirenbaum/copilot-cmp" })
 
 	-- animate common actions
+	-- use({
+	-- 	"echasnovski/mini.animate",
+	-- 	config = function()
+	-- 		require("mini.animate").setup({
+	-- 			scroll = {
+	-- 				enable = false,
+	-- 			},
+	-- 		})
+	-- 	end,
+	-- })
+
+	-- fancy notifications
 	use({
-		"echasnovski/mini.animate",
+		"rcarriga/nvim-notify",
 		config = function()
-			require("mini.animate").setup()
+			vim.notify = require("notify")
 		end,
 	})
 
@@ -327,6 +339,12 @@ require("packer").startup(function(use)
 			require("mini.comment").setup()
 		end,
 	})
+
+	-- easy movements via treesitter
+	use({ "ziontee113/SelectEase" })
+
+	-- for playing with treesitter - usually to discover node types for scripting
+	use({ "nvim-treesitter/playground" })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
