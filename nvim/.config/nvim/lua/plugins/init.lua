@@ -172,15 +172,17 @@ require("packer").startup(function(use)
 		requires = {
 			-- LSP Support
 			{ "neovim/nvim-lspconfig" },
-			{ "williamboman/nvim-lsp-installer" },
-			{ "jose-elias-alvarez/nvim-lsp-ts-utils" },
+			{ "williamboman/mason.nvim" },
+			{ "williamboman/mason-lspconfig.nvim" },
+			{ "jose-elias-alvarez/typescript.nvim" }, -- typescript lsp support
+			{ "jose-elias-alvarez/null-ls.nvim" },
 
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" },
+			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "hrsh7th/cmp-buffer" },
 			{ "hrsh7th/cmp-path" },
 			{ "saadparwaiz1/cmp_luasnip" },
-			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "hrsh7th/cmp-nvim-lua" },
 
 			-- Snippets
@@ -189,7 +191,38 @@ require("packer").startup(function(use)
 		},
 	})
 
-	use("jose-elias-alvarez/null-ls.nvim")
+	-- TODO helper
+	use({
+		"folke/todo-comments.nvim",
+		requires = "nvim-lua/plenary.nvim",
+		config = function()
+			require("todo-comments").setup({
+				keywords = {
+					FIX = {
+						icon = " ", -- icon used for the sign, and in search results
+						color = "error", -- can be a hex color, or a named color (see below)
+						alt = { "FIXME", "BUG" }, -- a set of other keywords that all map to this FIX keywords
+						-- signs = false, -- configure signs for some keywords individually
+					},
+					TODO = { icon = " ", color = "info" },
+					-- HACK = { icon = " ", color = "warning" },
+					-- WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
+					-- PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
+					-- NOTE = { icon = " ", color = "hint", alt = { "INFO" } },
+					-- TEST = { icon = "⏲ ", color = "test", alt = { "TESTING", "PASSED", "FAILED" } },
+				},
+			})
+		end,
+	})
+
+	-- split and join treesitter objects
+	use({
+		"Wansmer/treesj",
+		requires = { "nvim-treesitter" },
+		config = function()
+			require("treesj").setup()
+		end,
+	})
 
 	-- telescope is for finding and searching files
 	use({
@@ -202,7 +235,6 @@ require("packer").startup(function(use)
 			{ "kkharji/sqlite.lua" },
 			{ "nvim-telescope/telescope-live-grep-args.nvim" },
 			{ "danielfalk/smart-open.nvim" },
-			-- { "nvim-telescope/telescope-file-browser.nvim" },
 			{
 				"benfowler/telescope-luasnip.nvim",
 				module = "telescope._extensions.luasnip",
@@ -301,12 +333,12 @@ require("packer").startup(function(use)
 		end,
 	})
 
-	use({
-		"ray-x/lsp_signature.nvim",
-		config = function()
-			require("lsp_signature").setup({})
-		end,
-	})
+	-- use({
+	-- 	"ray-x/lsp_signature.nvim",
+	-- 	config = function()
+	-- 		require("lsp_signature").setup({})
+	-- 	end,
+	-- })
 
 	use({ "zbirenbaum/copilot.lua" })
 
@@ -355,8 +387,8 @@ end)
 
 -- leave at bottom so packages can be installed before we try working with them
 -- theme
-require("plugins/onenord")
--- require("plugins/kanagawa")
+-- require("plugins/onenord")
+require("plugins/kanagawa")
 -- require("plugins/catppuccin")
 
 -- other
@@ -366,8 +398,6 @@ require("plugins/lspsaga")
 require("plugins/treesitter")
 require("plugins/telescope")
 require("plugins/lualine")
--- require("plugins/autopairs")
--- require("plugins/indent-blankline")
 require("plugins/trouble")
 require("plugins/snippets")
 require("plugins/gitsigns")

@@ -9,11 +9,13 @@ local augroup_format = vim.api.nvim_create_augroup("Format", { clear = true })
 local eslint_d_ignore = {
 	-- when a file is ignored by .eslintrc but null-ls evaluates it this warning is shown and we don't care about it:
 	-- File ignored because of a matching ignore pattern. Use "--no-ignore" to override.() eslint_d [1, 1]
+	-- this happens because the eslintrc tells it to ignore test files, but null-ls passes the test file as an argument to eslint
 	"File ignored because of a matching ignore pattern",
 }
 
 null_ls.setup({
 	sources = {
+		require("typescript.extensions.null-ls.code-actions"),
 		null_ls.builtins.diagnostics.eslint_d.with({
 			diagnostics_format = "[eslint] #{m}\n(#{c})",
 			filter = function(diagnostic)

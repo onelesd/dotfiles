@@ -5,11 +5,23 @@ return {
 	font = wezterm.font("JetBrainsMono Nerd Font"),
 	font_size = 16.0,
 	scrollback_lines = 100000,
-	color_scheme = "nord",
+	-- color_scheme = "nord",
+	color_scheme = "kanagawabones",
+	colors = {
+		split = "#000000",
+	},
 	enable_tab_bar = true,
 	use_fancy_tab_bar = false,
 	hide_tab_bar_if_only_one_tab = true,
 	pane_focus_follows_mouse = true,
+	debug_key_events = true,
+
+	inactive_pane_hsb = {
+		saturation = 1.0,
+		brightness = 0.7,
+	},
+
+	window_background_opacity = 1.0,
 
 	hyperlink_rules = {
 		-- turn neovim packages into hyperlinks
@@ -35,6 +47,9 @@ return {
 
 	-- some keymaps (with defaults in comment above)
 	keys = {
+		-- disable default SHIFT-Up & SHIFT-Down
+		-- { key = "UpArrow", mods = "SHIFT", action = act.DisableDefaultAssignment },
+		-- { key = "DownArrow", mods = "SHIFT", action = act.DisableDefaultAssignment },
 		-- NO DEFAULT
 		{ key = "UpArrow", mods = "SUPER", action = act.ScrollByLine(-1) },
 		-- NO DEFAULT

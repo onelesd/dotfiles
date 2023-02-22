@@ -17,16 +17,24 @@ local typescript_query = [[
       ((identifier) @cap)
       ((property_identifier) @cap)
       ((type_identifier) @cap)
+      ((shorthand_property_identifier) @cap)
       ((shorthand_property_identifier_pattern) @cap)
+      ((predefined_type) @cap)
       ((string) @cap)
+      ((string_fragment) @cap)
       ((number) @cap)
       ((true) @cap)
       ((false) @cap)
+  ]]
+local json_query = [[
+      ;; query
+      ("string_content" @cap)
   ]]
 
 local queries = {
 	lua = lua_query,
 	typescript = typescript_query,
+	-- json = json_query, -- this generates errors when trying to navigate...
 }
 vim.keymap.set({ "n", "s", "i" }, "<S-Left>", function()
 	select_ease.select_node({ queries = queries, direction = "previous" })
@@ -34,6 +42,21 @@ end, {})
 vim.keymap.set({ "n", "s", "i" }, "<S-Right>", function()
 	select_ease.select_node({ queries = queries, direction = "next" })
 end, {})
+-- S-UP and S-DOWN are not working for some reason
+-- vim.keymap.set({ "n", "s", "i" }, "<S-Up>", function()
+-- 	select_ease.select_node({
+-- 		queries = queries,
+-- 		direction = "previous",
+-- 		vertical_drill_jump = true,
+-- 	})
+-- end, {})
+-- vim.keymap.set({ "n", "s", "i" }, "<S-Down>", function()
+-- 	select_ease.select_node({
+-- 		queries = queries,
+-- 		direction = "next",
+-- 		vertical_drill_jump = true,
+-- 	})
+-- end, {})
 
 local term_base = "<CMD>hi FloatermBorder guifg=#24283b<CR>"
 	.. "<CMD>FloatermNew --width=0.9 --height=0.9 "
@@ -131,13 +154,14 @@ local keymaps_table = {
 	{ "n", "<leader>z", "<CMD>lua require('zen-mode').toggle({ window = { width = 0.35 } })<CR>" }, -- zen mode
 
 	-- lazygit
-	{ "n", "<leader>t", term_base .. "1 /bin/zsh<CR>" },
+	-- { "n", "<leader>t", term_base .. "1 /bin/zsh<CR>" },
 	{ "n", "<leader>gg", term_base .. "1 lazygit<CR>" },
 
 	-- lsp
 	-- {'n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>'},
 	-- {'n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>'},
 	{ "n", "gd", "<CMD>Lspsaga lsp_finder<CR>" },
+	{ "n", "gs", "<CMD>TypescriptGoToSourceDefinition<CR>" },
 	{ "n", "gp", "<CMD>Lspsaga peek_definition<CR>" },
 	{ "n", "ga", "<CMD>Lspsaga code_action<CR>" },
 	{ "n", "<leader>O", "<CMD>Lspsaga outline<CR>" },
@@ -146,8 +170,14 @@ local keymaps_table = {
 	{ "n", "<leader>xd", "<CMD>lua vim.diagnostic.reset()<CR>" },
 	{ "n", "<leader>T", "<CMD>Trouble<CR>" },
 	{ "n", "<leader>rn", "<CMD>lua vim.lsp.buf.rename()<CR>" },
+	{ "n", "<leader>i", "<CMD>TypescriptAddMissingImports<CR>" },
+	{ "n", "<leader>I", "<CMD>TypescriptOrganizeImports<CR>" },
 	{ "n", "K", "<CMD>Lspsaga hover_doc<CR>" },
+	{ "n", "<leader>td", "<CMD>TodoTelescope<CR>" },
 	-- {'v', 'K', '<CMD>lua require"dash.providers.telescope".dash({ bang = false, initial_text = vim.fn.expand("<cword>") })<CR>'}, -- dash integration
+
+	-- open Copilot panel
+	{ "n", "<leader>c", "<CMD>Copilot panel<CR>" },
 
 	-- open/close vim configs
 	{

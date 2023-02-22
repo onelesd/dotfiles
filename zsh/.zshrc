@@ -37,12 +37,13 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# shell integrations for wezterm
-[ -f ~/.wezterm.sh ] && source ~/.wezterm.sh
 
+# DISABLED because it remaps SHIFT-Up and SHIFT-Down which we want to use in vim
 # define semantic zones
 # see: https://gitlab.freedesktop.org/Per_Bothner/specifications/blob/master/proposals/semantic-prompts.md
-[ -f ~/.semantic_zones.sh ] && source ~/.semantic_zones.sh
+# [ -f ~/.semantic_zones.sh ] && source ~/.semantic_zones.sh
+# shell integrations for wezterm
+# [ -f ~/.wezterm.sh ] && source ~/.wezterm.sh
 
 # no c-s/c-q output freezing
 setopt noflowcontrol
@@ -87,7 +88,7 @@ alias lg="lazygit"
 alias cdg="cd-gitroot"
 alias pgit="GIT_SSH_COMMAND='ssh -i ~/.ssh/github-onelesd -o IdentitiesOnly=yes' git"
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -140,6 +141,8 @@ alias sam="maybe-gimme-aws-creds && sam"
 alias terraform="maybe-gimme-aws-creds && terraform"
 alias k9s="maybe-gimme-aws-creds && k9s"
 alias kubetail="maybe-gimme-aws-creds && kubetail"
+
+alias localstack="DISABLE_EVENTS=1 localstack"
 
 export AWS_PROFILE="NIKE.SSO.AdminRole"
 export AWS_REGION="us-west-2"

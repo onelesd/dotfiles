@@ -10,6 +10,10 @@ vim.g.gitblame_message_template = " [<author> @ <date> • <summary>]"
 vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, { pattern = "*", command = "setlocal cursorline" })
 vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, { pattern = "*", command = "setlocal nocursorline" })
 
+-- dim the focused window when neovim itself loses focus so that it plays nicely with wezterm pane dimming
+vim.api.nvim_create_autocmd({ "FocusGained" }, { pattern = "*", command = "highlight Normal guibg=#1f1f28" })
+vim.api.nvim_create_autocmd({ "FocusLost" }, { pattern = "*", command = "highlight Normal guibg=#181820" })
+
 -- equalize windows when vim is resized
 vim.api.nvim_create_autocmd({ "VimResized" }, { pattern = "*", command = "wincmd =" })
 
@@ -18,6 +22,15 @@ vim.opt.spell = false
 -- vim.opt.splitkeep = "screen" -- screen, topline or cursor this keeps the document position where you want it when opening splits
 vim.opt.laststatus = 3
 vim.opt.showtabline = 1
+vim.opt.fillchars:append({
+	horiz = "━",
+	horizup = "┻",
+	horizdown = "┳",
+	vert = "┃",
+	vertleft = "┨",
+	vertright = "┣",
+	verthoriz = "╋",
+})
 vim.opt.cmdheight = 0
 vim.opt.termguicolors = true
 vim.opt.syntax = "off"
