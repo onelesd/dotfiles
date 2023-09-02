@@ -12,7 +12,13 @@ end
 
 local packer_bootstrap = ensure_packer()
 
-require("packer").startup(function(use)
+local packer = require("packer")
+packer.init({
+	git = {
+		clone_timeout = 180,
+	},
+})
+packer.startup(function(use)
 	-- packer packer
 	use("wbthomason/packer.nvim")
 
@@ -132,6 +138,13 @@ require("packer").startup(function(use)
 
 	-- floating terminal
 	use("voldikss/vim-floaterm")
+	-- use({
+	-- 	"kdheepak/lazygit.nvim",
+	-- 	-- optional for floating window border decoration
+	-- 	requires = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 	},
+	-- })
 
 	-- session manager
 	use({
@@ -171,11 +184,12 @@ require("packer").startup(function(use)
 		"VonHeikemen/lsp-zero.nvim",
 		requires = {
 			-- LSP Support
-			{ "neovim/nvim-lspconfig" },
+			-- pin to this commit to prevent multiple tsserver lsp servers from attaching to the same buffer
+			{ "neovim/nvim-lspconfig", commit = "3e2cc7061957292850cc386d9146f55458ae9fe3" },
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
 			{ "jose-elias-alvarez/typescript.nvim" }, -- typescript lsp support
-			{ "jose-elias-alvarez/null-ls.nvim" },
+			-- { "jose-elias-alvarez/null-ls.nvim" },
 
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" },
@@ -184,11 +198,33 @@ require("packer").startup(function(use)
 			{ "hrsh7th/cmp-path" },
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "hrsh7th/cmp-nvim-lua" },
+			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
+			-- { "tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp" },
 
 			-- Snippets
 			{ "L3MON4D3/LuaSnip" },
 			{ "rafamadriz/friendly-snippets" },
 		},
+	})
+
+	-- dim unused references
+	use({
+		"zbirenbaum/neodim",
+		event = "LspAttach",
+		config = function()
+			require("neodim").setup({
+				alpha = 0.35,
+				blend_color = "#1f1f28",
+				update_in_insert = {
+					enable = true,
+					delay = 100,
+				},
+				hide = {
+					underline = false,
+					signs = true,
+				},
+			})
+		end,
 	})
 
 	-- TODO helper
@@ -231,9 +267,14 @@ require("packer").startup(function(use)
 			{ "nvim-lua/popup.nvim" },
 			{ "nvim-lua/plenary.nvim" },
 			{ "nvim-telescope/telescope-project.nvim" },
-			{ "natecraddock/telescope-zf-native.nvim" },
 			{ "kkharji/sqlite.lua" },
-			{ "nvim-telescope/telescope-live-grep-args.nvim" },
+			-- { "nvim-telescope/telescope-live-grep-args.nvim" },
+			{
+				"nvim-telescope/telescope-fzf-native.nvim",
+				run = "make",
+			},
+			{ "natecraddock/telescope-zf-native.nvim" },
+
 			{ "danielfalk/smart-open.nvim" },
 			{
 				"benfowler/telescope-luasnip.nvim",
@@ -244,7 +285,13 @@ require("packer").startup(function(use)
 
 	-- ui sugar for lsp
 	-- use 'tami5/lspsaga.nvim'
-	use("glepnir/lspsaga.nvim")
+	-- use("glepnir/lspsaga.nvim")
+
+	use({
+		"nvimdev/lspsaga.nvim",
+		-- pin to this commit because 0.3.0 is a full rewrite and is causing errors
+		commit = "4f075452c466df263e69ae142f6659dcf9324bf6",
+	})
 
 	-- autocompletion
 	use({
@@ -262,9 +309,14 @@ require("packer").startup(function(use)
 			"rafamadriz/friendly-snippets", -- common snippets for various languages
 		},
 		config = function()
-			require("luasnip.loaders.from_vscode").load()
+			require("luasnip.loaders.from_vscode").load({
+				exclude = { "javascript" },
+			})
 		end,
 	})
+
+	-- use SchemaStore schemas in lsp
+	use("b0o/schemastore.nvim")
 
 	-- show nice icons in completion popups and other places
 	use("onsails/lspkind-nvim")
@@ -282,6 +334,9 @@ require("packer").startup(function(use)
 			})
 		end,
 	})
+
+	-- sorts completions prefixed with underscore lower since they aren't normally useful
+	use("lukas-reineke/cmp-under-comparator")
 
 	-- adds indentation guides using virtual text
 	-- use("lukas-reineke/indent-blankline.nvim")
@@ -340,20 +395,14 @@ require("packer").startup(function(use)
 	-- 	end,
 	-- })
 
-	use({ "zbirenbaum/copilot.lua" })
+	-- use({ "zbirenbaum/copilot.lua" })
 
-	use({ "zbirenbaum/copilot-cmp" })
+	-- use({ "zbirenbaum/copilot-cmp" })
 
-	-- animate common actions
+	-- use({ "codota/tabnine-nvim", run = "./dl_binaries.sh" })
 	-- use({
-	-- 	"echasnovski/mini.animate",
-	-- 	config = function()
-	-- 		require("mini.animate").setup({
-	-- 			scroll = {
-	-- 				enable = false,
-	-- 			},
-	-- 		})
-	-- 	end,
+	-- 	"tzachar/cmp-ai",
+	-- 	requires = { "nvim-lua/plenary.nvim" },
 	-- })
 
 	-- fancy notifications
@@ -375,8 +424,52 @@ require("packer").startup(function(use)
 	-- easy movements via treesitter
 	use({ "ziontee113/SelectEase" })
 
+	-- linting
+	use({ "mfussenegger/nvim-lint" })
+
+	-- formatting
+	use({ "mhartington/formatter.nvim" })
+
 	-- for playing with treesitter - usually to discover node types for scripting
 	use({ "nvim-treesitter/playground" })
+
+	-- dash documentation app
+	use({
+		"mrjones2014/dash.nvim",
+		run = "make install",
+	})
+
+	-- we just want the BufferCloseAllButVisible this package provides and nothing else
+	-- use({
+	-- 	"romgrk/barbar.nvim",
+	-- 	requires = "nvim-web-devicons",
+	-- 	config = function()
+	-- 		require("romgrk/barbar.nvim").setup({
+	-- 			animation = false,
+	-- 			auto_hide = false,
+	-- 			clickable = false,
+	-- 		})
+	-- 	end,
+	-- })
+
+	-- code navigation breadcrumbs
+	-- use({
+	-- 	"SmiteshP/nvim-navbuddy",
+	-- 	requires = {
+	-- 		"neovim/nvim-lspconfig",
+	-- 		"SmiteshP/nvim-navic",
+	-- 		"MunifTanjim/nui.nvim",
+	-- 	},
+	-- })
+
+	-- elixir support
+	-- use({
+	-- 	"elixir-tools/elixir-tools.nvim",
+	-- 	requires = { "nvim-lua/plenary.nvim" },
+	-- 	config = function()
+	-- 		require("elixir").setup()
+	-- 	end,
+	-- })
 
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
@@ -392,7 +485,7 @@ require("plugins/kanagawa")
 -- require("plugins/catppuccin")
 
 -- other
-require("plugins/null-ls")
+-- require("plugins/null-ls")
 require("plugins/lsp-zero")
 require("plugins/lspsaga")
 require("plugins/treesitter")
@@ -401,4 +494,9 @@ require("plugins/lualine")
 require("plugins/trouble")
 require("plugins/snippets")
 require("plugins/gitsigns")
-require("plugins/copilot")
+require("plugins/diagnostics")
+require("plugins/nvim-lint")
+require("plugins/formatter")
+-- require("plugins/copilot")
+-- require("plugins/tabnine")
+-- require("plugins/cmp-ai")

@@ -16,15 +16,16 @@ require("lualine").setup({
 		lualine_b = {
 			"branch",
 			"diff",
+		},
+		lualine_c = { { "filename", path = 1 } },
+		lualine_x = {
 			{
 				"diagnostics",
 				sources = { "nvim_diagnostic" },
-				symbols = { error = " ", warn = " ", info = " ", hint = " " },
+				symbols = { error = " ", warn = " ", info = " ", hint = " " },
 			},
 		},
-		lualine_c = { { "filename", path = 1 } },
-		lualine_x = { "filetype" },
-		lualine_y = {},
+		lualine_y = { "filetype" },
 		lualine_z = {},
 	},
 	inactive_sections = {

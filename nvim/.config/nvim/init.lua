@@ -1,7 +1,22 @@
 require("keymaps")
 require("plugins")
 
-vim.g.floaterm_opener = "drop" -- opens buffer if already open
+if vim.g.neovide then
+	vim.o.guifont = "JetBrainsMono Nerd Font:h16"
+	vim.g.neovide_hide_mouse_when_typing = true
+	vim.g.neovide_remember_window_size = true
+	vim.g.neovide_underline_automatic_scaling = true
+
+	-- Allow clipboard copy paste in neovim
+	vim.g.neovide_input_use_logo = 1
+	vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+end
+
+-- vim.g.floaterm_opener = "drop" -- opens buffer if already open
+vim.g.floaterm_opener = "vsplit" -- opens buffer if already open
 vim.g.gitblame_enabled = 0
 vim.g.gitblame_date_format = "%r • %a %b %d %Y %I:%M%p"
 vim.g.gitblame_message_template = " [<author> @ <date> • <summary>]"
@@ -19,7 +34,9 @@ vim.api.nvim_create_autocmd({ "VimResized" }, { pattern = "*", command = "wincmd
 
 -- neovim 0.8 added smarts to avoid spellchecking code, but it still shows string literals as being misspelled which is annoying for things like import statements
 vim.opt.spell = false
--- vim.opt.splitkeep = "screen" -- screen, topline or cursor this keeps the document position where you want it when opening splits
+vim.opt.splitkeep = "screen" -- screen, topline or cursor this keeps the document position where you want it when opening splits
+vim.g.splitbelow = true
+vim.g.splitright = true
 vim.opt.laststatus = 3
 vim.opt.showtabline = 1
 vim.opt.fillchars:append({
@@ -55,6 +72,7 @@ vim.opt.relativenumber = false
 vim.opt.wrap = true
 vim.opt.scrolloff = 5
 vim.opt.mouse = nil
+-- vim.opt.mousefocus = true -- this doesn't seem to work in terminal
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.opt.hidden = true
@@ -64,6 +82,7 @@ vim.opt.updatetime = 300
 vim.g.cursorline_timeout = 300
 vim.opt.shortmess = "filnxtToOFc"
 vim.opt.signcolumn = "yes:2"
+vim.opt.pumblend = 30
 
 -- folding
 -- vim.opt.foldmethod = 'expr'

@@ -31,7 +31,9 @@ fi
 # Load everything
 zplug load
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+# . /opt/homebrew/opt/asdf/libexec/asdf.sh
+
+eval "$(rtx activate zsh)"
 
 export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
@@ -75,7 +77,6 @@ alias ls="ls -G1"
 alias bup="brew update; brew upgrade; brew cleanup; brew doctor"
 alias bs="brew search"
 alias bi="brew install"
-alias vim="nvim"
 alias grep="grep --color"
 
 # git aliases
@@ -87,6 +88,8 @@ alias gl="git l"
 alias lg="lazygit"
 alias cdg="cd-gitroot"
 alias pgit="GIT_SSH_COMMAND='ssh -i ~/.ssh/github-onelesd -o IdentitiesOnly=yes' git"
+alias nvs="rush update && rush build --to-except=web --to-except=nvs-test-environment ; say 'NVS Rebuild complete' && echo -n 'Press [Enter] to continue or [Ctrl-C] to quit' ; read"
+alias rushto='rush build --to=nvs-$(basename $(pwd))'
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
@@ -104,49 +107,23 @@ PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
 # add emacs doom to path
 PATH="${HOME}/.emacs.d/bin:$PATH"
 
+export EDITOR="nvim"
+export VISUAL="nvr --remote-tab +'set bufhidden=wipe'"
+
 # add go path
 PATH="$GOPATH/bin:$PATH"
 GOPATH=$HOME/go
 GOROOT="$(brew --prefix golang)/libexec"
 PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 PATH="$PATH:$HOME/bin"
-PATH="$PATH:$HOME/.asdf/installs/rust/1.58.1/bin"
+# PATH="$PATH:$HOME/.asdf/installs/rust/1.58.1/bin"
 PATH="$PATH:$HOME/.local/bin"
 
-export EDITOR=nvim
-export VISUAL="nvr --remote-wait +'set bufhidden=wipe'"
-
-# give us a hint on how to scroll when noevim's floaterm is set
-[[ -v FLOATERM ]] && echo "Floaterm Tip: use <C-\\> <C-n> to go to normal mode"
-
-# updates your AWS credentials if they've expired
-maybe-gimme-aws-creds() {
-  login_expiry_seconds=3600
-  lockfile="${HOME}/.gimme-aws-creds.lockfile"
-  if [[ -f $lockfile ]]; then
-    age_seconds=$(($(date +%s) - $(stat -t %s -f %m -- "$lockfile")))
-    if [[ $age_seconds -ge $login_expiry_seconds ]]; then
-      echo "AWS credentials have expired."
-      touch $lockfile && gimme-aws-creds
-    # else
-    #   echo "AWS credentials are still valid."
-    fi
-  else
-    echo "Initializing lockfile: $lockfile"
-    touch $lockfile && gimme-aws-creds
-  fi
-}
-alias aws="maybe-gimme-aws-creds && aws"
-alias sam="maybe-gimme-aws-creds && sam"
-alias terraform="maybe-gimme-aws-creds && terraform"
-alias k9s="maybe-gimme-aws-creds && k9s"
-alias kubetail="maybe-gimme-aws-creds && kubetail"
-
 alias localstack="DISABLE_EVENTS=1 localstack"
-
 export AWS_PROFILE="NIKE.SSO.AdminRole"
 export AWS_REGION="us-west-2"
-
 export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
 
-[ -f ~/.zshenv ] && source ~/.zshenv
+[ -f $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh ] && source $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh
+
+[ -f $HOME/.zshenv ] && source $HOME/.zshenv

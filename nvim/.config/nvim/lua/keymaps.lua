@@ -59,6 +59,7 @@ end, {})
 -- end, {})
 
 local term_base = "<CMD>hi FloatermBorder guifg=#24283b<CR>"
+	.. "<CMD>FloatermKill!<CR>"
 	.. "<CMD>FloatermNew --width=0.9 --height=0.9 "
 	.. "--borderchars="
 	.. table.concat(require("plugins/util").borderchars)
@@ -68,9 +69,34 @@ local term_base = "<CMD>hi FloatermBorder guifg=#24283b<CR>"
 
 local dotfiles = "~/dotfiles/nvim/.config/nvim"
 
+function _G.delete_unmodified_hidden_buffers()
+	local all_buffers = vim.api.nvim_list_bufs()
+	local visible_buffers = {}
+
+	for _, win_id in ipairs(vim.api.nvim_list_wins()) do
+		local buf_id = vim.api.nvim_win_get_buf(win_id)
+		visible_buffers[buf_id] = true
+	end
+
+	for _, buf_id in ipairs(all_buffers) do
+		if not visible_buffers[buf_id] then
+			local buf_modified = vim.api.nvim_buf_get_option(buf_id, "modified")
+			if not buf_modified then
+				vim.api.nvim_buf_delete(buf_id, { force = true })
+			end
+		end
+	end
+
+	vim.notify("Removed all non-visible buffers.")
+end
+
 local keymaps_table = {
 	{ "n", ";", ":" }, -- less shift pressing please
-	{ "n", "<CR>", ":noh<CR><CR>" }, -- clear search on enter
+	{ "n", "<ESC>", "<CMD>noh<CR><ESC>" }, -- clear search on enter
+	{ "n", "s", "<C-w>" }, -- move windows with s
+	{ "n", "<C-w>", "" }, -- disable move winndows with <C-w> so we learn to use s
+
+	{ "v", "y", "ygv<ESC>" }, -- disable move winndows with <C-w> so we learn to use s
 
 	-- expert mode
 	-- {'n', '<UP>', '<C-w><UP>'}, -- k
@@ -81,10 +107,14 @@ local keymaps_table = {
 	-- <C-\\> system clipboard paste because CMD-anything doesn't work in neovide
 	{ "n", "<C-\\>", "<CMD>set paste<CR>a<C-r>+<ESC><CMD>set nopaste<CR>" },
 	{ "i", "<C-\\>", "<C-o><CMD>set paste<CR><C-r>+<C-o><CMD>set nopaste<CR>" },
+	{ "n", "<leader>c", '"+ye' },
+	{ "v", "<leader>c", '"+y' },
 
 	{ "n", "-", "<CMD>lua require('oil').open()<CR>" }, -- open file browser
 
+	-- we like both gl and C-space for diagnostic float
 	{ "n", "gl", '<CMD>lua vim.diagnostic.open_float(nil, {focus = false, border = "single"})<CR>' },
+	{ "n", "<C-Space>", '<CMD>lua vim.diagnostic.open_float(nil, {focus = false, border = "single"})<CR>' },
 	{ "n", "[d", '<CMD>lua vim.diagnostic.goto_prev({float = {focus = false, border = "single"}})<CR>' },
 	{ "n", "]d", '<CMD>lua vim.diagnostic.goto_next({float = {focus = false, border = "single"}})<CR>' },
 
@@ -93,10 +123,11 @@ local keymaps_table = {
 	{ "n", "<leader>bb", '<CMD>lua require("plugins/util").telescope_buffers()<CR>' },
 	{ "n", "<leader>sp", '<CMD>lua require("plugins/util").telescope_live_grep()<CR>' },
 	{ "v", "<leader>sp", '"zy<CMD>lua require("plugins/util").telescope_live_grep(vim.fn.getreg("z"))<CR>qzq' },
-	{ "n", "<leader>sP", '<CMD>lua require("plugins/util").telescope_live_grep_in_folder()<CR>' },
+	{ "n", "<leader>sd", '<CMD>lua require("plugins/util").telescope_live_grep_in_folder()<CR>' },
+	{ "n", "<leader>rr", "<CMD>Telescope resume<CR>" },
 	{
 		"v",
-		"<leader>sP",
+		"<leader>sd",
 		'"zy<CMD>lua require("plugins/util").telescope_live_grep_in_folder(vim.fn.getreg("z"))<CR>qzq',
 	},
 	{ "n", "<leader>sf", '<CMD>lua require("plugins/util").telescope_current_buffer_fuzzy_find()<CR>' },
@@ -121,6 +152,7 @@ local keymaps_table = {
 	-- 	end),
 	-- 	{ expr = true },
 	-- },
+	-- { "n", "p", "]p" }, -- paste respecting indentation level
 
 	-- slime repl
 	-- {'n', '<leader>ix', '<CMD>tabnew ~/tmp/neovim_iex.exs<CR><CMD>vsplit term://iex -S mix<CR><C-w>w'},
@@ -149,35 +181,44 @@ local keymaps_table = {
 	{ "n", "<leader>gx", "<CMD>tabclose<CR>" },
 	{ "n", "<leader>bx", "<CMD>Bdelete<CR>" },
 	{ "n", "<TAB>", "<C-W><C-W>" },
-	{ "n", "<leader>bo", "<CMD>%bd|e#|bd#<CR>" }, -- kill all other buffers
+	{ "n", "<leader>bo", "<CMD>lua delete_unmodified_hidden_buffers()<CR>" }, -- remove all hidden buffers
 
-	{ "n", "<leader>z", "<CMD>lua require('zen-mode').toggle({ window = { width = 0.35 } })<CR>" }, -- zen mode
+	{ "n", "<leader>z", "<CMD>lua require('zen-mode').toggle({ window = { width = 0.33, height = 0.98 } })<CR>" }, -- zen mode
 
 	-- lazygit
 	-- { "n", "<leader>t", term_base .. "1 /bin/zsh<CR>" },
 	{ "n", "<leader>gg", term_base .. "1 lazygit<CR>" },
+	-- { "n", "<leader>gg", "<CMD>LazyGit<CR>" },
 
 	-- lsp
 	-- {'n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>'},
 	-- {'n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>'},
+	{ "n", "<leader>l", "<CMD>LspRestart<CR>" },
 	{ "n", "gd", "<CMD>Lspsaga lsp_finder<CR>" },
+	-- { "n", "gT", "<CMD>Lspsaga goto_type_definition<CR>" },
 	{ "n", "gs", "<CMD>TypescriptGoToSourceDefinition<CR>" },
 	{ "n", "gp", "<CMD>Lspsaga peek_definition<CR>" },
 	{ "n", "ga", "<CMD>Lspsaga code_action<CR>" },
-	{ "n", "<leader>O", "<CMD>Lspsaga outline<CR>" },
+	{ "n", "<leader>o", "<CMD>lua require('nvim-navbuddy').open()<CR>" },
 	{ "n", "<leader>d", "<CMD>Trouble document_diagnostics<CR>" },
 	{ "n", "<leader>D", "<CMD>Trouble workspace_diagnostics<CR>" },
 	{ "n", "<leader>xd", "<CMD>lua vim.diagnostic.reset()<CR>" },
-	{ "n", "<leader>T", "<CMD>Trouble<CR>" },
+	{ "n", "<leader>t", "<CMD>Trouble<CR>" },
+	{ "n", "<leader>T", "<CMD>TroubleRefresh<CR>" },
 	{ "n", "<leader>rn", "<CMD>lua vim.lsp.buf.rename()<CR>" },
 	{ "n", "<leader>i", "<CMD>TypescriptAddMissingImports<CR>" },
 	{ "n", "<leader>I", "<CMD>TypescriptOrganizeImports<CR>" },
-	{ "n", "K", "<CMD>Lspsaga hover_doc<CR>" },
 	{ "n", "<leader>td", "<CMD>TodoTelescope<CR>" },
-	-- {'v', 'K', '<CMD>lua require"dash.providers.telescope".dash({ bang = false, initial_text = vim.fn.expand("<cword>") })<CR>'}, -- dash integration
+	{ "n", "K", "<CMD>Lspsaga hover_doc<CR>" },
+	{
+		"n",
+		"<leader>k",
+		'<CMD>lua require"dash.providers.telescope".dash({ bang = true, initial_text = vim.fn.expand("<cword>") })<CR>',
+	}, -- dash integration
 
-	-- open Copilot panel
-	{ "n", "<leader>c", "<CMD>Copilot panel<CR>" },
+	-- open Copilot suggestions
+	-- { "i", "<C-c>", "<CMD>lua require('copilot.suggestion').next()<CR>" },
+	-- { "i", "<C-v>", "<CMD>lua require('copilot.suggestion').accept()<CR>" },
 
 	-- open/close vim configs
 	{

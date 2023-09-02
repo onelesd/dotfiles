@@ -19,7 +19,7 @@ local audio = require("hs.audiodevice")
 local volume = {}
 
 spoon.WindowHalfsAndThirds:bindHotkeys({
-	max_toggle = { mash, "M" },
+	max_toggle = { mash, "X" },
 	top_half = { mash, "Up" },
 	bottom_half = { mash, "Down" },
 	left_half = { mash, "Left" },
@@ -163,12 +163,20 @@ hs.hotkey.bind(mash, "N", function()
 	myLaunchOrFocus("Obsidian")
 end)
 
-hs.hotkey.bind(mash, "I", function()
+hs.hotkey.bind(mash, "M", function()
 	myLaunchOrFocus("Messages")
 end)
 
 hs.hotkey.bind(mash, "Z", function()
 	myLaunchOrFocus("zoom.us")
+end)
+
+hs.hotkey.bind(mash, "I", function()
+	myLaunchOrFocus("Insomnia")
+end)
+
+hs.hotkey.bind(mash, "V", function()
+	myLaunchOrFocus("Neovide")
 end)
 
 -- reload config

@@ -31,9 +31,9 @@ null_ls.setup({
 		null_ls.builtins.diagnostics.actionlint.with({ -- github actions
 			diagnostics_format = "[actionlint] #{m}\n(#{c})",
 		}),
-		null_ls.builtins.diagnostics.cfn_lint.with({ -- cloud formation
-			diagnostics_format = "[cfnlint] #{m}\n(#{c})",
-		}),
+		-- null_ls.builtins.diagnostics.cfn_lint.with({ -- cloud formation
+		-- 	diagnostics_format = "[cfnlint] #{m}\n(#{c})",
+		-- }),
 		null_ls.builtins.diagnostics.luacheck.with({
 			extra_args = {
 				"--read-globals",
@@ -45,6 +45,8 @@ null_ls.setup({
 		null_ls.builtins.formatting.stylua,
 		null_ls.builtins.code_actions.eslint_d,
 		null_ls.builtins.code_actions.gitsigns,
+		null_ls.builtins.diagnostics.jsonlint,
+		null_ls.builtins.diagnostics.credo,
 	},
 	on_attach = function(client, bufnr)
 		if client.server_capabilities.documentFormattingProvider then

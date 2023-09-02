@@ -97,10 +97,10 @@ local opts = {
 	results_title = "",
 	preview_title = "",
 	file_ignore_patterns = { "node_modules", "undodir" },
-	layout_strategy = "horizontal",
+	layout_strategy = "vertical",
 	layout_config = {
-		vertical = { width = 0.8, height = 0.9 },
-		horizontal = { width = 0.8, height = 0.9 },
+		vertical = { width = 0.5, height = 0.9, preview_height = 0.75 },
+		horizontal = { width = 0.8, height = 0.9, preview_width = 0.5 },
 	},
 	borderchars = {
 		borderchars,
@@ -119,7 +119,7 @@ local opts = {
 		"--smart-case",
 		"--trim",
 		"--glob",
-		"!{.git,**/.aws-sam/**,**/dist/**}",
+		"!{.git,**/.aws-sam/**,**/dist/**,**/*.gltf}",
 	},
 }
 
@@ -163,7 +163,7 @@ local enhance_opts = {
 return {
 	borderchars = borderchars,
 	telescope_find_files = function()
-		-- require('telescope.builtin').find_files(enhance_opts['find_files'](opts))
+		-- require("telescope.builtin").find_files(enhance_opts["find_files"](opts))
 		require("telescope").extensions.smart_open.smart_open(enhance_opts["find_files"](opts))
 	end,
 	telescope_live_grep = function(default_text)
