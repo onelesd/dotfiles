@@ -6,7 +6,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "TextChanged" }, {
 
 require("nvim-treesitter.configs").setup({
 	-- "all", "maintained", or a list of languages
-	ensure_installed = { "json", "toml", "yaml", "typescript", "elixir" },
+	ensure_installed = { "json", "toml", "yaml", "typescript", "elixir", "regex", "markdown", "markdown_inline", "bash" },
 
 	-- https://github.com/JoosepAlviste/nvim-ts-context-commentstring#adding-support-for-more-languages
 	context_commentstring = {

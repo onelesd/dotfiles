@@ -1,53 +1,55 @@
-local fn = vim.fn
-local ensure_packer = function()
-	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
-		vim.api.nvim_cmd({ cmd = "packadd packer.nvim" })
+-- local fn = vim.fn
 
-		return true
-	end
-	return false
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
 end
+vim.opt.rtp:prepend(lazypath)
 
-local packer_bootstrap = ensure_packer()
+-- lazy requires leader to be mapped before it runs
+-- what is this, spacemacs?
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
 
-local packer = require("packer")
-packer.init({
-	git = {
-		clone_timeout = 180,
-	},
-})
-packer.startup(function(use)
-	-- packer packer
-	use("wbthomason/packer.nvim")
+require("lazy").setup({
 
 	-- git blame in virtual text toggled with <leader-gb>
-	use("f-person/git-blame.nvim")
+	{
+		"f-person/git-blame.nvim",
+		cmd = "GitBlameToggle",
+	},
 
 	-- nice colors
-	use("rmehri01/onenord.nvim")
-	use("rebelot/kanagawa.nvim")
-	use({ "catppuccin/nvim", as = "catppuccin" })
+	"rebelot/kanagawa.nvim",
 
 	-- fancy highlighting and other cool code parsing stuff
-	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
-	-- for navigating visual selections in code
-	use("RRethy/nvim-treesitter-textsubjects")
-	-- sets the comment string for the current text. good for embdedded languages like JSX in TS
-	use("JoosepAlviste/nvim-ts-context-commentstring")
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter-textobjects",
+			"RRethy/nvim-treesitter-textsubjects",
+			"JoosepAlviste/nvim-ts-context-commentstring",
+		},
+	},
 
-	-- will add closing tags for elixir and bash and a few others. for ex, "do" will add an "end" automatically
-	-- use 'windwp/nvim-ts-autotag'
+	-- for navigating visual selections in code
+	-- "RRethy/nvim-treesitter-textsubjects",
+	-- sets the comment string for the current text. good for embdedded languages like JSX in TS
+	-- "JoosepAlviste/nvim-ts-context-commentstring",
 
 	-- jump around text objects (like functions)
-	use("nvim-treesitter/nvim-treesitter-textobjects")
-
-	-- use 'nvim-treesitter/nvim-treesitter-refactor'
+	-- "nvim-treesitter/nvim-treesitter-textobjects",
 
 	-- great file explorer mapped to "-"
-	-- use("jeetsukumaran/vim-filebeagle")
-	use({
+	{
 		"stevearc/oil.nvim",
 		config = function()
 			require("oil").setup({
@@ -57,97 +59,38 @@ packer.startup(function(use)
 				},
 			})
 		end,
-	})
-
-	-- -- Using packer
-	use({
-		"LeonHeidelbach/trailblazer.nvim",
-		config = function()
-			require("trailblazer").setup({
-				mappings = {
-					n = { -- Mode union: normal & visual mode. Can be extended by adding i, x, ...
-						motions = {
-							new_trail_mark = "<A-l>",
-							peek_move_next_down = "<A-j>",
-							peek_move_previous_up = "<A-k>",
-						},
-						actions = {
-							delete_all_trail_marks = "<A-L>",
-						},
-					},
-				},
-			})
-		end,
-	})
-	-- open and work with repl's in various languages
-	-- use {
-	--   'jpalardy/vim-slime',
-	--   config = function()
-	--     vim.g.slime_target = 'neovim'
-	--   end
-	-- }
+	},
 
 	-- go to the last place you were in a file when re-opening it
-	use({
+	{
 		"ethanholz/nvim-lastplace",
 		config = function()
 			require("nvim-lastplace").setup({})
 		end,
-	})
-
-	-- comment(ary)
-	-- use({
-	-- 	"terrortylor/nvim-comment",
-	-- 	config = function()
-	-- 		require("nvim_comment").setup({})
-	-- 	end,
-	-- })
+	},
 
 	-- auto brackets
-	-- use("windwp/nvim-autopairs")
-	use({
+	{
 		"echasnovski/mini.pairs",
 		config = function()
 			require("mini.pairs").setup()
 		end,
-	})
-
-	-- web devicons
-	use({
-		"kyazdani42/nvim-web-devicons",
-		config = function()
-			require("nvim-web-devicons").setup({
-				-- your personnal icons can go here (to override)
-				-- DevIcon will be appended to `name`
-				override = {},
-				-- globally enable default icons (default to false)
-				-- will get overriden by `get_icons` option
-				default = true,
-			})
-		end,
-	})
+	},
 
 	-- status line
-	use("nvim-lualine/lualine.nvim")
+	"nvim-lualine/lualine.nvim",
 
 	-- git signs in the gutter
-	use({
+	{
 		"lewis6991/gitsigns.nvim",
-		requires = { "nvim-lua/plenary.nvim" },
-	})
+		dependencies = { "nvim-lua/plenary.nvim" },
+	},
 
 	-- floating terminal
-	use("voldikss/vim-floaterm")
-	-- use({
-	-- 	"kdheepak/lazygit.nvim",
-	-- 	-- optional for floating window border decoration
-	-- 	requires = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 	},
-	-- })
+	{ "voldikss/vim-floaterm", cmd = { "FloatermKill" } },
 
 	-- session manager
-	use({
+	{
 		"rmagatti/auto-session",
 		config = function()
 			require("auto-session").setup({
@@ -155,41 +98,31 @@ packer.startup(function(use)
 				auto_session_suppress_dirs = { "~/" },
 			})
 		end,
-	})
-	-- use({
-	-- 	"echasnovski/mini.sessions",
-	-- 	config = function()
-	-- 		require("mini.sessions").setup({
-	-- 			autoread = true,
-	-- 			autowrite = true,
-	-- 			directory = fn.stdpath("data") .. "/session",
-	-- 		})
-	-- 	end,
-	-- })
+	},
 
-	-- add mappings for surrounding words with characters like "" and ()
-	-- NOTE thisn isn't working - the maps don't do anything
-	-- see: https://github.com/echasnovski/mini.nvim/blob/main/readmes/mini-surround.md#default-config
-	use({
+	-- add mappings for wrapping words with characters like "" and ()
+	{
 		"echasnovski/mini.surround",
 		config = function()
 			require("mini.surround").setup()
 		end,
-	})
+	},
 
 	-- delete buffers without messing up layout
-	use("famiu/bufdelete.nvim")
+	"famiu/bufdelete.nvim",
 
-	use({
+	{
 		"VonHeikemen/lsp-zero.nvim",
-		requires = {
+		dependencies = {
 			-- LSP Support
 			-- pin to this commit to prevent multiple tsserver lsp servers from attaching to the same buffer
-			{ "neovim/nvim-lspconfig", commit = "3e2cc7061957292850cc386d9146f55458ae9fe3" },
+			{
+				"neovim/nvim-lspconfig",
+				-- commit = "3e2cc7061957292850cc386d9146f55458ae9fe3",
+			},
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
 			{ "jose-elias-alvarez/typescript.nvim" }, -- typescript lsp support
-			-- { "jose-elias-alvarez/null-ls.nvim" },
 
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" },
@@ -199,16 +132,16 @@ packer.startup(function(use)
 			{ "saadparwaiz1/cmp_luasnip" },
 			{ "hrsh7th/cmp-nvim-lua" },
 			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-			-- { "tzachar/cmp-tabnine", run = "./install.sh", requires = "hrsh7th/nvim-cmp" },
 
 			-- Snippets
 			{ "L3MON4D3/LuaSnip" },
 			{ "rafamadriz/friendly-snippets" },
 		},
-	})
+		event = "LspAttach",
+	},
 
 	-- dim unused references
-	use({
+	{
 		"zbirenbaum/neodim",
 		event = "LspAttach",
 		config = function()
@@ -225,12 +158,12 @@ packer.startup(function(use)
 				},
 			})
 		end,
-	})
+	},
 
-	-- TODO helper
-	use({
+	-- code notes helper for todos and notes
+	{
 		"folke/todo-comments.nvim",
-		requires = "nvim-lua/plenary.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("todo-comments").setup({
 				keywords = {
@@ -249,67 +182,63 @@ packer.startup(function(use)
 				},
 			})
 		end,
-	})
+	},
 
 	-- split and join treesitter objects
-	use({
+	{
 		"Wansmer/treesj",
-		requires = { "nvim-treesitter" },
+		dependencies = { "nvim-treesitter" },
 		config = function()
 			require("treesj").setup()
 		end,
-	})
+	},
 
 	-- telescope is for finding and searching files
-	use({
+	{
 		"nvim-telescope/telescope.nvim",
-		requires = {
-			{ "nvim-lua/popup.nvim" },
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-telescope/telescope-project.nvim" },
-			{ "kkharji/sqlite.lua" },
-			-- { "nvim-telescope/telescope-live-grep-args.nvim" },
+		dependencies = {
+			"nvim-lua/popup.nvim",
+			"nvim-lua/plenary.nvim",
+			"nvim-telescope/telescope-project.nvim",
+			"kkharji/sqlite.lua",
 			{
 				"nvim-telescope/telescope-fzf-native.nvim",
-				run = "make",
+				build = "make",
 			},
-			{ "natecraddock/telescope-zf-native.nvim" },
+			"natecraddock/telescope-zf-native.nvim",
 
-			{ "danielfalk/smart-open.nvim" },
+			"danielfalk/smart-open.nvim",
 			{
 				"benfowler/telescope-luasnip.nvim",
 				module = "telescope._extensions.luasnip",
 			},
 		},
-	})
+	},
 
 	-- ui sugar for lsp
-	use({
+	{
 		"nvimdev/lspsaga.nvim",
-		requires = {
-			{ "nvim-tree/nvim-web-devicons" },
-			{ "nvim-treesitter/nvim-treesitter" },
-		},
-		after = {
-			"nvim-lspconfig",
+		dependencies = {
+			"nvim-tree/nvim-web-devicons",
+			"nvim-treesitter/nvim-treesitter",
 		},
 		-- pin to this commit because 0.3.0 is a full rewrite and is causing errors
 		-- commit = "4f075452c466df263e69ae142f6659dcf9324bf6",
-	})
+	},
 
 	-- autocompletion
-	use({
+	{
 		"hrsh7th/nvim-cmp",
-		requires = {
-			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "hrsh7th/cmp-buffer" },
-			{ "saadparwaiz1/cmp_luasnip" },
+		dependencies = {
+			"hrsh7th/cmp-nvim-lsp",
+			"hrsh7th/cmp-buffer",
+			"saadparwaiz1/cmp_luasnip",
 		},
-	})
+	},
 
-	use({
+	{
 		"L3MON4D3/LuaSnip", -- powerful snippets
-		requires = {
+		dependencies = {
 			"rafamadriz/friendly-snippets", -- common snippets for various languages
 		},
 		config = function()
@@ -317,34 +246,33 @@ packer.startup(function(use)
 				exclude = { "javascript" },
 			})
 		end,
-	})
+	},
 
 	-- use SchemaStore schemas in lsp
-	use("b0o/schemastore.nvim")
+	"b0o/schemastore.nvim",
 
 	-- show nice icons in completion popups and other places
-	use("onsails/lspkind-nvim")
+	"onsails/lspkind-nvim",
 
 	-- make the diagnostics window pretty. also can send telescope results to it with <Ctrl-t>
-	use("folke/trouble.nvim")
+	"folke/trouble.nvim",
 
 	-- <leader-go> opens current line in github. nice to share links.
-	use({
+	{
 		"ruifm/gitlinker.nvim",
-		requires = "nvim-lua/plenary.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("gitlinker").setup({
 				mappings = nil,
 			})
 		end,
-	})
+	},
 
 	-- sorts completions prefixed with underscore lower since they aren't normally useful
-	use("lukas-reineke/cmp-under-comparator")
+	"lukas-reineke/cmp-under-comparator",
 
 	-- adds indentation guides using virtual text
-	-- use("lukas-reineke/indent-blankline.nvim")
-	use({
+	{
 		"echasnovski/mini.indentscope",
 		opts = {
 			-- symbol = "▏",
@@ -360,135 +288,54 @@ packer.startup(function(use)
 			})
 			require("mini.indentscope").setup(opts)
 		end,
-	})
-
-	-- highlight trailing whitespace
-	-- :StripWhitespace removes all extra whitespace
-	-- use("ntpeters/vim-better-whitespace")
+	},
 
 	-- provides various commands
 	-- :Delete, :Move, :Rename, others...
-	use("tpope/vim-eunuch")
+	"tpope/vim-eunuch",
 
 	-- supercharge <C-x> & <C-a> to increment words, like true/false, enabled/disabled
-	use("Konfekt/vim-CtrlXA")
+	"Konfekt/vim-CtrlXA",
 
-	-- for working with csv files. wee: https://github.com/chrisbra/csv.vim
-	-- use({
-	-- 	"chrisbra/csv.vim",
-	-- 	config = function()
-	-- 		vim.cmd([[
-	--       augroup filetypedetect
-	--         au! BufRead,BufNewFile *.csv.gz	setfiletype csv
-	--       augroup END
-	--     ]])
-	-- 	end,
-	-- })
-
-	use({
+	{
 		"folke/zen-mode.nvim",
 		config = function()
 			require("zen-mode").setup({})
 		end,
-	})
-
-	-- use({
-	-- 	"ray-x/lsp_signature.nvim",
-	-- 	config = function()
-	-- 		require("lsp_signature").setup({})
-	-- 	end,
-	-- })
-
-	-- use({ "zbirenbaum/copilot.lua" })
-
-	-- use({ "zbirenbaum/copilot-cmp" })
-
-	-- use({ "codota/tabnine-nvim", run = "./dl_binaries.sh" })
-	-- use({
-	-- 	"tzachar/cmp-ai",
-	-- 	requires = { "nvim-lua/plenary.nvim" },
-	-- })
+	},
 
 	-- fancy notifications
-	use({ "folke/noice.nvim", requires = {
-		{ "MunifTanjim/nui.nvim" },
-		{ "rcarriga/nvim-notify" },
-	} })
+	{ "folke/noice.nvim", dependencies = {
+		"MunifTanjim/nui.nvim",
+		"rcarriga/nvim-notify",
+	} },
 
 	-- gc commenting
-	use({
+	{
 		"echasnovski/mini.comment",
 		config = function()
 			require("mini.comment").setup()
 		end,
-	})
+	},
 
 	-- easy movements via treesitter
-	use({ "ziontee113/SelectEase" })
+	"ziontee113/SelectEase",
 
 	-- linting
-	use({ "mfussenegger/nvim-lint" })
+	"mfussenegger/nvim-lint",
 
 	-- formatting
-	-- use({ "mhartington/formatter.nvim" })
-	use({ "stevearc/conform.nvim" })
-
-	-- for playing with treesitter - usually to discover node types for scripting
-	use({ "nvim-treesitter/playground" })
+	"stevearc/conform.nvim",
 
 	-- dash documentation app
-	use({
+	{
 		"mrjones2014/dash.nvim",
-		run = "make install",
-	})
-
-	-- we just want the BufferCloseAllButVisible this package provides and nothing else
-	-- use({
-	-- 	"romgrk/barbar.nvim",
-	-- 	requires = "nvim-web-devicons",
-	-- 	config = function()
-	-- 		require("romgrk/barbar.nvim").setup({
-	-- 			animation = false,
-	-- 			auto_hide = false,
-	-- 			clickable = false,
-	-- 		})
-	-- 	end,
-	-- })
-
-	-- code navigation breadcrumbs
-	-- use({
-	-- 	"SmiteshP/nvim-navbuddy",
-	-- 	requires = {
-	-- 		"neovim/nvim-lspconfig",
-	-- 		"SmiteshP/nvim-navic",
-	-- 		"MunifTanjim/nui.nvim",
-	-- 	},
-	-- })
-
-	-- elixir support
-	-- use({
-	-- 	"elixir-tools/elixir-tools.nvim",
-	-- 	requires = { "nvim-lua/plenary.nvim" },
-	-- 	config = function()
-	-- 		require("elixir").setup()
-	-- 	end,
-	-- })
-
-	-- Automatically set up your configuration after cloning packer.nvim
-	-- Put this at the end after all plugins
-	if packer_bootstrap then
-		require("packer").sync()
-	end
-end)
+		build = "make install",
+	},
+})
 
 -- leave at bottom so packages can be installed before we try working with them
--- theme
--- require("plugins/onenord")
 require("plugins/kanagawa")
--- require("plugins/catppuccin")
-
--- other
--- require("plugins/null-ls")
 require("plugins/lsp-zero")
 require("plugins/lspsaga")
 require("plugins/treesitter")
@@ -501,7 +348,3 @@ require("plugins/diagnostics")
 require("plugins/nvim-lint")
 require("plugins/conform")
 require("plugins/noice")
--- require("plugins/formatter")
--- require("plugins/copilot")
--- require("plugins/tabnine")
--- require("plugins/cmp-ai")

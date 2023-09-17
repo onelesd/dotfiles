@@ -1,5 +1,5 @@
-require("keymaps")
 require("plugins")
+require("keymaps")
 
 if vim.g.neovide then
 	vim.o.guifont = "JetBrainsMono Nerd Font:h15"

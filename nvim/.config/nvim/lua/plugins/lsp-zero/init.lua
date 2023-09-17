@@ -159,18 +159,6 @@ lsp_configure("graphql", {
 -- 	},
 -- })
 
-lsp_configure("cfn-lsp-extra", {
-	settings = {
-		json = {
-			schemas = require("schemastore").json.schemas(),
-			validate = { enable = true },
-		},
-	},
-	filetypes = {
-		"yaml",
-	},
-})
-
 lsp_configure("jsonls", {
 	settings = {
 		json = {
@@ -204,7 +192,7 @@ lsp_configure("eslint", {
 	},
 })
 
-lsp_configure("sumneko_lua", {
+lsp_configure("lua_ls", {
 	settings = {
 		Lua = {
 			format = {
@@ -292,18 +280,30 @@ require("typescript").setup({
 	},
 })
 
+-- lsp_configure("cfn-lsp-extra", {
+-- 	settings = {
+-- 		json = {
+-- 			schemas = require("schemastore").json.schemas(),
+-- 			validate = { enable = true },
+-- 		},
+-- 	},
+-- 	filetypes = {
+-- 		"yaml",
+-- 	},
+-- })
+
 lsp.setup()
 
-require("lspconfig.configs").cfn_lsp_extra = {
-	default_config = {
-		name = "cfn-lsp-extra",
-		cmd = { "cfn-lsp-extra" },
-		filetypes = { "yaml" },
-		root_dir = lspconfig.util.find_git_ancestor,
-	},
-}
-
-require("lspconfig").cfn_lsp_extra.setup({})
+-- require("lspconfig.configs").cfn_lsp_extra = {
+-- 	default_config = {
+-- 		name = "cfn-lsp-extra",
+-- 		cmd = { "cfn-lsp-extra" },
+-- 		filetypes = { "yaml" },
+-- 		root_dir = lspconfig.util.find_git_ancestor,
+-- 	},
+-- }
+--
+-- require("lspconfig").cfn_lsp_extra.setup({})
 
 vim.opt.completeopt = { "menu", "menuone", "noselect" }
 

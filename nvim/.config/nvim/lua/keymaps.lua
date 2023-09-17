@@ -1,5 +1,4 @@
 -- local map_utils = require("plugins/util/map_utils")
-vim.g.mapleader = " " -- what is this, spacemacs?
 
 -- create some keymaps that use expressions
 -- someday figure out how to load these in the keymaps_table instead

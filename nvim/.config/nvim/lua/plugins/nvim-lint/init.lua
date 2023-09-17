@@ -2,7 +2,7 @@ require("lint").linters_by_ft = {
 	-- typescript = { "eslint_d" }, -- we use the eslint lsp server now instead
 	-- typescriptreact = { "eslint_d" }, -- we use the eslint lsp server now instead
 	lua = { "luacheck" },
-	yaml = { "actionlint" }, -- cfn_lint is enabled through cfn-lsp-extra. yamllint is too noisy
+	yaml = { "actionlint", "cfn_lint" },
 	json = { "jsonlint" },
 	terraform = { "tfsec" },
 }
@@ -18,6 +18,9 @@ luacheck.args = {
 	"vim",
 	"-",
 }
+
+local cfn_lint = require("lint").linters.cfn_lint
+cfn_lint.args = { "--format", "parseable", "--non-zero-exit-code", "none" }
 
 vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "TextChanged" }, {
 	callback = function()
