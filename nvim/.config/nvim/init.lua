@@ -2,7 +2,7 @@ require("keymaps")
 require("plugins")
 
 if vim.g.neovide then
-	vim.o.guifont = "JetBrainsMono Nerd Font:h16"
+	vim.o.guifont = "JetBrainsMono Nerd Font:h15"
 	vim.g.neovide_hide_mouse_when_typing = true
 	vim.g.neovide_remember_window_size = true
 	vim.g.neovide_underline_automatic_scaling = true
@@ -37,7 +37,7 @@ vim.opt.spell = false
 vim.opt.splitkeep = "screen" -- screen, topline or cursor this keeps the document position where you want it when opening splits
 vim.g.splitbelow = true
 vim.g.splitright = true
-vim.opt.laststatus = 3
+vim.opt.laststatus = 0
 vim.opt.showtabline = 1
 vim.opt.fillchars:append({
 	horiz = "━",

@@ -8,6 +8,7 @@ require("lspsaga").setup({
 			vsplit = "v",
 			split = "s",
 			quit = { "q", "<ESC>" },
+			shuttle = "<Tab>",
 		},
 	},
 	lightbulb = {

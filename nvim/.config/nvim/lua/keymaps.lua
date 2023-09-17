@@ -177,6 +177,9 @@ local keymaps_table = {
 
 	{ "n", "<leader>sa", '<CMD>lua require("plugins/util").saveas()<CR>' }, -- save a copy of current file in same dir
 
+	-- treesitter
+	{ "n", "<C-l>", "<CMD>TSBufDisable highlight<CR><CMD>TSBufEnable highlight<CR>" },
+
 	-- navigate tab-like for buffers
 	{ "n", "<leader>gx", "<CMD>tabclose<CR>" },
 	{ "n", "<leader>bx", "<CMD>Bdelete<CR>" },

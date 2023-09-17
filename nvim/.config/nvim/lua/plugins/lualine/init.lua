@@ -1,3 +1,10 @@
+local config_diagnostics = {
+	{
+		"diagnostics",
+		sources = { "nvim_diagnostic" },
+		symbols = { error = " ", warn = " ", info = " ", hint = " " },
+	},
+}
 require("lualine").setup({
 	options = {
 		icons_enabled = true,
@@ -12,28 +19,34 @@ require("lualine").setup({
 	},
 	sections = {
 		lualine_a = {},
-		-- lualine_b = {'branch', 'diff', {'diagnostics', sources = {'nvim_lsp'}}},
-		lualine_b = {
-			"branch",
-			"diff",
-		},
-		lualine_c = { { "filename", path = 1 } },
-		lualine_x = {
-			{
-				"diagnostics",
-				sources = { "nvim_diagnostic" },
-				symbols = { error = " ", warn = " ", info = " ", hint = " " },
-			},
-		},
-		lualine_y = { "filetype" },
+		lualine_b = {},
+		lualine_c = {},
+		lualine_x = {},
+		lualine_y = {},
 		lualine_z = {},
 	},
 	inactive_sections = {
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = { { "filename", path = 1 } },
-		lualine_x = { "filetype" },
+		lualine_c = {},
+		lualine_x = {},
 		lualine_y = {},
+		lualine_z = {},
+	},
+	winbar = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { { "filename", path = 1 } },
+		lualine_x = config_diagnostics,
+		lualine_y = { "filetype" },
+		lualine_z = {},
+	},
+	inactive_winbar = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { { "filename", path = 1 } },
+		lualine_x = config_diagnostics,
+		lualine_y = { "filetype" },
 		lualine_z = {},
 	},
 	tabline = {

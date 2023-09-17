@@ -91,6 +91,10 @@ require("formatter").setup({
 			-- require("formatter.filetypes.typescriptreact").eslint_d,
 		},
 
+		elixir = {
+			require("formatter.filetypes.elixir").mixformat,
+		},
+
 		yaml = {
 			require("formatter.filetypes.yaml").prettierd,
 		},

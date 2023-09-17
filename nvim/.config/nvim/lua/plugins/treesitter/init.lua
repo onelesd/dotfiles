@@ -1,6 +1,12 @@
+-- this makes treesitter resync the buffer highlighting since it seems to get out of sync with neovim 0.9.2
+vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "TextChanged" }, {
+	pattern = "*",
+	command = "TSBufDisable highlight | TSBufEnable highlight",
+})
+
 require("nvim-treesitter.configs").setup({
 	-- "all", "maintained", or a list of languages
-	ensure_installed = { "json", "toml", "yaml", "typescript" },
+	ensure_installed = { "json", "toml", "yaml", "typescript", "elixir" },
 
 	-- https://github.com/JoosepAlviste/nvim-ts-context-commentstring#adding-support-for-more-languages
 	context_commentstring = {

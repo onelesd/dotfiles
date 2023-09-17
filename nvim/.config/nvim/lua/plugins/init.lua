@@ -284,13 +284,17 @@ packer.startup(function(use)
 	})
 
 	-- ui sugar for lsp
-	-- use 'tami5/lspsaga.nvim'
-	-- use("glepnir/lspsaga.nvim")
-
 	use({
 		"nvimdev/lspsaga.nvim",
+		requires = {
+			{ "nvim-tree/nvim-web-devicons" },
+			{ "nvim-treesitter/nvim-treesitter" },
+		},
+		after = {
+			"nvim-lspconfig",
+		},
 		-- pin to this commit because 0.3.0 is a full rewrite and is causing errors
-		commit = "4f075452c466df263e69ae142f6659dcf9324bf6",
+		-- commit = "4f075452c466df263e69ae142f6659dcf9324bf6",
 	})
 
 	-- autocompletion
@@ -406,12 +410,10 @@ packer.startup(function(use)
 	-- })
 
 	-- fancy notifications
-	use({
-		"rcarriga/nvim-notify",
-		config = function()
-			vim.notify = require("notify")
-		end,
-	})
+	use({ "folke/noice.nvim", requires = {
+		{ "MunifTanjim/nui.nvim" },
+		{ "rcarriga/nvim-notify" },
+	} })
 
 	-- gc commenting
 	use({
@@ -428,7 +430,8 @@ packer.startup(function(use)
 	use({ "mfussenegger/nvim-lint" })
 
 	-- formatting
-	use({ "mhartington/formatter.nvim" })
+	-- use({ "mhartington/formatter.nvim" })
+	use({ "stevearc/conform.nvim" })
 
 	-- for playing with treesitter - usually to discover node types for scripting
 	use({ "nvim-treesitter/playground" })
@@ -496,7 +499,9 @@ require("plugins/snippets")
 require("plugins/gitsigns")
 require("plugins/diagnostics")
 require("plugins/nvim-lint")
-require("plugins/formatter")
+require("plugins/conform")
+require("plugins/noice")
+-- require("plugins/formatter")
 -- require("plugins/copilot")
 -- require("plugins/tabnine")
 -- require("plugins/cmp-ai")
