@@ -64,7 +64,13 @@ local term_base = "<CMD>hi FloatermBorder guifg=#24283b<CR>"
 	.. table.concat(require("plugins/util").borderchars)
 	.. " "
 	.. "--autoclose="
--- .. '--borderchars=─│─│╭╮╯╰ '
+local term_base_shell = "<CMD>hi FloatermBorder guifg=#24283b<CR>"
+	.. "<CMD>FloatermKill!<CR>"
+	.. "<CMD>FloatermNew! --width=0.25 --height=0.75 "
+	.. "--borderchars="
+	.. table.concat(require("plugins/util").borderchars)
+	.. " "
+	.. "--autoclose="
 
 local dotfiles = "~/dotfiles/nvim/.config/nvim"
 
@@ -192,11 +198,28 @@ local keymaps_table = {
 	{ "n", "<leader>gg", term_base .. "1 lazygit<CR>" },
 	-- { "n", "<leader>gg", "<CMD>LazyGit<CR>" },
 
+	-- local term_base = "<CMD>hi FloatermBorder guifg=#24283b<CR>"
+	-- 	.. "<CMD>FloatermKill!<CR>"
+	-- 	.. "<CMD>FloatermNew --width=0.9 --height=0.9 "
+	-- 	.. "--borderchars="
+	-- 	.. table.concat(require("plugins/util").borderchars)
+	-- 	.. " "
+	-- 	.. "--autoclose="
+	-- vim.api.nvim_command(term_base .. "1 rush build --to=nvs-" .. parts[2] .. "<CR>")
+
+	-- rush
+	{
+		"n",
+		"<leader>rt",
+		term_base_shell
+			.. "2 rushtofromvim % ; echo Press \\[Enter\\] to quit or \\[Ctrl-C\\] to inspect; read && exit<CR>",
+	},
+
 	-- lsp
 	-- {'n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>'},
 	-- {'n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>'},
 	{ "n", "<leader>l", "<CMD>LspRestart<CR>" },
-	{ "n", "gd", "<CMD>Lspsaga lsp_finder<CR>" },
+	{ "n", "gd", "<CMD>Lspsaga finder def+tyd+ref<CR>" },
 	-- { "n", "gT", "<CMD>Lspsaga goto_type_definition<CR>" },
 	{ "n", "gs", "<CMD>TypescriptGoToSourceDefinition<CR>" },
 	{ "n", "gp", "<CMD>Lspsaga peek_definition<CR>" },
@@ -240,6 +263,10 @@ local keymaps_table = {
 			.. "/lua/plugins<CR>",
 	},
 	{ "n", "<leader>V", "<CMD>bdelete<CR><CMD>bdelete<CR><CMD>bdelete<CR><CMD>bdelete<CR>" },
+
+	-- customize mouse
+	{ "n", "<LeftDrag>", "" },
+	{ "n", "<LeftRelease>", "" },
 }
 
 -- create keymaps from table

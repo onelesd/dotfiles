@@ -53,6 +53,7 @@ require("lazy").setup({
 		"stevearc/oil.nvim",
 		config = function()
 			require("oil").setup({
+				skip_confirm_for_simple_edits = true,
 				view_options = {
 					-- Show files and directories that start with "."
 					show_hidden = true,
@@ -91,11 +92,12 @@ require("lazy").setup({
 
 	-- session manager
 	{
-		"rmagatti/auto-session",
+		"echasnovski/mini.sessions",
+		version = "*",
 		config = function()
-			require("auto-session").setup({
-				log_level = "info",
-				auto_session_suppress_dirs = { "~/" },
+			require("mini.sessions").setup({
+				autoread = true,
+				autowrite = true,
 			})
 		end,
 	},
@@ -112,17 +114,30 @@ require("lazy").setup({
 	"famiu/bufdelete.nvim",
 
 	{
+		"pmizio/typescript-tools.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+		config = function()
+			local api = require("typescript-tools.api")
+			require("typescript-tools").setup({
+				handlers = {
+					["textDocument/publishDiagnostics"] = api.filter_diagnostics({ 80001, 6192, 6133 }),
+				},
+				expose_as_code_action = { "all" },
+				complete_function_calls = true,
+			})
+		end,
+	},
+
+	{
 		"VonHeikemen/lsp-zero.nvim",
 		dependencies = {
 			-- LSP Support
-			-- pin to this commit to prevent multiple tsserver lsp servers from attaching to the same buffer
 			{
 				"neovim/nvim-lspconfig",
-				-- commit = "3e2cc7061957292850cc386d9146f55458ae9fe3",
 			},
 			{ "williamboman/mason.nvim" },
 			{ "williamboman/mason-lspconfig.nvim" },
-			{ "jose-elias-alvarez/typescript.nvim" }, -- typescript lsp support
+			-- { "jose-elias-alvarez/typescript.nvim" },
 
 			-- Autocompletion
 			{ "hrsh7th/nvim-cmp" },
@@ -137,8 +152,54 @@ require("lazy").setup({
 			{ "L3MON4D3/LuaSnip" },
 			{ "rafamadriz/friendly-snippets" },
 		},
-		event = "LspAttach",
 	},
+
+	-- obsidian note taking integration
+	-- {
+	-- 	"epwalsh/obsidian.nvim",
+	-- 	lazy = true,
+	-- 	event = {
+	-- 		-- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+	-- 		"BufReadPre "
+	-- 			.. vim.fn.expand("~")
+	-- 			.. "/Documents/Obsidian/Nike/**.md",
+	-- 		"BufNewFile " .. vim.fn.expand("~") .. "/Documents/Obsidian/Nike/**.md",
+	-- 	},
+	-- 	dependencies = {
+	-- 		-- required
+	-- 		"nvim-lua/plenary.nvim",
+	--
+	-- 		-- optional dependencies
+	-- 		"nvim-telescope/telescope.nvim",
+	-- 		"hrsh7th/nvim-cmp",
+	-- 	},
+	-- 	opts = {
+	-- 		dir = "~/Documents/Obsidian/Nike", -- no need to call 'vim.fn.expand' here
+	-- 		completion = {
+	-- 			-- If using nvim-cmp, otherwise set to false
+	-- 			nvim_cmp = true,
+	-- 			-- Trigger completion at 2 chars
+	-- 			min_chars = 2,
+	-- 			-- Where to put new notes created from completion. Valid options are
+	-- 			--  * "current_dir" - put new notes in same directory as the current buffer.
+	-- 			--  * "notes_subdir" - put new notes in the default notes subdirectory.
+	-- 			new_notes_location = "current_dir",
+	-- 		},
+	-- 		mappings = {
+	-- 			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+	-- 			-- ["gf"] = require("obsidian.mapping").gf_passthrough(),
+	-- 		},
+	-- 		open_app_foreground = true,
+	-- 	},
+	-- },
+	--
+	-- {
+	-- 	"oflisback/obsidian-sync.nvim",
+	-- 	config = function()
+	-- 		require("obsidian-sync").setup()
+	-- 	end,
+	-- 	lazy = false,
+	-- },
 
 	-- dim unused references
 	{
@@ -305,10 +366,16 @@ require("lazy").setup({
 	},
 
 	-- fancy notifications
-	{ "folke/noice.nvim", dependencies = {
-		"MunifTanjim/nui.nvim",
-		"rcarriga/nvim-notify",
-	} },
+	{
+		"folke/noice.nvim",
+		opts = {
+			command_palette = false,
+		},
+		dependencies = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
+	},
 
 	-- gc commenting
 	{
@@ -331,6 +398,12 @@ require("lazy").setup({
 	{
 		"mrjones2014/dash.nvim",
 		build = "make install",
+	},
+
+	-- nicer looking vim.ui.select
+	{
+		"stevearc/dressing.nvim",
+		opts = {},
 	},
 })
 

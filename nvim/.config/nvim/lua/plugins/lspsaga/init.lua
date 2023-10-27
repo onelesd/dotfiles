@@ -3,12 +3,13 @@ require("lspsaga").setup({
 		typescript = "typescript",
 	},
 	finder = {
+		layout = "float", -- float, normal
 		keys = {
 			edit = { "<CR>" },
 			vsplit = "v",
 			split = "s",
 			quit = { "q", "<ESC>" },
-			shuttle = "<Tab>",
+			shuttle = "<S-tab>",
 		},
 	},
 	lightbulb = {

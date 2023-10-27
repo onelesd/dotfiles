@@ -109,13 +109,13 @@ local lsp_configure = function(client, opts)
 	lsp.configure(client, opts)
 end
 
-lsp_configure("cssmodules_ls", {
-	filetypes = {
-		"javascript",
-		"typescript",
-		"css",
-	},
-})
+-- lsp_configure("cssmodules_ls", {
+-- 	filetypes = {
+-- 		"javascript",
+-- 		"typescript",
+-- 		"css",
+-- 	},
+-- })
 
 lsp_configure("graphql", {
 	filetypes = {
@@ -231,54 +231,57 @@ lsp_configure("lua_ls", {
 --     return lsp.diagnostic.on_publish_diagnostics(nil, result, ctx, config)
 -- end
 
-require("typescript").setup({
-	disable_commands = false, -- prevent the plugin from creating Vim commands
-	debug = false, -- enable debug logging for commands
-	go_to_source_definition = {
-		fallback = true, -- fall back to standard LSP definition on failure
-	},
-	server = { -- pass options to lspconfig's setup method
-		debug = false,
-		-- disable_commands = false,
-		enable_import_on_completion = true,
-
-		-- import all
-		import_all_timeout = 5000, -- ms
-		-- lower numbers = higher priority
-		import_all_priorities = {
-			same_file = 1, -- add to existing import statement
-			local_files = 2, -- git files or files with relative path markers
-			buffer_content = 3, -- loaded buffer content
-			buffers = 4, -- loaded buffer names
-		},
-		import_all_scan_buffers = 100,
-		import_all_select_source = false,
-		-- if false will avoid organizing imports
-		always_organize_imports = true,
-
-		-- filter diagnostics
-		filter_out_diagnostics_by_severity = {},
-		filter_out_diagnostics_by_code = {
-			80001, -- File is a CommonJS module; it may be converted to an ES module. typescript (80001)
-		},
-
-		-- inlay hints
-		auto_inlay_hints = true,
-		inlay_hints_highlight = "Comment",
-		inlay_hints_priority = 200, -- priority of the hint extmarks
-		inlay_hints_throttle = 150, -- throttle the inlay hint request
-		inlay_hints_format = { -- format options for individual hint kind
-			Type = {},
-			Parameter = {},
-			Enum = {},
-		},
-
-		-- update imports on file move
-		update_imports_on_move = true,
-		require_confirmation_on_move = false,
-		watch_dir = nil,
-	},
-})
+-- require("typescript").setup({
+-- 	disable_commands = false, -- prevent the plugin from creating Vim commands
+-- 	debug = false, -- enable debug logging for commands
+-- 	go_to_source_definition = {
+-- 		fallback = true, -- fall back to standard LSP definition on failure
+-- 	},
+-- 	server = { -- pass options to lspconfig's setup method
+-- 		debug = false,
+-- 		-- disable_commands = false,
+-- 		enable_import_on_completion = true,
+--
+-- 		-- import all
+-- 		import_all_timeout = 5000, -- ms
+-- 		-- lower numbers = higher priority
+-- 		import_all_priorities = {
+-- 			same_file = 1, -- add to existing import statement
+-- 			local_files = 2, -- git files or files with relative path markers
+-- 			buffer_content = 3, -- loaded buffer content
+-- 			buffers = 4, -- loaded buffer names
+-- 		},
+-- 		import_all_scan_buffers = 100,
+-- 		import_all_select_source = false,
+-- 		-- if false will avoid organizing imports
+-- 		always_organize_imports = true,
+--
+-- 		-- filter diagnostics
+-- 		filter_out_diagnostics_by_severity = {},
+-- 		filter_out_diagnostics_by_code = {
+-- 			80001, -- File is a CommonJS module; it may be converted to an ES module. typescript (80001)
+-- 			-- below here are filtered because eslint provides checks
+-- 			6192, -- All imports in import declaration are unused. typescript (6192)
+-- 			6133, -- is declared but its value is never read. typescript (6133)
+-- 		},
+--
+-- 		-- inlay hints
+-- 		auto_inlay_hints = true,
+-- 		inlay_hints_highlight = "Comment",
+-- 		inlay_hints_priority = 200, -- priority of the hint extmarks
+-- 		inlay_hints_throttle = 150, -- throttle the inlay hint request
+-- 		inlay_hints_format = { -- format options for individual hint kind
+-- 			Type = {},
+-- 			Parameter = {},
+-- 			Enum = {},
+-- 		},
+--
+-- 		-- update imports on file move
+-- 		update_imports_on_move = true,
+-- 		require_confirmation_on_move = false,
+-- 		watch_dir = nil,
+-- 	},
+-- })
 
 -- lsp_configure("cfn-lsp-extra", {
 -- 	settings = {
@@ -305,7 +308,7 @@ lsp.setup()
 --
 -- require("lspconfig").cfn_lsp_extra.setup({})
 
-vim.opt.completeopt = { "menu", "menuone", "noselect" }
+-- vim.opt.completeopt = { "menu", "menuone", "noselect" }
 
 local cmp = require("cmp")
 local source_mapping = {
@@ -360,6 +363,9 @@ local cmp_config = lsp.defaults.cmp_config({
 			end
 		end),
 	}),
+	completion = {
+		completeopt = "menu,menuone,noinsert",
+	},
 	formatting = {
 		format = function(entry, vim_item)
 			vim_item.kind = require("lspkind").presets.default[vim_item.kind] .. " " .. vim_item.kind

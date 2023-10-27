@@ -32,8 +32,24 @@ vim.api.nvim_create_autocmd({ "FocusLost" }, { pattern = "*", command = "highlig
 -- equalize windows when vim is resized
 vim.api.nvim_create_autocmd({ "VimResized" }, { pattern = "*", command = "wincmd =" })
 
+-- make mouse support better for switching buffers
+-- this causes error on startup and breaks everything
+-- vim.api.nvim_create_autocmd({ "BufLeave" }, {
+-- 	pattern = "*",
+-- 	callback = function()
+-- 		vim.api.nvim_set_current_mark("m", vim.api.nvim_win_get_cursor(0))
+-- 	end,
+-- })
+-- vim.api.nvim_create_autocmd({ "BufEnter" }, {
+-- 	pattern = "*",
+-- 	callback = function()
+-- 		vim.api.nvim_win_set_cursor(0, vim.api.nvim_buf_get_mark(0, "m"))
+-- 	end,
+-- })
+
 -- neovim 0.8 added smarts to avoid spellchecking code, but it still shows string literals as being misspelled which is annoying for things like import statements
 vim.opt.spell = false
+vim.opt.spelloptions = "camel"
 vim.opt.splitkeep = "screen" -- screen, topline or cursor this keeps the document position where you want it when opening splits
 vim.g.splitbelow = true
 vim.g.splitright = true
@@ -60,7 +76,7 @@ vim.opt.undodir = vim.fn.stdpath("config") .. "/undodir"
 vim.opt.undofile = true
 vim.opt.incsearch = true
 vim.opt.hidden = true
-vim.opt.completeopt = "menuone,noinsert,noselect"
+-- vim.opt.completeopt = "menuone,noinsert,noselect"
 vim.opt.autoindent = true
 vim.opt.smartindent = true
 vim.opt.tabstop = 2
@@ -71,8 +87,9 @@ vim.opt.number = true
 vim.opt.relativenumber = false
 vim.opt.wrap = true
 vim.opt.scrolloff = 5
-vim.opt.mouse = nil
--- vim.opt.mousefocus = true -- this doesn't seem to work in terminal
+vim.opt.mouse = "n"
+vim.opt.mousehide = true
+vim.opt.mousefocus = true -- this doesn't seem to work in terminal
 vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.opt.hidden = true

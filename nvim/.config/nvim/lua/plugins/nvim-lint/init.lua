@@ -1,6 +1,6 @@
 require("lint").linters_by_ft = {
-	-- typescript = { "eslint_d" }, -- we use the eslint lsp server now instead
-	-- typescriptreact = { "eslint_d" }, -- we use the eslint lsp server now instead
+	-- typescript = { "eslint_d" },
+	-- typescriptreact = { "eslint_d" },
 	lua = { "luacheck" },
 	yaml = { "actionlint", "cfn_lint" },
 	json = { "jsonlint" },
@@ -28,19 +28,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "TextChanged" }, {
 	end,
 })
 
--- allow eslint to lint the buffer without having to write first
--- note that eslint_d is already configured this way by nvim-lint
--- local eslint = require("lint").linters.eslint
--- eslint.args = {
--- 	"--stdin",
--- 	"--stdin-filename",
--- 	function()
--- 		return vim.api.nvim_buf_get_name(0)
--- 	end,
--- }
--- eslint.stdin = true
-
--- we use the eslint lsp server now instead
+-- eslint_d config - commented because we use the eslint-lsp now
 -- local severity_map = {
 -- 	[1] = vim.diagnostic.severity.WARN,
 -- 	[2] = vim.diagnostic.severity.ERROR,
