@@ -89,7 +89,6 @@ alias lg="lazygit"
 alias cdg="cd-gitroot"
 alias pgit="GIT_SSH_COMMAND='ssh -i ~/.ssh/github-onelesd -o IdentitiesOnly=yes' git"
 alias nvs="rush update && rush build --to-except=web --to-except=nvs-test-environment ; say 'NVS Rebuild complete' && echo -n 'Press [Enter] to continue or [Ctrl-C] to quit' ; read"
-alias rushto='rush build --to=nvs-$(basename $(pwd))'
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

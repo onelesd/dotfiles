@@ -108,19 +108,30 @@ hs.hotkey.bind(mash, "=", changeVolume(3))
 
 -- media keys
 hs.hotkey.bind(mash, "/", function()
-	hs.eventtap.event.newSystemKeyEvent("PLAY", true):post()
-	hs.eventtap.event.newSystemKeyEvent("PLAY", false):post()
+	-- hs.eventtap.event.newSystemKeyEvent("PLAY", true):post()
+	-- hs.eventtap.event.newSystemKeyEvent("PLAY", false):post()
+	hs.spotify.playpause()
 end)
 
 hs.hotkey.bind(mash, ".", function()
-	hs.eventtap.event.newSystemKeyEvent("NEXT", true):post()
-	hs.eventtap.event.newSystemKeyEvent("NEXT", false):post()
+	-- hs.eventtap.event.newSystemKeyEvent("NEXT", true):post()
+	-- hs.eventtap.event.newSystemKeyEvent("NEXT", false):post()
+	hs.spotify.next()
 end)
 
 hs.hotkey.bind(mash, ",", function()
-	hs.eventtap.event.newSystemKeyEvent("PREVIOUS", true):post()
-	hs.eventtap.event.newSystemKeyEvent("PREVIOUS", false):post()
+	-- hs.eventtap.event.newSystemKeyEvent("PREVIOUS", true):post()
+	-- hs.eventtap.event.newSystemKeyEvent("PREVIOUS", false):post()
+	hs.spotify.previous()
 end)
+
+-- hs.hotkey.bind(mash, "'", function()
+-- 	hs.notify.show("Spotify", "Now Playing", "hi there")
+-- end)
+
+-- Spotify current song
+hs.loadSpoon("spotify-now-playing")
+spoon["spotify-now-playing"]:start()
 
 -- send window to next screen
 hs.hotkey.bind(mash, "\\", function()
