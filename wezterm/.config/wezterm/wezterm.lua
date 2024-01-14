@@ -2,7 +2,7 @@ local wezterm = require("wezterm")
 local act = wezterm.action
 
 return {
-	window_decorations = "RESIZE",
+	-- window_decorations = "RESIZE",
 	font = wezterm.font("JetBrainsMono Nerd Font"),
 	font_size = 16.0,
 	scrollback_lines = 100000,

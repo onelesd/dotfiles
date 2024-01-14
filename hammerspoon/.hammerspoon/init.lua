@@ -1,17 +1,17 @@
 -- disable window animation
-hs.window.animationDuration = 0
+hs.window.animationDuration = 0.25
 
 hs.loadSpoon("WindowHalfsAndThirds")
 
-hs.grid.setGrid("9x5", "5120x2160")
+hs.grid.setGrid("8x5", "5120x2160")
 hs.grid.HINTS = {
-	{ "A", "B", "C", "D", "E", "F", "G", "H", "I" },
-	{ "J", "K", "L", "M", "N", "O", "P", "Q", "R" },
-	{ "S", "T", "U", "V", "W", "X", "Y", "Z", "1" },
-	{ "2", "3", "4", "5", "6", "7", "8", "9", "0" },
-	{ "-", "=", ",", ".", "[", "]", "`", "/", "\\" },
+	{ "A", "B", "C", "D", "E", "F", "G", "H" },
+	{ "J", "K", "L", "M", "N", "O", "P", "Q" },
+	{ "S", "T", "U", "V", "W", "X", "Y", "Z" },
+	{ "2", "3", "4", "5", "6", "7", "8", "9" },
+	{ "-", "=", ",", ".", "[", "]", "`", "/" },
 }
-hs.grid.setMargins({ 0, 0 })
+hs.grid.setMargins({ x = 0, y = 0 })
 
 local mash = { "cmd", "alt", "ctrl" }
 local meh = { "ctrl", "alt", "shift" }
@@ -56,8 +56,28 @@ function centerFocusedWindow()
 	win:centerOnScreen()
 end
 
+-- function stopAutoRaise()
+-- 	hs.osascript.applescript([[
+--     on run {input, parameters}
+--         do shell script "/opt/homebrew/bin/brew stop autoraise"
+--         return input
+--     end run
+--   ]])
+-- end
+--
+-- function startAutoRaise()
+-- 	hs.osascript.applescript([[
+--     on run {input, parameters}
+--         do shell script "/opt/homebrew/bin/brew start autoraise"
+--         return input
+--     end run
+--   ]])
+-- end
+
 -- show modal grid selector
 hs.hotkey.bind(mash, "Space", function()
+	-- stopAutoRaise()
+	-- hs.grid.show(startAutoRaise())
 	hs.grid.show()
 end)
 
@@ -85,17 +105,16 @@ function volume.mute()
 	local dev = audio.defaultOutputDevice()
 	return dev and dev:setMuted(true)
 end
-
 function volume.unmute()
 	local dev = audio.defaultOutputDevice()
 	return dev and dev:setMuted(false)
 end
-
 function volume.muted()
 	local dev = audio.defaultOutputDevice()
 	return dev and dev:muted()
 end
 
+-- volume keys
 hs.hotkey.bind(mash, "0", function()
 	if volume.muted() then
 		volume.unmute()
@@ -112,26 +131,20 @@ hs.hotkey.bind(mash, "/", function()
 	-- hs.eventtap.event.newSystemKeyEvent("PLAY", false):post()
 	hs.spotify.playpause()
 end)
-
 hs.hotkey.bind(mash, ".", function()
 	-- hs.eventtap.event.newSystemKeyEvent("NEXT", true):post()
 	-- hs.eventtap.event.newSystemKeyEvent("NEXT", false):post()
 	hs.spotify.next()
 end)
-
 hs.hotkey.bind(mash, ",", function()
 	-- hs.eventtap.event.newSystemKeyEvent("PREVIOUS", true):post()
 	-- hs.eventtap.event.newSystemKeyEvent("PREVIOUS", false):post()
 	hs.spotify.previous()
 end)
 
--- hs.hotkey.bind(mash, "'", function()
--- 	hs.notify.show("Spotify", "Now Playing", "hi there")
--- end)
-
 -- Spotify current song
-hs.loadSpoon("spotify-now-playing")
-spoon["spotify-now-playing"]:start()
+-- hs.loadSpoon("spotify-now-playing")
+-- spoon["spotify-now-playing"]:start()
 
 -- send window to next screen
 hs.hotkey.bind(mash, "\\", function()
@@ -188,6 +201,20 @@ end)
 
 hs.hotkey.bind(mash, "V", function()
 	myLaunchOrFocus("Neovide")
+end)
+
+-- turn on Litra Glow
+hs.hotkey.bind(mash, "[", function()
+	hs.execute(
+		"/Users/DSelen/.local/bin/hidapitester --vidpid 046D/C900 --open --length 20 --send-output 0x11,0xff,0x04,0x1c,0x01"
+	)
+end)
+
+-- turn off Litra Glow
+hs.hotkey.bind(mash, "]", function()
+	hs.execute(
+		"/Users/DSelen/.local/bin/hidapitester --vidpid 046D/C900 --open --length 20 --send-output 0x11,0xff,0x04,0x1c"
+	)
 end)
 
 -- reload config

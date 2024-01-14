@@ -2,7 +2,7 @@ require("plugins")
 require("keymaps")
 
 if vim.g.neovide then
-	vim.o.guifont = "JetBrainsMono Nerd Font:h15"
+	vim.o.guifont = "JetBrainsMono Nerd Font:h16"
 	vim.g.neovide_hide_mouse_when_typing = true
 	vim.g.neovide_remember_window_size = true
 	vim.g.neovide_underline_automatic_scaling = true

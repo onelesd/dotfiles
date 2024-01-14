@@ -19,9 +19,9 @@ require("nvim-treesitter.configs").setup({
 	},
 
 	-- https://github.com/JoosepAlviste/nvim-ts-context-commentstring#adding-support-for-more-languages
-	context_commentstring = {
-		enable = true,
-	},
+	-- context_commentstring = {
+	-- 	enable = true,
+	-- },
 
 	textobjects = {
 		lsp_interop = {

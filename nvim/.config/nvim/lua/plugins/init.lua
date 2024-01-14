@@ -18,6 +18,16 @@ vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+function lsp_on_attach(on_attach)
+	vim.api.nvim_create_autocmd("LspAttach", {
+		callback = function(args)
+			local buffer = args.buf ---@type number
+			local client = vim.lsp.get_client_by_id(args.data.client_id)
+			on_attach(client, buffer)
+		end,
+	})
+end
+
 require("lazy").setup({
 
 	-- git blame in virtual text toggled with <leader-gb>
@@ -39,14 +49,6 @@ require("lazy").setup({
 			"JoosepAlviste/nvim-ts-context-commentstring",
 		},
 	},
-
-	-- for navigating visual selections in code
-	-- "RRethy/nvim-treesitter-textsubjects",
-	-- sets the comment string for the current text. good for embdedded languages like JSX in TS
-	-- "JoosepAlviste/nvim-ts-context-commentstring",
-
-	-- jump around text objects (like functions)
-	-- "nvim-treesitter/nvim-treesitter-textobjects",
 
 	-- great file explorer mapped to "-"
 	{
@@ -120,7 +122,7 @@ require("lazy").setup({
 			local api = require("typescript-tools.api")
 			require("typescript-tools").setup({
 				handlers = {
-					["textDocument/publishDiagnostics"] = api.filter_diagnostics({ 80001, 6192, 6133 }),
+					["textDocument/publishDiagnostics"] = api.filter_diagnostics({ 80001, 6192, 6133, 6196 }),
 				},
 				expose_as_code_action = { "all" },
 				complete_function_calls = true,
@@ -128,94 +130,134 @@ require("lazy").setup({
 		end,
 	},
 
+	{ "neovim/nvim-lspconfig" },
 	{
 		"VonHeikemen/lsp-zero.nvim",
-		dependencies = {
-			-- LSP Support
-			{
-				"neovim/nvim-lspconfig",
-			},
-			{ "williamboman/mason.nvim" },
-			{ "williamboman/mason-lspconfig.nvim" },
-			-- { "jose-elias-alvarez/typescript.nvim" },
-
-			-- Autocompletion
-			{ "hrsh7th/nvim-cmp" },
-			{ "hrsh7th/cmp-nvim-lsp" },
-			{ "hrsh7th/cmp-buffer" },
-			{ "hrsh7th/cmp-path" },
-			{ "saadparwaiz1/cmp_luasnip" },
-			{ "hrsh7th/cmp-nvim-lua" },
-			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
-
-			-- Snippets
-			{ "L3MON4D3/LuaSnip" },
-			{ "rafamadriz/friendly-snippets" },
-		},
+		branch = "v3.x",
+		lazy = true,
+		config = false,
+		init = function()
+			-- Disable automatic setup, we are doing it manually
+			vim.g.lsp_zero_extend_cmp = 0
+			vim.g.lsp_zero_extend_lspconfig = 0
+		end,
 	},
 
-	-- obsidian note taking integration
-	-- {
-	-- 	"epwalsh/obsidian.nvim",
-	-- 	lazy = true,
-	-- 	event = {
-	-- 		-- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
-	-- 		"BufReadPre "
-	-- 			.. vim.fn.expand("~")
-	-- 			.. "/Documents/Obsidian/Nike/**.md",
-	-- 		"BufNewFile " .. vim.fn.expand("~") .. "/Documents/Obsidian/Nike/**.md",
-	-- 	},
-	-- 	dependencies = {
-	-- 		-- required
-	-- 		"nvim-lua/plenary.nvim",
-	--
-	-- 		-- optional dependencies
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 		"hrsh7th/nvim-cmp",
-	-- 	},
-	-- 	opts = {
-	-- 		dir = "~/Documents/Obsidian/Nike", -- no need to call 'vim.fn.expand' here
-	-- 		completion = {
-	-- 			-- If using nvim-cmp, otherwise set to false
-	-- 			nvim_cmp = true,
-	-- 			-- Trigger completion at 2 chars
-	-- 			min_chars = 2,
-	-- 			-- Where to put new notes created from completion. Valid options are
-	-- 			--  * "current_dir" - put new notes in same directory as the current buffer.
-	-- 			--  * "notes_subdir" - put new notes in the default notes subdirectory.
-	-- 			new_notes_location = "current_dir",
-	-- 		},
-	-- 		mappings = {
-	-- 			-- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
-	-- 			-- ["gf"] = require("obsidian.mapping").gf_passthrough(),
-	-- 		},
-	-- 		open_app_foreground = true,
-	-- 	},
-	-- },
-	--
-	-- {
-	-- 	"oflisback/obsidian-sync.nvim",
-	-- 	config = function()
-	-- 		require("obsidian-sync").setup()
-	-- 	end,
-	-- 	lazy = false,
-	-- },
-
-	-- dim unused references
 	{
-		"zbirenbaum/neodim",
-		event = "LspAttach",
+		"williamboman/mason.nvim",
+		lazy = false,
+		config = true,
+	},
+
+	-- Autocompletion
+	{
+		"hrsh7th/nvim-cmp",
+		event = "InsertEnter",
+		dependencies = {
+			{ "L3MON4D3/LuaSnip" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
+		},
 		config = function()
-			require("neodim").setup({
-				alpha = 0.35,
-				blend_color = "#1f1f28",
-				update_in_insert = {
-					enable = true,
-					delay = 100,
+			-- Here is where you configure the autocompletion settings.
+			local lsp_zero = require("lsp-zero")
+			lsp_zero.extend_cmp()
+
+			-- And you can configure cmp even more, if you want to.
+			local cmp = require("cmp")
+			-- local cmp_action = lsp_zero.cmp_action()
+
+			local has_words_before = function()
+				if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+					return false
+				end
+				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+				return col ~= 0
+					and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+			end
+
+			cmp.setup({
+				sources = {
+					{ name = "luasnip", keyword_length = 2 },
+					{ name = "nvim_lsp_signature_help" },
+					{ name = "nvim_lsp", keyword_length = 3 },
+					{
+						name = "buffer",
+						keyword_length = 4,
+						option = {
+							get_bufnrs = function()
+								local bufs = {}
+								for _, win in ipairs(vim.api.nvim_list_wins()) do
+									bufs[vim.api.nvim_win_get_buf(win)] = true
+								end
+								return vim.tbl_keys(bufs)
+							end,
+						},
+					},
+					{ name = "path" },
 				},
-				hide = {
-					underline = false,
-					signs = true,
+				allow_duplicates = false,
+				snippet = {
+					expand = function(args)
+						require("luasnip").lsp_expand(args.body)
+					end,
+				},
+				view = {
+					entries = { name = "custom", selection_order = "near_cursor" },
+				},
+				window = {
+					completion = cmp.config.window.bordered(),
+					documentation = cmp.config.window.bordered({ col_offset = 3 }),
+				},
+				formatting = lsp_zero.cmp_format(),
+				completion = {
+					completeopt = "menu,menuone,noinsert",
+				},
+				mapping = lsp_zero.defaults.cmp_mappings({
+					["<CR>"] = cmp.mapping.confirm({
+						select = false,
+					}),
+					["<Tab>"] = vim.schedule_wrap(function(fallback)
+						if cmp.visible() and has_words_before() then
+							cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+						else
+							fallback()
+						end
+					end),
+				}),
+			})
+		end,
+	},
+
+	-- LSP
+	{
+		"neovim/nvim-lspconfig",
+		cmd = { "LspInfo", "LspInstall", "LspStart" },
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "williamboman/mason-lspconfig.nvim" },
+		},
+		config = function()
+			-- This is where all the LSP shenanigans will live
+			local lsp_zero = require("lsp-zero")
+			lsp_zero.extend_lspconfig()
+
+			lsp_zero.on_attach(function(client, bufnr)
+				-- see :help lsp-zero-keybindings
+				-- to learn the available actions
+				lsp_zero.default_keymaps({ buffer = bufnr })
+			end)
+
+			require("mason-lspconfig").setup({
+				ensure_installed = {},
+				handlers = {
+					lsp_zero.default_setup,
+					lua_ls = function()
+						-- (Optional) Configure lua language server for neovim
+						local lua_opts = lsp_zero.nvim_lua_ls()
+						require("lspconfig").lua_ls.setup(lua_opts)
+					end,
 				},
 			})
 		end,
@@ -283,8 +325,6 @@ require("lazy").setup({
 			"nvim-tree/nvim-web-devicons",
 			"nvim-treesitter/nvim-treesitter",
 		},
-		-- pin to this commit because 0.3.0 is a full rewrite and is causing errors
-		-- commit = "4f075452c466df263e69ae142f6659dcf9324bf6",
 	},
 
 	-- autocompletion
@@ -295,18 +335,6 @@ require("lazy").setup({
 			"hrsh7th/cmp-buffer",
 			"saadparwaiz1/cmp_luasnip",
 		},
-	},
-
-	{
-		"L3MON4D3/LuaSnip", -- powerful snippets
-		dependencies = {
-			"rafamadriz/friendly-snippets", -- common snippets for various languages
-		},
-		config = function()
-			require("luasnip.loaders.from_vscode").load({
-				exclude = { "javascript" },
-			})
-		end,
 	},
 
 	-- use SchemaStore schemas in lsp
@@ -409,7 +437,7 @@ require("lazy").setup({
 
 -- leave at bottom so packages can be installed before we try working with them
 require("plugins/kanagawa")
-require("plugins/lsp-zero")
+-- require("plugins/lsp-zero")
 require("plugins/lspsaga")
 require("plugins/treesitter")
 require("plugins/telescope")
@@ -421,3 +449,4 @@ require("plugins/diagnostics")
 require("plugins/nvim-lint")
 require("plugins/conform")
 require("plugins/noice")
+-- require("plugins/copilot")
