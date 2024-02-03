@@ -6,6 +6,7 @@ if vim.g.neovide then
 	vim.g.neovide_hide_mouse_when_typing = true
 	vim.g.neovide_remember_window_size = true
 	vim.g.neovide_underline_automatic_scaling = true
+	vim.g.neovide_scroll_animation_length = 0.15
 
 	-- Allow clipboard copy paste in neovim
 	vim.g.neovide_input_use_logo = 1

@@ -12,6 +12,8 @@ require("nvim-treesitter.configs").setup({
 		"yaml",
 		"typescript",
 		"elixir",
+		"eex",
+		"heex",
 		"regex",
 		"markdown",
 		"markdown_inline",
@@ -37,7 +39,7 @@ require("nvim-treesitter.configs").setup({
 		enable = true,
 		-- prev_selection = ',', -- (Optional) keymap to select the previous selection
 		keymaps = {
-			["."] = "textsubjects-smart",
+			-- ["."] = "textsubjects-smart",
 			-- [';'] = 'textsubjects-container-outer',
 			-- ['i;'] = 'textsubjects-container-inner',
 		},

@@ -33,7 +33,10 @@ zplug load
 
 # . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
+export KERL_BUILD_DOCS=yes # build erlang with docs
 eval "$(mise activate zsh)"
+
+eval "$(zoxide init zsh)"
 
 export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f8f8f2,bg+:#44475a,hl+:#bd93f9 --color=info:#ffb86c,prompt:#50fa7b,pointer:#ff79c6 --color=marker:#ff79c6,spinner:#ffb86c,header:#6272a4'
 
@@ -88,7 +91,7 @@ alias gl="git l"
 alias lg="lazygit"
 alias cdg="cd-gitroot"
 alias pgit="GIT_SSH_COMMAND='ssh -i ~/.ssh/github-onelesd -o IdentitiesOnly=yes' git"
-alias nvs="rush update && rush build --to-except=web --to-except=nvs-test-environment ; say 'NVS Rebuild complete' && echo -n 'Press [Enter] to continue or [Ctrl-C] to quit' ; read"
+alias nvs="rush update && rush build --to-except=web ; say -v Dave 'NVS Rebuild complete' && echo -n 'Press [Enter] to continue or [Ctrl-C] to quit' ; read"
 
 # test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 

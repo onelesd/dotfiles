@@ -219,7 +219,7 @@ local keymaps_table = {
 	-- {'n', 'gd', '<CMD>lua require"telescope.builtin".lsp_definitions()<CR>'},
 	-- {'n', 'gr', '<CMD>lua require"telescope.builtin".lsp_references()<CR>'},
 	{ "n", "<leader>l", "<CMD>LspRestart<CR>" },
-	{ "n", "gd", "<CMD>Lspsaga finder def+tyd+ref<CR>" },
+	{ "n", "gd", "<CMD>Lspsaga finder def+tyd+ref+imp<CR>" },
 	-- { "n", "gT", "<CMD>Lspsaga goto_type_definition<CR>" },
 	{ "n", "gs", "<CMD>TypescriptGoToSourceDefinition<CR>" },
 	{ "n", "gp", "<CMD>Lspsaga peek_definition<CR>" },
@@ -240,6 +240,7 @@ local keymaps_table = {
 		"<leader>k",
 		'<CMD>lua require"dash.providers.telescope".dash({ bang = true, initial_text = vim.fn.expand("<cword>") })<CR>',
 	}, -- dash integration
+	{ "n", "<leader>hd", "<CMD>lua require('elixir-extras').elixir_view_docs({include_mix_libs=true})<CR>" },
 
 	-- open Copilot suggestions
 	-- { "i", "<C-c>", "<CMD>lua require('copilot.suggestion').next()<CR>" },
