@@ -33,7 +33,13 @@ zplug load
 
 # . /opt/homebrew/opt/asdf/libexec/asdf.sh
 
-export KERL_BUILD_DOCS=yes # build erlang with docs
+# erlang build options
+# see: https://github.com/asdf-vm/asdf-erlang/issues/191
+export CPPFLAGS="${CPPFLAGS+"$CPPFLAGS "}-I/opt/homebrew/opt/unixodbc/include"
+export LDFLAGS="${LDFLAGS+"$LDFLAGS "}-L/opt/homebrew/opt/unixodbc/lib"
+export KERL_CONFIGURE_OPTIONS="--with-odbc=/opt/homebrew/opt/unixodbc --disable-debug --without-javac --with-ssl=$(brew --prefix openssl@1.1)"
+export KERL_BUILD_DOCS=yes
+
 eval "$(mise activate zsh)"
 
 eval "$(zoxide init zsh)"
