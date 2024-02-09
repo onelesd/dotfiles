@@ -145,16 +145,16 @@ require("lazy").setup({
 
       elixir.setup({
         nextls = {
-          disable = true,
+          enable = true,
           init_options = {
             experimental = {
-              completions = { enable = false },
+              completions = { enable = true },
             },
           },
         },
-        credo = { enable = true },
+        credo = { enable = false },
         elixirls = {
-          enable = true,
+          enable = false,
           settings = elixirls.settings({
             dialyzerEnabled = true,
             enableTestLenses = false,
@@ -187,6 +187,14 @@ require("lazy").setup({
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
+  },
+
+  {
+    "mhanberg/output-panel.nvim",
+    event = "VeryLazy",
+    config = function()
+      require("output_panel").setup()
+    end,
   },
 
   { "emmanueltouzery/elixir-extras.nvim" },
@@ -314,16 +322,55 @@ require("lazy").setup({
       end)
 
       require("mason-lspconfig").setup({
-        ensure_installed = {},
+        ensure_installed = { "svelte", "lua_ls" },
+        automatic_installation = true,
         handlers = {
           lsp_zero.default_setup,
           lua_ls = function()
-            -- (Optional) Configure lua language server for neovim
             local lua_opts = lsp_zero.nvim_lua_ls()
             require("lspconfig").lua_ls.setup(lua_opts)
           end,
+          -- elixirls = function()
+          --   require("lspconfig").elixirls.setup({
+          --     settings = {
+          --       elixirLS = {
+          --         dialyzerEnabled = true,
+          --         enableTestLenses = false,
+          --         fetchDeps = false,
+          --         suggestSpecs = false,
+          --         mixEnv = "dev",
+          --       },
+          --     },
+          --   })
+          -- end,
+          svelte = function()
+            require("lspconfig").svelte.setup({
+              settings = {
+                svelte = {
+                  plugin = {
+                    svelte = {
+                      compilerWarnings = {
+                        ["unused-export-let"] = "ignore",
+                      },
+                    },
+                  },
+                },
+              },
+            })
+          end,
         },
       })
+    end,
+  },
+  {
+    "toppair/peek.nvim",
+    event = { "VeryLazy" },
+    build = "deno task --quiet build:fast",
+    config = function()
+      require("peek").setup()
+      -- refer to `configuration to change defaults`
+      vim.api.nvim_create_user_command("PeekOpen", require("peek").open, {})
+      vim.api.nvim_create_user_command("PeekClose", require("peek").close, {})
     end,
   },
 

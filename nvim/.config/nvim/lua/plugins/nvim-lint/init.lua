@@ -1,31 +1,32 @@
 require("lint").linters_by_ft = {
-	-- typescript = { "eslint_d" },
-	-- typescriptreact = { "eslint_d" },
-	lua = { "luacheck" },
-	yaml = { "actionlint", "cfn_lint" },
-	json = { "jsonlint" },
-	terraform = { "tfsec" },
+  -- typescript = { "eslint_d" },
+  -- typescriptreact = { "eslint_d" },
+  lua = { "luacheck" },
+  yaml = { "actionlint", "cfn_lint" },
+  json = { "jsonlint" },
+  terraform = { "tfsec" },
+  -- elixir = { "credo" },
 }
 
 -- customize linters
 local luacheck = require("lint").linters.luacheck
 luacheck.args = {
-	"--formatter",
-	"plain",
-	"--codes",
-	"--ranges",
-	"--read-globals",
-	"vim",
-	"-",
+  "--formatter",
+  "plain",
+  "--codes",
+  "--ranges",
+  "--read-globals",
+  "vim",
+  "-",
 }
 
 local cfn_lint = require("lint").linters.cfn_lint
 cfn_lint.args = { "--format", "parseable", "--non-zero-exit-code", "none" }
 
 vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "TextChanged" }, {
-	callback = function()
-		require("lint").try_lint()
-	end,
+  callback = function()
+    require("lint").try_lint()
+  end,
 })
 
 -- eslint_d config - commented because we use the eslint-lsp now
