@@ -191,7 +191,7 @@ local keymaps_table = {
 	{ "n", "<TAB>", "<C-W><C-W>" },
 	{ "n", "<leader>bo", "<CMD>lua delete_unmodified_hidden_buffers()<CR>" }, -- remove all hidden buffers
 
-	{ "n", "<leader>z", "<CMD>lua require('zen-mode').toggle({ window = { width = 0.33, height = 0.98 } })<CR>" }, -- zen mode
+	{ "n", "<leader>z", "<CMD>lua require('zen-mode').toggle({ window = { width = 0.75, height = 0.98 } })<CR>" }, -- zen mode
 
 	-- lazygit
 	-- { "n", "<leader>t", term_base .. "1 /bin/zsh<CR>" },

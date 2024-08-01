@@ -2,38 +2,18 @@ require("plugins")
 require("keymaps")
 
 if vim.g.neovide then
-  vim.o.guifont = "JetBrainsMono Nerd Font:h14"
-  vim.g.neovide_hide_mouse_when_typing = true
-  vim.g.neovide_remember_window_size = true
-  vim.g.neovide_underline_automatic_scaling = true
-  vim.g.neovide_scroll_animation_length = 0.15
+	vim.o.guifont = "JetBrainsMono Nerd Font:h12"
+	vim.g.neovide_hide_mouse_when_typing = true
+	vim.g.neovide_remember_window_size = true
+	vim.g.neovide_underline_automatic_scaling = true
+	vim.g.neovide_scroll_animation_length = 0.15
 
-  -- Allow clipboard copy paste in neovim
-  vim.g.neovide_input_use_logo = 1
-  vim.api.nvim_set_keymap(
-    "",
-    "<D-v>",
-    "+p<CR>",
-    { noremap = true, silent = true }
-  )
-  vim.api.nvim_set_keymap(
-    "!",
-    "<D-v>",
-    "<C-R>+",
-    { noremap = true, silent = true }
-  )
-  vim.api.nvim_set_keymap(
-    "t",
-    "<D-v>",
-    "<C-R>+",
-    { noremap = true, silent = true }
-  )
-  vim.api.nvim_set_keymap(
-    "v",
-    "<D-v>",
-    "<C-R>+",
-    { noremap = true, silent = true }
-  )
+	-- Allow clipboard copy paste in neovim
+	vim.g.neovide_input_use_logo = 1
+	vim.api.nvim_set_keymap("", "<D-v>", "+p<CR>", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("!", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("t", "<D-v>", "<C-R>+", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("v", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 end
 
 -- vim.g.floaterm_opener = "drop" -- opens buffer if already open
@@ -43,30 +23,15 @@ vim.g.gitblame_date_format = "%r • %a %b %d %Y %I:%M%p"
 vim.g.gitblame_message_template = " [<author> @ <date> • <summary>]"
 
 -- set cursorline for current buffer only
-vim.api.nvim_create_autocmd(
-  { "InsertLeave", "WinEnter" },
-  { pattern = "*", command = "setlocal cursorline" }
-)
-vim.api.nvim_create_autocmd(
-  { "InsertEnter", "WinLeave" },
-  { pattern = "*", command = "setlocal nocursorline" }
-)
+vim.api.nvim_create_autocmd({ "InsertLeave", "WinEnter" }, { pattern = "*", command = "setlocal cursorline" })
+vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, { pattern = "*", command = "setlocal nocursorline" })
 
 -- dim the focused window when neovim itself loses focus so that it plays nicely with wezterm pane dimming
-vim.api.nvim_create_autocmd(
-  { "FocusGained" },
-  { pattern = "*", command = "highlight Normal guibg=#1f1f28" }
-)
-vim.api.nvim_create_autocmd(
-  { "FocusLost" },
-  { pattern = "*", command = "highlight Normal guibg=#181820" }
-)
+vim.api.nvim_create_autocmd({ "FocusGained" }, { pattern = "*", command = "highlight Normal guibg=#1f1f28" })
+vim.api.nvim_create_autocmd({ "FocusLost" }, { pattern = "*", command = "highlight Normal guibg=#181820" })
 
 -- equalize windows when vim is resized
-vim.api.nvim_create_autocmd(
-  { "VimResized" },
-  { pattern = "*", command = "wincmd =" }
-)
+vim.api.nvim_create_autocmd({ "VimResized" }, { pattern = "*", command = "wincmd =" })
 
 -- make mouse support better for switching buffers
 -- this causes error on startup and breaks everything
@@ -92,13 +57,13 @@ vim.g.splitright = true
 vim.opt.laststatus = 0
 vim.opt.showtabline = 1
 vim.opt.fillchars:append({
-  horiz = "━",
-  horizup = "┻",
-  horizdown = "┳",
-  vert = "┃",
-  vertleft = "┨",
-  vertright = "┣",
-  verthoriz = "╋",
+	horiz = "━",
+	horizup = "┻",
+	horizdown = "┳",
+	vert = "┃",
+	vertleft = "┨",
+	vertright = "┣",
+	verthoriz = "╋",
 })
 vim.opt.cmdheight = 0
 vim.opt.termguicolors = true
@@ -126,8 +91,7 @@ vim.opt.scrolloff = 5
 vim.opt.mouse = "n"
 vim.opt.mousehide = true
 vim.opt.mousefocus = true -- this doesn't seem to work in terminal
-vim.opt.sessionoptions =
-  "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
+vim.opt.sessionoptions = "blank,buffers,curdir,folds,help,tabpages,winsize,winpos,terminal"
 
 vim.opt.hidden = true
 vim.opt.backup = false
