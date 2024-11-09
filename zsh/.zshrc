@@ -107,8 +107,6 @@ alias nvs="rush update && rush build --to-except=web ; say -v Dave 'NVS Rebuild 
 # this file doesn't get cleaned up sometimes and causes job control (setopt monitor) to not work
 [[ -f $_zplug_lock ]] && echo "You probably want to delete the zplug lockfile: $_zplug_lock"
 
-eval $(thefuck --alias)
-
 # use GNU versions of packages when available
 PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
 
@@ -135,3 +133,6 @@ export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
 [ -f $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh ] && source $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh
 
 [ -f $HOME/.zshenv ] && source $HOME/.zshenv
+export PATH="$PATH:./node_modules/.bin"
+export PATH="$PATH:./node_modules/.bin"
+export PATH="$PATH:./node_modules/.bin"

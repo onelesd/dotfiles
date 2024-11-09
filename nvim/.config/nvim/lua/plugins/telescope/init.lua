@@ -3,7 +3,7 @@ local actions = require("telescope.actions")
 -- vim.cmd("highlight TelescopeBorder guifg=#1f1f28")
 -- vim.cmd("highlight TelescopeBorder guifg=#181820")
 -- vim.cmd("highlight TelescopeBorder guibg=#181820")
-local trouble = require("trouble.providers.telescope")
+local trouble = require("trouble.sources.telescope")
 -- local lga_actions = require("telescope-live-grep-args.actions")
 require("telescope").setup({
 	defaults = {
@@ -12,7 +12,7 @@ require("telescope").setup({
 				["<ESC>"] = actions.close,
 				["<C-J>"] = actions.move_selection_next,
 				["<C-K>"] = actions.move_selection_previous,
-				["<C-t>"] = trouble.smart_open_with_trouble,
+				["<C-t>"] = trouble.open,
 				["<S-DOWN>"] = require("telescope.actions").cycle_history_next,
 				["<S-UP>"] = require("telescope.actions").cycle_history_prev,
 				["<C-?>"] = actions.which_key,
@@ -23,7 +23,7 @@ require("telescope").setup({
 				["<ESC>"] = actions.close,
 				["<C-J>"] = actions.move_selection_next,
 				["<C-K>"] = actions.move_selection_previous,
-				["<C-t>"] = trouble.smart_open_with_trouble,
+				["<C-t>"] = trouble.open,
 				["<S-DOWN>"] = require("telescope.actions").cycle_history_next,
 				["<S-UP>"] = require("telescope.actions").cycle_history_prev,
 				["<C-?>"] = actions.which_key,

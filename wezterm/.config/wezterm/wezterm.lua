@@ -4,7 +4,7 @@ local act = wezterm.action
 return {
 	-- window_decorations = "RESIZE",
 	font = wezterm.font("JetBrainsMono Nerd Font"),
-	font_size = 14.0,
+	font_size = 16.0,
 	scrollback_lines = 100000,
 	force_reverse_video_cursor = true,
 	colors = {

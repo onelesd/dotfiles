@@ -187,7 +187,7 @@ require("lazy").setup({
 	{ "neovim/nvim-lspconfig" },
 	{
 		"VonHeikemen/lsp-zero.nvim",
-		branch = "v3.x",
+		branch = "v4.x",
 		lazy = true,
 		config = false,
 		init = function()
@@ -227,8 +227,7 @@ require("lazy").setup({
 				end
 				local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 				return col ~= 0
-					and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$")
-						== nil
+					and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
 			end
 
 			cmp.setup({
@@ -304,6 +303,8 @@ require("lazy").setup({
 				lsp_zero.default_keymaps({ buffer = bufnr })
 			end)
 
+			require("lspconfig").gleam.setup({})
+
 			require("mason-lspconfig").setup({
 				ensure_installed = { "svelte", "lua_ls" },
 				automatic_installation = true,
@@ -313,19 +314,6 @@ require("lazy").setup({
 						local lua_opts = lsp_zero.nvim_lua_ls()
 						require("lspconfig").lua_ls.setup(lua_opts)
 					end,
-					-- elixirls = function()
-					--   require("lspconfig").elixirls.setup({
-					--     settings = {
-					--       elixirLS = {
-					--         dialyzerEnabled = true,
-					--         enableTestLenses = false,
-					--         fetchDeps = false,
-					--         suggestSpecs = false,
-					--         mixEnv = "dev",
-					--       },
-					--     },
-					--   })
-					-- end,
 					svelte = function()
 						require("lspconfig").svelte.setup({
 							settings = {
@@ -402,7 +390,7 @@ require("lazy").setup({
 				"nvim-telescope/telescope-fzf-native.nvim",
 				build = "make",
 			},
-			"natecraddock/telescope-zf-native.nvim",
+			-- "natecraddock/telescope-zf-native.nvim",
 
 			"danielfalk/smart-open.nvim",
 			{
@@ -438,7 +426,7 @@ require("lazy").setup({
 	"onsails/lspkind-nvim",
 
 	-- make the diagnostics window pretty. also can send telescope results to it with <Ctrl-t>
-	"folke/trouble.nvim",
+	{ "folke/trouble.nvim", opts = {}, cmd = "Trouble" },
 
 	-- <leader-go> opens current line in github. nice to share links.
 	{
@@ -491,7 +479,9 @@ require("lazy").setup({
 	{
 		"folke/zen-mode.nvim",
 		config = function()
-			require("zen-mode").setup({})
+			require("zen-mode").setup({
+				number = true,
+			})
 		end,
 	},
 
@@ -544,7 +534,7 @@ require("plugins/lspsaga")
 require("plugins/treesitter")
 require("plugins/telescope")
 require("plugins/lualine")
-require("plugins/trouble")
+-- require("plugins/trouble")
 require("plugins/snippets")
 require("plugins/gitsigns")
 require("plugins/diagnostics")

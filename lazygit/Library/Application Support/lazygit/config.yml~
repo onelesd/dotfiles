@@ -1,0 +1,48 @@
+gui:
+  theme:
+    activeBorderColor:
+      - green
+      - bold
+    inactiveBorderColor:
+      - white
+    searchingActiveBorderColor:
+      - cyan
+      - bold
+    optionsTextColor:
+      - blue
+    selectedLineBgColor:
+      - "#223249" # set to `default` to have no background colour
+    selectedRangeBgColor:
+      - "#223249"
+    cherryPickedCommitBgColor:
+      - cyan
+    cherryPickedCommitFgColor:
+      - blue
+    unstagedChangesColor:
+      - red
+    defaultFgColor:
+      - default
+os:
+  edit: "floaterm {{filename}}"
+  editInTerminal: false
+customCommands:
+  - key: "N"
+    prompts:
+      - type: "menu"
+        title: "What kind of branch is it? (from {{ index .SelectedLocalBranch.Name }})"
+        options:
+          - name: "fix"
+            value: "fix"
+          - name: "feature"
+            value: "feat"
+          - name: "chore"
+            value: "chore"
+          - name: "experimental"
+            value: "experimental"
+            description: "Any new feature or idea that is not part of a release or a sprint. A branch for playing around."
+      - type: "input"
+        title: "What is the {{index .PromptResponses 0}} name?"
+        initialValue: "dseleno/{{index .PromptResponses 0}}/"
+    command: "git checkout -b {{index .PromptResponses 1}}"
+    context: "localBranches"
+    loadingText: "creating branch"
