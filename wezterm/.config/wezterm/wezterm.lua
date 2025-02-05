@@ -3,8 +3,22 @@ local act = wezterm.action
 
 return {
 	-- window_decorations = "RESIZE",
+
+	-- font = wezterm.font("Iosevka Nerd Font"),
+	-- font_size = 16.0,
+
+	-- font = wezterm.font("RobotoMono Nerd Font"),
+	-- font_size = 16.0,
+
 	font = wezterm.font("JetBrainsMono Nerd Font"),
 	font_size = 16.0,
+
+	-- font = wezterm.font("0xProto Nerd Font"),
+	-- font_size = 18.0,
+
+	-- font = wezterm.font("FiraCode Nerd Font"),
+	-- font_size = 17.0,
+
 	scrollback_lines = 100000,
 	force_reverse_video_cursor = true,
 	colors = {
