@@ -1,19 +1,11 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+starship preset nerd-font-symbols -o ~/.config/starship.toml
+eval "$(starship init zsh)"
 
 export ZPLUG_HOME=/opt/homebrew/opt/zplug
 source $ZPLUG_HOME/init.zsh
 
 zplug "zplug/zplug", hook-build:"zplug --self-manage"
 
-
-
-# zplug romkatv/powerlevel10k, as:theme, depth:1
-zplug "spaceship-prompt/spaceship-prompt", use:spaceship.zsh, from:github, as:theme
 zplug "zsh-users/zsh-completions",              defer:0
 zplug "zsh-users/zsh-autosuggestions",          defer:2, on:"zsh-users/zsh-completions"
 zplug "zsh-users/zsh-syntax-highlighting",      defer:3, on:"zsh-users/zsh-autosuggestions"
@@ -34,70 +26,6 @@ fi
 # Load everything
 zplug load
 
-source ~/.zsh/spaceship-section-aws-ext/spaceship-section-aws-ext.plugin.zsh
-spaceship add awsext
-
-SPACESHIP_PROMPT_ORDER=(
-  time           # Time stamps section
-  user           # Username section
-  dir            # Current directory section
-  host           # Hostname section
-  git            # Git section (git_branch + git_status)
-  hg             # Mercurial section (hg_branch  + hg_status)
-  package        # Package version
-  node           # Node.js section
-  bun            # Bun section
-  deno           # Deno section
-  ruby           # Ruby section
-  python         # Python section
-  elm            # Elm section
-  elixir         # Elixir section
-  xcode          # Xcode section
-  swift          # Swift section
-  golang         # Go section
-  perl           # Perl section
-  php            # PHP section
-  rust           # Rust section
-  haskell        # Haskell Stack section
-  scala          # Scala section
-  kotlin         # Kotlin section
-  java           # Java section
-  lua            # Lua section
-  dart           # Dart section
-  julia          # Julia section
-  crystal        # Crystal section
-  docker         # Docker section
-  docker_compose # Docker section
-  aws            # Amazon Web Services section
-  awsext         # Amazon Web Services extended section
-  gcloud         # Google Cloud Platform section
-  azure          # Azure section
-  venv           # virtualenv section
-  conda          # conda virtualenv section
-  dotnet         # .NET section
-  ocaml          # OCaml section
-  vlang          # V section
-  zig            # Zig section
-  purescript     # PureScript section
-  erlang         # Erlang section
-  gleam          # Gleam section
-  kubectl        # Kubectl context section
-  ansible        # Ansible section
-  terraform      # Terraform workspace section
-  pulumi         # Pulumi stack section
-  ibmcloud       # IBM Cloud section
-  nix_shell      # Nix shell
-  gnu_screen     # GNU Screen section
-  exec_time      # Execution time
-  async          # Async jobs indicator
-  line_sep       # Line break
-  battery        # Battery level and status
-  jobs           # Background jobs indicator
-  exit_code      # Exit code section
-  sudo           # Sudo indicator
-  char           # Prompt character
-)
-
 # erlang build options
 # see: https://github.com/asdf-vm/asdf-erlang/issues/191
 export CPPFLAGS="${CPPFLAGS+"$CPPFLAGS "}-I/opt/homebrew/opt/unixodbc/include"
@@ -105,7 +33,8 @@ export LDFLAGS="${LDFLAGS+"$LDFLAGS "}-L/opt/homebrew/opt/unixodbc/lib"
 export KERL_CONFIGURE_OPTIONS="--with-odbc=/opt/homebrew/opt/unixodbc --disable-debug --without-javac --with-ssl=$(brew --prefix openssl@1.1)"
 export KERL_BUILD_DOCS=yes
 
-eval "$(mise activate zsh)"
+# eval "$(mise activate zsh)"
+eval "$(direnv hook zsh)"
 
 eval "$(zoxide init zsh)"
 
@@ -119,7 +48,7 @@ export FZF_DEFAULT_OPTS='--color=fg:#f8f8f2,bg:#282a36,hl:#bd93f9 --color=fg+:#f
 # see: https://gitlab.freedesktop.org/Per_Bothner/specifications/blob/master/proposals/semantic-prompts.md
 # [ -f ~/.semantic_zones.sh ] && source ~/.semantic_zones.sh
 # shell integrations for wezterm
-# [ -f ~/.wezterm.sh ] && source ~/.wezterm.sh
+[ -f ~/.zsh/wezterm.sh ] && source ~/.zsh/wezterm.sh
 
 # no c-s/c-q output freezing
 setopt noflowcontrol
@@ -146,12 +75,13 @@ expand-or-complete-with-dots() {
 zle -N expand-or-complete-with-dots
 bindkey "^I" expand-or-complete-with-dots
 
-alias ll="ls -Glart"
-alias ls="ls -G1"
-alias bup="brew update; brew upgrade; brew cleanup; brew doctor"
+alias ls="eza"
+alias ll="eza -Glar -t modified"
+alias brewup="brew update; brew upgrade; brew cleanup; brew doctor"
 alias bs="brew search"
 alias bi="brew install"
 alias grep="grep --color"
+alias cat="bat"
 
 # git aliases
 alias gs="git status"
@@ -161,22 +91,12 @@ alias gc="git commit"
 alias gl="git l"
 alias lg="lazygit"
 alias cdg="cd-gitroot"
-alias pgit="GIT_SSH_COMMAND='ssh -i ~/.ssh/github-onelesd -o IdentitiesOnly=yes' git"
-alias nvs="rush update && rush build --to-except=web ; say -v Dave 'NVS Rebuild complete' && echo -n 'Press [Enter] to continue or [Ctrl-C] to quit' ; read"
-
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # this file doesn't get cleaned up sometimes and causes job control (setopt monitor) to not work
 [[ -f $_zplug_lock ]] && echo "You probably want to delete the zplug lockfile: $_zplug_lock"
 
 # use GNU versions of packages when available
 PATH="$(brew --prefix)/opt/grep/libexec/gnubin:$PATH"
-
-# add emacs doom to path
-PATH="${HOME}/.emacs.d/bin:$PATH"
 
 export EDITOR="nvim"
 export VISUAL="nvr --remote-tab +'set bufhidden=wipe'"
@@ -187,17 +107,13 @@ GOPATH=$HOME/go
 GOROOT="$(brew --prefix golang)/libexec"
 PATH="$PATH:${GOPATH}/bin:${GOROOT}/bin"
 PATH="$PATH:$HOME/bin"
-# PATH="$PATH:$HOME/.asdf/installs/rust/1.58.1/bin"
 PATH="$PATH:$HOME/.local/bin"
 
-alias localstack="DISABLE_EVENTS=1 localstack"
-export AWS_PROFILE="NIKE.SSO.AdminRole"
-export AWS_REGION="us-west-2"
-export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
-
-[ -f $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh ] && source $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh
+export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_ed25519 -o IdentitiesOnly=yes'
 
 [ -f $HOME/.zshenv ] && source $HOME/.zshenv
 export PATH="$PATH:./node_modules/.bin"
-export PATH="$PATH:./node_modules/.bin"
-export PATH="$PATH:./node_modules/.bin"
+eval "$(atuin init zsh)"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/dseleno/.cache/lm-studio/bin"
