@@ -5,3 +5,4 @@ local opt = vim.opt
 
 opt.wrap = true
 opt.textwidth = 78
+opt.conceallevel = 0 -- prevent " from being hidden in json files

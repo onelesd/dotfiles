@@ -34,8 +34,9 @@ fi
 # Load everything
 zplug load
 
-source ~/.zsh/spaceship-section-aws-ext/spaceship-section-aws-ext.plugin.zsh
-spaceship add awsext
+[ -f $HOME/work/nvs-code/common/zsh/spaceship-section-aws-ext/spaceship-section-aws-ext.plugin.zsh ] && \
+  source $HOME/work/nvs-code/common/zsh/spaceship-section-aws-ext/spaceship-section-aws-ext.plugin.zsh && \
+  spaceship add awsext
 
 SPACESHIP_PROMPT_ORDER=(
   time           # Time stamps section
@@ -152,6 +153,7 @@ alias bup="brew update; brew upgrade; brew cleanup; brew doctor"
 alias bs="brew search"
 alias bi="brew install"
 alias grep="grep --color"
+alias neovide="neovide --fork" # detach from terminal
 
 # git aliases
 alias gs="git status"
@@ -198,6 +200,4 @@ export GIT_SSH_COMMAND='ssh -i ~/.ssh/id_rsa -o IdentitiesOnly=yes'
 [ -f $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh ] && source $HOME/work/nvs-code/common/zsh/nvs-code-helpers.zsh
 
 [ -f $HOME/.zshenv ] && source $HOME/.zshenv
-export PATH="$PATH:./node_modules/.bin"
-export PATH="$PATH:./node_modules/.bin"
 export PATH="$PATH:./node_modules/.bin"

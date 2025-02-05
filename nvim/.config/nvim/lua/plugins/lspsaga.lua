@@ -2,7 +2,7 @@ return {
   {
     "nvimdev/lspsaga.nvim",
     keys = {
-      { "gd", "<CMD>Lspsaga finder def+tyd+ref+imp<CR>" },
+      { "gd", "<CMD>Lspsaga finder def+tyd+ref<CR>" },
       { "gp", "<CMD>Lspsaga peek_definition<CR>" },
     },
     opts = {
